@@ -1,0 +1,40 @@
+
+@font-face {
+  font-family: 'OpenSans';
+  src: url('/fonts/OpenSans-Light.ttf')  format('truetype');
+}
+
+@font-face {
+  font-family: 'OpenSans-regular';
+  src: url('/fonts/OpenSans-Regular.ttf')  format('truetype');
+}
+
+.lead, .title {
+  font-family: 'OpenSans';
+  font-weight: bold;
+}
+
+.font-light {
+  font-family: 'OpenSans';
+}
+
+.font-regular, .font {
+  font-family: 'OpenSans-regular';
+}
+
+.font-small {
+  font-size: 0.8rem;
+}
+
+/* AUTO generated
+https://flatuicolors.com/palette/ca */
+.text-purple { color: #f368e0 !important; }.bg-purple { background-color: #ff9ff3 !important; }
+.text-warning { color: #ff9f43 !important; }.bg-warning { background-color: #feca57 !important; }
+.text-danger { color: #ee5253 !important; }.bg-danger { background-color: #ff6b6b !important; }
+.text-secondary { color: #0abde3 !important; }.bg-secondary { background-color: #48dbfb !important; }
+.text-success { color: #10ac84 !important; }.bg-success { background-color: #1dd1a1 !important; }
+.text-brand { color: #01a3a4 !important; }.bg-brand { background-color: #00d2d3 !important; }
+.text-info { color: #2e86de !important; }.bg-info { background-color: #54a0ff !important; }
+.text-primary { color: #341f97 !important; }.bg-primary { background-color: #5f27cd !important; }
+.text-light { color: #8395a7 !important; }.bg-light { background-color: #c8d6e5 !important; }
+.text-dark { color: #222f3e !important; }.bg-dark { background-color: #576574 !important; }

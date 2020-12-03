@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+{% set active_page = "Welcome" %}
+
+{% block content %}
+  <div class="container">
+
+    <!-- Search bar area -->
+    <div class="jumbotron mt-4">
+      <!-- Welcome mambo jambo -->
+      <h6 class="lead text-success">Welcome to MetaSeeker!</h6>
+      <p class="font-light">This is a public search engine dedicated to rapidly identify and label metabolites.</p>
+      <p class="font-light text-danger font-small"><i>The search bar recognizes various input formats that can identify metabolites. <a href="/home/formats">See the full list of searchable formats.</a></i></p>
+
+      <!-- Search bar -->
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Smart<br/>Search</span>
+        </div>
+        <textarea class="form-control" placeholder="Search for ID, Chemical name, Structure string, etc..."></textarea>
+      </div>
+
+      <!-- Advanced search -->
+      <div>
+        <a class="btn btn-link text-primary float-right" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Search options</a>
+        <br class="clearfix"/>
+
+        <div class="collapse" id="collapseExample">
+          <div class="d-flex justify-content-end">
+            <div class="p-2">
+              <p class="text-small">Search areas:</p>
+
+              <div class="form-check">
+                <input class="form-check-input" checked type="checkbox" value="pubchem" id="chk_pubchem">
+                <label class="form-check-label" for="chk_pubchem">
+                  pubchem
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" checked type="checkbox" value="chebi" id="chk_chebi">
+                <label class="form-check-label" for="chk_chebi">
+                  chebi
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" checked type="checkbox" value="hmdb" id="chk_hmdb">
+                <label class="form-check-label" for="chk_hmdb">
+                  HMDB
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" checked type="checkbox" value="kegg" id="chk_kegg">
+                <label class="form-check-label" for="chk_kegg">
+                  KEGG
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" checked type="checkbox" value="lipidmaps" id="chk_lipidmaps">
+                <label class="form-check-label" for="chk_lipidmaps">
+                  lipidmaps
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" checked type="checkbox" value="chemspider" id="chk_chemspider">
+                <label class="form-check-label" for="chk_chemspider">
+                  chemspider
+                </label>
+              </div>
+            </div>
+            <div class="ml-4 p-2">
+              <p class="text-small">Search type:</p>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" checked name="searchtype" id="searchType2" value="Identifier">
+                <label class="form-check-label" for="searchType2">
+                  Identifier
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="searchtype" id="searchType1" value="Name">
+                <label class="form-check-label" for="searchType1">
+                  Name
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="searchtype" id="searchType3" value="Smiles">
+                <label class="form-check-label" for="searchType3">
+                  SMILES
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="searchtype" id="searchType4" value="Inchi">
+                <label class="form-check-label" for="searchType4">
+                  InChI
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="searchtype" id="searchType5" value="Formula">
+                <label class="form-check-label" for="searchType5">
+                  Formula
+                </label>
+              </div>
+            </div>
+            <div class="p-2">
+              <p class="text-small">Extra search:</p>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="searchtype" id="searchType6" value="Mass">
+                <label class="form-check-label" for="searchType6">
+                  Mass
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="searchtype" id="searchType7" value="Pathway">
+                <label class="form-check-label" for="searchType7">
+                  Pathway
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="searchtype" id="searchType8" value="Structure">
+                <label class="form-check-label" for="searchType8">
+                  Structure
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="searchtype" id="searchType9" value="Onthology">
+                <label class="form-check-label" for="searchType9">
+                  Onthology
+                </label>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+
+
+        <!-- Long text about us -->
+        <div class="card">
+          <div class="card-body bg-dark rounded">
+            <p class="text-justify text-white">MetaSeeker an experimental metabolite index service. You can search for metabolite records from most known public databases with various ways. Moreover, you can use our search services through a unified API. Sara please add a more academic description here.</p>
+          </div>
+        </div>
+
+        <hr class="my-2">
+
+        <h3 class="lead">How to cite us</h3>
+        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
