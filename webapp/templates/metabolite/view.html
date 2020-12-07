@@ -3,6 +3,15 @@
 
 {% block content %}
   <div class="container">
+    <!-- These fields must be exposed, for SEO purposes-->
+
+    <!-- @TODO: first implement vue.js index app -->
+    <!-- @TODO:     only then make this page work with the viewer of that app -->
+
+    <!-- Frontend app -->
+    <div id="app-view">
+      <search-form ref="search-form"></search-form>
+    </div>
 
     <!-- Search bar area -->
     <div class="jumbotron mt-4">
@@ -11,9 +20,6 @@
       <p class="font-light">This is a public search engine dedicated to rapidly identify and label metabolites.</p>
       <p class="font-light text-danger font-small"><i>The search bar recognizes various input formats that can identify metabolites. <a href="/home/formats">See the full list of searchable formats.</a></i></p>
 
-      <div id="app-search">
-        <search-form ref="search-form"></search-form>
-      </div>
 
     </div>
 
@@ -46,14 +52,14 @@
        // current_user.view|tojson
 
        window.onload = function() {
-         init_search({{ settings|tojson }}, {});
+         init_view({{ settings|tojson }}, {}, );
        }
     </script>
   {% else %}
      <script type="module">
-       import {init_search} from '/js/mains.js';
+       import {init_view} from '/js/mains.js';
 
-       init_search({{ settings|tojson }}, {});
+       init_view({{ settings|tojson }}, {}, '');
     </script>
   {% endif %}
 {% endblock %}

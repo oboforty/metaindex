@@ -16,7 +16,7 @@ class ExampleWebsite(WebsiteApp):
         super().__init__(conf, script_path)
 
         startup.init(self)
-        templates.init(self, None)
+        templates.init(self, conf)
         auth.init(self, conf['auth'])
         mail.init_mail(self, conf['mail'])
 
