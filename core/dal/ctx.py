@@ -69,11 +69,3 @@ def get_redis(force=False):
         redis_session = redis.StrictRedis(**config['redis'])
 
     return redis_session
-
-from core.dal.user import User
-from core.dal.world import World
-from core.dal.town import Town
-
-from core.dal.repositories.users import UserRepository
-from core.dal.repositories.towns import TownRepository
-from core.dal.repositories.worlds import WorldRepository
