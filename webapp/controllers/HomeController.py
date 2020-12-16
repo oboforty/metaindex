@@ -10,3 +10,6 @@ class HomeController():
 
     def formats(self):
         return render_template('/home/formats.html')
+
+    def pages(self):
+        return render_template('/home/vuepages.html')

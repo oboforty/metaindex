@@ -2,12 +2,10 @@ from os.path import realpath, dirname, join
 from eme.entities import load_settings
 from eme.website import WebsiteApp
 
-
-from .services import templates, startup, mail, auth
-
+from modules import modules
 
 
-class ExampleWebsite(WebsiteApp):
+class MetaIndexWebsite(WebsiteApp):
 
     def __init__(self):
         # eme/examples/simple_website is the working directory.
@@ -16,12 +14,9 @@ class ExampleWebsite(WebsiteApp):
 
         super().__init__(conf, script_path)
 
-        startup.init(self)
-        templates.init(self, conf)
-        auth.init(self, conf['auth'])
-        mail.init_mail(self, conf['mail'])
+        self.init_modules(modules, conf)
 
 
 if __name__ == "__main__":
-    app = ExampleWebsite()
+    app = MetaIndexWebsite()
     app.start()

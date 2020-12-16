@@ -4,7 +4,8 @@ export const template = `<div>
     <div class="input-group-prepend">
       <span class="input-group-text">Smart<br/>Search</span>
     </div>
-    <textarea class="form-control" placeholder="Search for ID, Chemical name, Structure string, etc..."></textarea>
+
+    <textarea ref="search-input" v-model="search_term" @keyup="onTyping" v-autofocus class="form-control" placeholder="Search for ID, Chemical name, Structure string, etc..."></textarea>
   </div>
 
   <!-- Advanced search -->
