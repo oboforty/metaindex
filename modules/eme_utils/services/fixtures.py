@@ -1,7 +1,7 @@
 from eme.data_access import get_repo
 
-from modules.users.dal.UserManager import UserManager
-from modules.users.dal.entities.user import User
+# from modules.users.dal.UserManager import UserManager
+# from modules.users.dal.entities.user import User
 
 
 def create_testentities():

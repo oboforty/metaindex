@@ -3,6 +3,7 @@ import {PageSearch} from '/js/pages/page-search.js';
 import {PageMeta} from '/js/pages/page-meta.js';
 
 import {component as SearchForm} from '/js/forms/search-form.js';
+import {component as SearchResults} from '/js/components/search-results.js';
 
 import {store} from '/js/store.js';
 

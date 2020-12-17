@@ -16,6 +16,7 @@ export let component = Vue.component('search-form', {
     var db = store.settings.discovery.databases.map(db=>db.lower());
 
     var types = [
+      'Any',
       'Identifier',
       'Name',
       'SMILES',
@@ -56,6 +57,30 @@ export let component = Vue.component('search-form', {
         // Parent overrides searching
         this.onTypingOverride(this.search_term);
         return;
+      }
+
+      // without an override, start searching the API
+      if (this.search_term.length > 3) {
+        // todo: call api
+
+        this.$emit('results', this.search_term, [
+          {
+            search_value: "C-vitamin",
+            search_key: "name",
+            
+            result_display: "Ascorbic Acid",
+            result_value: "rndid12345",
+            result_key: "meta_id",
+          },
+          {
+            search_value: "ascorbate",
+            search_key: "name",
+
+            result_display: "Display 2",
+            result_value: "ascorbic_acid",
+            result_key: "meta_id",
+          },
+        ]);
       }
     },
 

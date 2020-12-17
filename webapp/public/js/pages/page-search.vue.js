@@ -1,5 +1,5 @@
 export const template = `<div v-if="show">
- <div>But I mostly go by Lieutenant</div>
+  <search-form ref="search-form" @results="OnSearchResults" class="m-4"></search-form>
 
-  <search-form ref="search-form"></search-form>
+  <search-results ref="search-results"></search-results>
 </div>`;

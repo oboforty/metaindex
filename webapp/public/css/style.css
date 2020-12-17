@@ -26,6 +26,10 @@
   font-size: 0.8rem;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 /* AUTO generated
 https://flatuicolors.com/palette/ca */
 .text-purple { color: #f368e0 !important; }.bg-purple { background-color: #ff9ff3 !important; }

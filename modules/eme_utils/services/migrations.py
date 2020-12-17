@@ -5,7 +5,7 @@ from eme.data_access import get_repo
 
 
 from modules.eme_utils.services.fixtures import create_testentities
-from modules.users.dal.entities.user import User
+#from modules.users.dal.entities.user import User
 
 from core.dal.base.sqlite import EntityBase
 from core.dal.ctx import db_session, db_engine, db_type

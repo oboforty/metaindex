@@ -2,7 +2,7 @@ export const template = `<div>
   <!-- Search bar -->
   <div class="input-group">
     <div class="input-group-prepend">
-      <span class="input-group-text">Smart<br/>Search</span>
+      <span class="input-group-text"><span class="ra ra-3x ra-magnifying-glass"></span></span>
     </div>
 
     <textarea ref="search-input" v-model="search_term" @keyup="onTyping" v-autofocus class="form-control" placeholder="Search for ID, Chemical name, Structure string, etc..."></textarea>

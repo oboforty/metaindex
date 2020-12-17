@@ -11,5 +11,11 @@ export let PageSearch = Vue.component('page-search', {
   },
 
   methods: {
+    OnSearchResults(term, results) {
+      let res = this.$refs['search-results'];
+
+      res.results = results;
+      res.search_term = term;
+    }
   }
 });

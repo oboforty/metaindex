@@ -1,10 +1,10 @@
 import sys
 
-from cliapp.cli import ExampleCommandLineInterface
+from cliapp.cli import MetaIndexCommandLineInterface
 
 
 def main():
-    app = ExampleCommandLineInterface()
+    app = MetaIndexCommandLineInterface()
 
     if len(sys.argv) > 1:
         app.run(sys.argv)

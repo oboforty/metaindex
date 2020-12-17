@@ -1,9 +1,10 @@
-import {template} from "/js/pages/page-index.vue.js"
+//import {template} from "/js/pages/page-index.vue.js"
 import {store} from '/js/store.js';
 
 
 export let PageIndex = Vue.component('page-index', {
-  template: template,
+  //template: template,
+  el: "#tpl-page-index",
 
   data: function() {
     return {
