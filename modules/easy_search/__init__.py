@@ -11,7 +11,7 @@ def init_webapp(app, webconf):
     init_search(app, conf)
 
 def init_cliapp(app, conf):
-    app.commands.update(load_handlers(app, 'Command', 'modules/eme_utils/handlers/commands'))
+    app.commands.update(load_handlers(app, 'Command', 'modules/easy_search/handlers/commands'))
 
 def init_wsapp(app, conf):
     pass

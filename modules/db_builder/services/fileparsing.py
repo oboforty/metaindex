@@ -92,7 +92,9 @@ def parse_xml_recursive(context, cur_elem=None):
     return { k: v[0] if len(v) == 1 else v for k, v in items.items() }
 
 
-def parse_iter_sdf(fn):
+def parse_iter_sdf(fn, _mapping: dict = None):
+    if _mapping is None:
+        _mapping = {}
 
     with open(fn, 'r', encoding='utf8') as fh:
         buffer = {}
@@ -112,16 +114,18 @@ def parse_iter_sdf(fn):
             elif line.startswith('>'):
                 state = line[3:-1]
             else:
-                if state in buffer:
+                attr = _mapping.get(state, state)
+
+                if attr in buffer:
                     # there are multiple entries in buffer, create a list
-                    val = buffer[state]
+                    val = buffer[attr]
 
                     if isinstance(val, list):
-                        buffer[state].append(line)
+                        buffer[attr].append(line)
                     else:
-                        buffer[state] = [val, line]
+                        buffer[attr] = [val, line]
                 else:
-                    buffer[state] = line
+                    buffer[attr] = line
 
 
 def compile_names(*args):

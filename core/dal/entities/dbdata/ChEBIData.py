@@ -5,41 +5,38 @@ from eme.data_access import JSON_GEN
 from core.dal.base.sqlite import EntityBase
 
 
-class CHEBIData(EntityBase):
+class ChEBIData(EntityBase):
     __tablename__ = 'chebi_data'
 
-    # Metadata - from compounds.tsv
+    # Primary Ids
     chebi_id = Column(String(20), primary_key=True)
     chebi_id_alt = Column(ARRAY(String(20)))
 
-    #chebi_name = Column(TEXT)
+    # Reference Ids
+    # from database_accession.tsv  # todo: add Foreign Keys!
+    kegg_id = Column(String(20))#, ForeignKey('kegg_data.kegg_id'))
+    hmdb_id = Column(String(20))#, ForeignKey('hmdb_data.hmdb_id'))
+    lipidmaps_id = Column(String(20))#, ForeignKey('lipidmaps_data.lipidmaps_id'))
+    pubchem_id = Column(String(20))#, ForeignKey('pubchem_data.pubchem_id'))
+    cas_id = Column(String(20))
+    ref_etc = Column(JSON_GEN())     # Extra ref Refs
+
+    # Shared metadata
     names = Column(ARRAY(TEXT))
-
     description = Column(TEXT)
-    quality = Column(Integer)
-
-    # Fun facts - from chemical_data.tsv
-    charge = Column(Float)
+    charge = Column(Float) # from chemical_data.tsv
     mass = Column(Float)
     monoisotopic_mass = Column(Float)
 
-    # structure info -
+    # Structure
     smiles = Column(TEXT)
     inchi = Column(TEXT)
-    inchikey = Column(String(27))
-    formula = Column(String(256))
+    inchikey = Column(String(TEXT))
+    formula = Column(String(TEXT))
 
-    # from comments.tsv
-    comments = Column(TEXT)
-
-    # RefIds - from database_accession.tsv
-    #cas_id = Column(String(20))
-    kegg_id = Column(String(20), ForeignKey('kegg_data.kegg_id'))
-    hmdb_id = Column(String(20), ForeignKey('hmdb_data.hmdb_id'))
-    lipidmaps_id = Column(String(20), ForeignKey('lipidmaps_data.lipidmaps_id'))
-    pubchem_id = Column(String(20), ForeignKey('pubchem_data.pubchem_id'))
-
-    ref_etc = Column(JSON_GEN())
+    # Other Fun Facts
+    quality = Column(Integer) # from compounds.tsv
+    comments = Column(TEXT) # from comments.tsv
 
     def __init__(self, **kwargs):
         self.chebi_id = kwargs.get('chebi_id')

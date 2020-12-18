@@ -7,25 +7,27 @@ from eme.data_access import JSON_GEN
 class KeggData(EntityBase):
     __tablename__ = 'kegg_data'
 
+    # Primary Ids
     kegg_id = Column(String(20), primary_key=True)
 
-    names = Column(ARRAY(TEXT))
-
-    exact_mass = Column(Float)
-    mol_weight = Column(Float)
-
-    comments = Column(TEXT)
-
-    # structure info -
-    formula = Column(String(256))
-
-    # RefIds - from database_accession.tsv
-    #cas_id = Column(String(20))
+    # Reference Ids
     chebi_id = Column(String(20), ForeignKey('chebi_data.chebi_id'))
     lipidmaps_id = Column(String(20), ForeignKey('lipidmaps_data.lipidmaps_id'))
     pubchem_id = Column(String(20), ForeignKey('pubchem_data.pubchem_id'))
+    cas_id = Column(String(20))
+    ref_etc = Column(JSON_GEN()) # Extra Refs
 
-    ref_etc = Column(JSON_GEN())
+    # Shared metadata
+    names = Column(ARRAY(TEXT))
+    exact_mass = Column(Float)
+    mol_weight = Column(Float)
+
+    # Structure
+    formula = Column(String(256))
+
+    # Other Fun Facts
+    comments = Column(TEXT)
+
 
     def __init__(self, **kwargs):
         self.kegg_id = kwargs.get('kegg_id')

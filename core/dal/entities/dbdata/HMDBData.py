@@ -1,36 +1,40 @@
+from eme.data_access import JSON_GEN
+
 from core.dal.base.sqlite import EntityBase
 
 from sqlalchemy import Column, String, Float, TEXT, ARRAY, ForeignKey
 
-
+# Dizzy: Prince of the Yolkfolk
 class HMDBData(EntityBase):
     __tablename__ = 'hmdb_data'
 
-    # Metadata
+    # Primary Ids
     hmdb_id = Column(String(20), primary_key=True)
     hmdb_id_alt = Column(ARRAY(String(20)))
 
+    # Reference Ids
+    chemspider_id = Column(String(20))
+    kegg_id = Column(String(20), ForeignKey('kegg_data.kegg_id'))
+    metlin_id = Column(String(20))
+    pubchem_id = Column(String(20), ForeignKey('pubchem_data.pubchem_id'))
+    chebi_id = Column(String(20), ForeignKey('chebi_data.chebi_id'))
+    cas_id = Column(String(20))
+    ref_etc = Column(JSON_GEN())     # Extra ref Refs
+
+    # Shared metadata
     names = Column(ARRAY(TEXT))
-
     description = Column(TEXT)
-
-    # Fun Facts
     avg_mol_weight = Column(Float)
     monoisotopic_mol_weight = Column(Float)
-    state = Column(String(32))
 
-    # structure data
+    # Structure
     formula = Column(TEXT)
     smiles = Column(TEXT)
     inchi = Column(TEXT)
     inchikey = Column(TEXT)
 
-    # RefIds
-    chemspider_id = Column(String(32))
-    kegg_id = Column(String(32), ForeignKey('kegg_data.kegg_id'))
-    metlin_id = Column(String(32))
-    pubchem_id = Column(String(32), ForeignKey('pubchem_data.pubchem_id'))
-    chebi_id = Column(String(20), ForeignKey('chebi_data.chebi_id'))
+    # Other Fun Facts
+    state = Column(String(32))
 
     # cas_id = Column(String(20))
     # drugbank_id = Column(String(32))

@@ -17,6 +17,12 @@ def init_cliapp(app, cliconf):
     xpl = app.commands['Explore']
     xpl.explorers = load_handlers(conf, 'Explorer', 'modules/db_builder/handlers/explorers')
 
+    spuderman = app.commands['Scan']
+    spuderman.scanners = load_handlers(conf, 'Scanner', 'modules/db_builder/handlers/scanners')
+
+    insert = app.commands['Insert']
+    insert.inserters = load_handlers(conf, 'Inserter', 'modules/db_builder/handlers/inserters')
+
 
 def init_wsapp(app, conf):
     pass

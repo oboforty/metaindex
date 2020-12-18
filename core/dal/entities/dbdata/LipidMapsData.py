@@ -1,4 +1,4 @@
-
+from eme.data_access import JSON_GEN
 from sqlalchemy import Column, String, Float, TEXT, ARRAY, Integer, ForeignKey
 
 from core.dal.base.sqlite import EntityBase
@@ -7,27 +7,33 @@ from core.dal.base.sqlite import EntityBase
 class LipidMapsData(EntityBase):
     __tablename__ = 'lipidmaps_data'
 
-    # Metadata - from compounds.tsv
+    # Primary Ids
     lipidmaps_id = Column(String(20), primary_key=True)
 
-    names = Column(ARRAY(TEXT))
-    category = Column(String(32))
-    main_class = Column(String(64))
-    sub_class = Column(String(128))
-    lvl4_class = Column(String(128))
-
-    mass = Column(Float)
-
-    smiles = Column(TEXT)
-    inchi = Column(TEXT)
-    inchikey = Column(String(27))
-    formula = Column(String(256))
-
+    # Reference Ids
     kegg_id = Column(String(20), ForeignKey('kegg_data.kegg_id'))
     hmdb_id = Column(String(20), ForeignKey('hmdb_data.hmdb_id'))
     chebi_id = Column(String(20), ForeignKey('chebi_data.chebi_id'))
     pubchem_id = Column(String(20), ForeignKey('pubchem_data.pubchem_id'))
     lipidbank_id = Column(String(20))
+    cas_id = Column(String(20))
+    ref_etc = Column(JSON_GEN())     # Extra ref Refs
+
+    # Shared metadata
+    names = Column(ARRAY(TEXT))
+    mass = Column(Float)
+
+    # Structure
+    smiles = Column(TEXT)
+    inchi = Column(TEXT)
+    inchikey = Column(String(TEXT))
+    formula = Column(String(TEXT))
+
+    # Other Fun Facts
+    category = Column(String(32))
+    main_class = Column(String(64))
+    sub_class = Column(String(128))
+    lvl4_class = Column(String(128))
 
 
     def __init__(self, **kwargs):
