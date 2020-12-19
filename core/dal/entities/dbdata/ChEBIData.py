@@ -31,8 +31,8 @@ class ChEBIData(EntityBase):
     # Structure
     smiles = Column(TEXT)
     inchi = Column(TEXT)
-    inchikey = Column(String(TEXT))
-    formula = Column(String(TEXT))
+    inchikey = Column(TEXT)
+    formula = Column(TEXT)
 
     # Other Fun Facts
     quality = Column(Integer) # from compounds.tsv

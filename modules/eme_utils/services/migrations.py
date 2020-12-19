@@ -3,39 +3,10 @@ from sqlalchemy import text
 
 from eme.data_access import get_repo
 
-
-from modules.eme_utils.services.fixtures import create_testentities
-#from modules.users.dal.entities.user import User
+from modules import modules
 
 from core.dal.base.sqlite import EntityBase
 from core.dal.ctx import db_session, db_engine, db_type
-
-
-def init_migrations():
-    # todo ----------------------------------------------
-    # todo: itt: implement migration discovery in EME
-    # todo ----------------------------------------------
-
-    discover_modules()
-
-    for module in _modules.values():
-        module.load_dal()
-
-
-def check_db():
-    try:
-        w = get_repo(User).is_empty()
-        return not w
-    except:
-        pass
-
-    return True
-
-
-def clear_db():
-    get_repo(User).delete_all()
-
-    # implement your own calls to clear the database
 
 
 def migrate_db():
@@ -56,6 +27,12 @@ def migrate_db():
 
     # SQLAlchemy migration
     print("Applying SQLAlchemy migrations...")
+    from ..migrations import entity_context
+
+    for module in modules:
+        if hasattr(module, 'init_dal'):
+            module.init_dal()
+
     EntityBase.metadata.create_all(db_engine)
 
     # SQL-based migrations
@@ -65,7 +42,9 @@ def migrate_db():
 
     print("Add test entities? Y/n:", end="")
     if input().lower() == 'y':
-        create_testentities()
+        for module in modules:
+            if hasattr(module, 'create_testentities'):
+                module.create_testentities()
 
     print("Done")
 
@@ -81,3 +60,17 @@ def run_sql_migration(conn, f):
     db_session.commit()
     conn.close()
 
+
+def check_db():
+    for module in modules:
+        if hasattr(module, 'is_empty'):
+            if not module.is_empty():
+                return False
+    else:
+        return True
+
+
+def clear_db():
+    for module in modules:
+        if hasattr(module, 'clear_db'):
+            module.clear_db()

@@ -1,0 +1,6 @@
+eme
+SQLAlchemy
+redis
+requests
+pillow
+psycopg2
