@@ -114,7 +114,10 @@ def parse_iter_sdf(fn, _mapping: dict = None):
             elif line.startswith('>'):
                 state = line[3:-1]
             else:
-                attr = _mapping.get(state, state)
+                if state is None:
+                    attr = None
+                else:
+                    attr = _mapping.get(state.lower(), state)
 
                 if attr in buffer:
                     # there are multiple entries in buffer, create a list
@@ -165,18 +168,32 @@ def pp(val, parse=None):
     return parse(val)
 
 
-def force_list(v, f=None):
+def force_list(r, key, f=None):
+    if key not in r:
+        return
+
+    v = r[key]
 
     if isinstance(v, list):
         if f is not None:
-            return [f(e) for e in v]
-        return v
+            r[key] = [f(e) for e in v]
+        r[key] = v
     elif v is None:
-        return None
+        r[key] = None
     else:
         if f is not None:
-            return [f(v)]
-        return [v]
+            r[key] = [f(v)]
+        r[key] = [v]
+
+
+def strip_attr(r, key, prefix):
+    if key not in r:
+        return
+
+    if isinstance(r[key], list):
+        r[key] = list(map(lambda v: v.lstrip(prefix), r[key]))
+    else:
+        r[key] = r[key].lstrip(prefix)
 
 
 def rlen(v):

@@ -9,13 +9,28 @@ from core.dal.base.sqlite import EntityBase
 from core.dal.ctx import db_session, db_engine, db_type
 
 
-def migrate_db():
+def migrate_db(autoclear=False, autofixtures=False):
     # check if DB is populated
     if not check_db():
-        print("The database is not empty. Delete it? Y/n:", end="")
-        if input().lower() == 'y':
-            print("Clearing DB")
-            clear_db()
+        print("The database is not empty. Drop tables? Y/n:", end="")
+
+        if autoclear or input().lower() == 'y':
+            print("Dropping tables")
+            EntityBase.metadata.drop_all(db_engine)
+        else:
+            print("Truncate tables? Y/n:", end="")
+            if autoclear or input().lower() == 'y':
+                print("Clearing DB")
+                clear_db()
+            else:
+                print("Migration omitted")
+                return
+    else:
+        print("Drop tables? Y/n:", end="")
+
+        if autoclear or input().lower() == 'y':
+            print("Dropping tables")
+            EntityBase.metadata.drop_all(db_engine)
 
     base = 'modules/eme_utils/migrations/' + db_type + '/'
     try:
@@ -41,7 +56,7 @@ def migrate_db():
         run_sql_migration(conn, f)
 
     print("Add test entities? Y/n:", end="")
-    if input().lower() == 'y':
+    if autofixtures or input().lower() == 'y':
         for module in modules:
             if hasattr(module, 'create_testentities'):
                 module.create_testentities()

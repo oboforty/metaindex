@@ -2,26 +2,24 @@
 {% set active_page = "Welcome" %}
 
 {% block content %}
-  <div class="container">
-    <div id="tpl-page-index" v-if="show">
-      <!-- Search bar area -->
-      <div class="jumbotron mt-4">
-        <!-- this shit gotta stay here for SEO -->
-        <h6 class="lead text-success">Welcome to MetaSeeker!</h6>
-        <p class="font-light">This is a public search engine dedicated to rapidly identify and label metabolites.</p>
-        <p class="font-light text-danger font-small"><i>The search bar recognizes various input formats that can identify metabolites. <a href="/home/formats">See the full list of searchable formats.</a></i></p>
+  <div id="tpl-page-index" v-if="show">
+    <!-- Search bar area -->
+    <div class="jumbotron mt-4">
+      <!-- this shit gotta stay here for SEO -->
+      <h6 class="lead text-success">Welcome to MetaSeeker!</h6>
+      <p class="font-light">This is a public search engine dedicated to rapidly identify and label metabolites.</p>
+      <p class="font-light text-danger font-small"><i>The search bar recognizes various input formats that can identify metabolites. <a href="/home/formats">See the full list of searchable formats.</a></i></p>
 
-        <search-form ref="search-form" :on-typing-override="onTyping">
-          <!-- fake search form, the real one is in a vue template -->
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><span class="ra ra-3x ra-magnifying-glass"></span></span>
-            </div>
-
-            <textarea class="form-control" disabled placeholder="Search for ID, Chemical name, Structure string, etc..."></textarea>
+      <search-form ref="search-form" :on-typing-override="onTyping">
+        <!-- fake search form, the real one is in a vue template -->
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><span class="ra ra-3x ra-magnifying-glass"></span></span>
           </div>
-        </search-form>
-      </div>
+
+          <textarea class="form-control" disabled placeholder="Search for ID, Chemical name, Structure string, etc..."></textarea>
+        </div>
+      </search-form>
     </div>
 
     <div id="app-pages">

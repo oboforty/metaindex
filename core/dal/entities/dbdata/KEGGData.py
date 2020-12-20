@@ -11,9 +11,9 @@ class KeggData(EntityBase):
     kegg_id = Column(String(20), primary_key=True)
 
     # Reference Ids
-    chebi_id = Column(String(20), ForeignKey('chebi_data.chebi_id'))
-    lipidmaps_id = Column(String(20), ForeignKey('lipidmaps_data.lipidmaps_id'))
-    pubchem_id = Column(String(20), ForeignKey('pubchem_data.pubchem_id'))
+    chebi_id = Column(String(20)) #ForeignKey('chebi_data.chebi_id', ondelete='SET NULL'))
+    lipidmaps_id = Column(String(20)) #ForeignKey('lipidmaps_data.lipidmaps_id', ondelete='SET NULL'))
+    pubchem_id = Column(String(20)) #ForeignKey('pubchem_data.pubchem_id', ondelete='SET NULL'))
     cas_id = Column(String(20))
     ref_etc = Column(JSON_GEN()) # Extra Refs
 

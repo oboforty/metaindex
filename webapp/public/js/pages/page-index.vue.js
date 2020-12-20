@@ -1,4 +1,4 @@
-export const template = `<div v-if="show">
+export const template = `<div v-if="show" class="container">
   <!-- Search bar area -->
   <div class="jumbotron mt-4">
     <!-- this shit gotta stay here for SEO -->

@@ -14,10 +14,10 @@ class HMDBData(EntityBase):
 
     # Reference Ids
     chemspider_id = Column(String(20))
-    kegg_id = Column(String(20), ForeignKey('kegg_data.kegg_id'))
+    kegg_id = Column(String(20)) #ForeignKey('kegg_data.kegg_id', ondelete='SET NULL'))
     metlin_id = Column(String(20))
-    pubchem_id = Column(String(20), ForeignKey('pubchem_data.pubchem_id'))
-    chebi_id = Column(String(20), ForeignKey('chebi_data.chebi_id'))
+    pubchem_id = Column(String(20)) #ForeignKey('pubchem_data.pubchem_id'), ondelete='SET NULL')
+    chebi_id = Column(String(20)) #ForeignKey('chebi_data.chebi_id'), ondelete='SET NULL')
     cas_id = Column(String(20))
     ref_etc = Column(JSON_GEN())     # Extra ref Refs
 

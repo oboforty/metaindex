@@ -11,9 +11,9 @@ class PubChemData(EntityBase):
     pubchem_id = Column(String(20), primary_key=True)
 
     # Reference Ids
-    chebi_id = Column(String(20), ForeignKey('chebi_data.chebi_id'))
-    kegg_id = Column(String(20), ForeignKey('kegg_data.kegg_id'))
-    hmdb_id = Column(String(20), ForeignKey('hmdb_data.hmdb_id'))
+    chebi_id = Column(String(20)) #ForeignKey('chebi_data.chebi_id', ondelete='SET NULL'))
+    kegg_id = Column(String(20)) #ForeignKey('kegg_data.kegg_id', ondelete='SET NULL'))
+    hmdb_id = Column(String(20)) #ForeignKey('hmdb_data.hmdb_id', ondelete='SET NULL'))
     chemspider_id = Column(String(20))
     cas_id = Column(String(20))
     ref_etc = Column(JSON_GEN())     # Extra ref Refs

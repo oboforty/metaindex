@@ -6,6 +6,7 @@ import {component as SearchForm} from '/js/forms/search-form.js';
 import {component as SearchResults} from '/js/components/search-results.js';
 
 import {store} from '/js/store.js';
+import {colorize_moltext} from '/js/model/molutils.js';
 
 let gui = null;
 
@@ -19,11 +20,15 @@ export function init_pages(page, settings, user, ...page_args) {
   Vue.mixin({
     // mixin data isn't accessible in component data func
     methods: {
-      open_page: function(name) {
+      open_page(name) {
         gui.show(name);
         
         return gui.page(name);
       },
+
+      molcol(text) {
+        return colorize_moltext(text);
+      }
     }
   });
 

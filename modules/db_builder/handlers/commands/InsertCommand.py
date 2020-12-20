@@ -6,5 +6,5 @@ class InsertCommand:
         self.cli = cli
         self.inserters = {}
 
-    def run(self, db: str):
-        self.inserters[db.title()].run()
+    def run(self, db: str, autoclear: bool = False):
+        self.inserters[db.title()].run(autoclear=autoclear)

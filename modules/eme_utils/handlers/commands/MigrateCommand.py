@@ -8,5 +8,5 @@ class MigrateCommand:
     def __init__(self, cli):
         self.conf = cli.conf['migration']
 
-    def run(self):
-        migrate_db()
+    def run(self, autoclear:bool=False, autofixtures:bool=False):
+        migrate_db(autoclear=autoclear, autofixtures=autofixtures)

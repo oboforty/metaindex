@@ -11,10 +11,10 @@ class LipidMapsData(EntityBase):
     lipidmaps_id = Column(String(20), primary_key=True)
 
     # Reference Ids
-    kegg_id = Column(String(20), ForeignKey('kegg_data.kegg_id'))
-    hmdb_id = Column(String(20), ForeignKey('hmdb_data.hmdb_id'))
-    chebi_id = Column(String(20), ForeignKey('chebi_data.chebi_id'))
-    pubchem_id = Column(String(20), ForeignKey('pubchem_data.pubchem_id'))
+    kegg_id = Column(String(20)) # ForeignKey('kegg_data.kegg_id', ondelete='SET NULL'))
+    hmdb_id = Column(String(20)) # ForeignKey('hmdb_data.hmdb_id', ondelete='SET NULL'))
+    chebi_id = Column(String(20)) # ForeignKey('chebi_data.chebi_id', ondelete='SET NULL'))
+    pubchem_id = Column(String(20)) # ForeignKey('pubchem_data.pubchem_id', ondelete='SET NULL'))
     lipidbank_id = Column(String(20))
     cas_id = Column(String(20))
     ref_etc = Column(JSON_GEN())     # Extra ref Refs
