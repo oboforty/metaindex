@@ -13,6 +13,11 @@ export let PageIndex = Vue.component('page-index', {
   },
 
   methods: {
+    init: function() {
+      // runs when jinja page is initialized with this vue.js page
+
+    },
+
     onTyping: function() {
       let search1 = this.$refs['search-form'];
       store.search_predecessor = search1;

@@ -57,14 +57,14 @@
        // current_user.view|tojson
 
        window.onload = function() {
-         init_pages({{ settings|tojson }}, {});
+         init_pages('index', {{ settings|tojson }}, {});
        }
     </script>
   {% else %}
      <script type="module">
        import {init_pages} from '/js/mains.js';
 
-       init_pages({{ settings|tojson }}, {});
+       init_pages('index', {{ settings|tojson }}, {});
     </script>
   {% endif %}
 {% endblock %}

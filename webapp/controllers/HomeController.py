@@ -6,10 +6,7 @@ class HomeController():
         pass
 
     def welcome(self):
-        return render_template('/home/index.html')
+        return render_template('/home/index.html', page='index')
 
     def formats(self):
         return render_template('/home/formats.html')
-
-    def pages(self):
-        return render_template('/home/vuepages.html')

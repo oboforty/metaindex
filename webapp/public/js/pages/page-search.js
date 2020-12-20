@@ -11,6 +11,11 @@ export let PageSearch = Vue.component('page-search', {
   },
 
   methods: {
+    init: function() {
+      // runs when jinja page is initialized with this vue.js page
+
+    },
+
     OnSearchResults(term, results) {
       let res = this.$refs['search-results'];
 

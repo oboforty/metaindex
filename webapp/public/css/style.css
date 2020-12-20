@@ -16,6 +16,7 @@
 
 .font-light {
   font-family: 'OpenSans';
+  font-weight: lighter !important;
 }
 
 .font-regular, .font {
@@ -28,6 +29,34 @@
 
 .pointer {
   cursor: pointer;
+}
+
+.scroll {
+  overflow-y: scroll;
+}
+
+/*
+-------------------
+    Page styles
+-------------------
+*/
+.navbar {
+  margin-bottom: 1.6em;
+}
+
+.meta-synonyms {
+  max-height: 200px;
+}
+
+.meta-db-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.sup-smol {
+    font-size: 0.7em;
+    font-style: italic;
+    font-weight: normal;
 }
 
 /* AUTO generated

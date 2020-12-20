@@ -9,7 +9,7 @@ import {store} from '/js/store.js';
 
 let gui = null;
 
-export function init_pages(settings, user) {
+export function init_pages(page, settings, user, ...page_args) {
   Vue.directive('autofocus', {
     inserted: function (el) {
       el.focus();
@@ -41,7 +41,13 @@ export function init_pages(settings, user) {
     ],
 
     data: {
-      current: 'page-index',
+      current: `page-${page}`,
+    },
+    mounted() {
+      let _page = this.page(this.current);
+      
+      _page.show = true;
+      _page.init(...page_args);
     },
     methods: {
       page: function(name) {
