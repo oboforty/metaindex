@@ -39,7 +39,6 @@ def set_session(sess, sessid='db'):
         repo.session = db_session
 
 
-
 def get_session(force=False):
     if force:
         global db_session

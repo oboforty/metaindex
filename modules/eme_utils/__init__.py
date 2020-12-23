@@ -13,12 +13,14 @@ def init_webapp(app, webconf):
 
     init_mail(app, conf['mail'])
 
+
 def init_cliapp(app, conf):
     app.commands.update(load_handlers(app, 'Command', 'modules/eme_utils/handlers/commands'))
 
 
 def init_wsapp(app, conf):
     pass
+
 
 def init_dal():
     pass

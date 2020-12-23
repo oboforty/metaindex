@@ -42,11 +42,13 @@ def migrate_db(autoclear=False, autofixtures=False):
 
     # SQLAlchemy migration
     print("Applying SQLAlchemy migrations...")
-    from ..migrations import entity_context
+    from core.dal import migration
 
     for module in modules:
         if hasattr(module, 'init_dal'):
             module.init_dal()
+        if hasattr(module, 'init_migration'):
+            module.init_migration()
 
     EntityBase.metadata.create_all(db_engine)
 

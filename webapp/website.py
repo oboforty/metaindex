@@ -2,6 +2,8 @@ from os.path import realpath, dirname, join
 from eme.entities import load_settings
 from eme.website import WebsiteApp
 
+# Init eme ctx & modules
+from core.dal import ctx
 from modules import modules
 
 
@@ -14,6 +16,8 @@ class MetaIndexWebsite(WebsiteApp):
 
         super().__init__(conf, script_path)
 
+        # Initialize database & modules
+        assert ctx.get_session() != None
         self.init_modules(modules, conf)
 
 
