@@ -2,7 +2,7 @@
 {% set active_page = "Welcome" %}
 
 {% block content %}
-  <div id="tpl-page-index" v-if="show">
+  <div id="tpl-page-index" class="container" v-if="show">
     <!-- Search bar area -->
     <div class="jumbotron mt-4">
       <!-- this shit gotta stay here for SEO -->
@@ -60,9 +60,9 @@
     </script>
   {% else %}
      <script type="module">
-       import {init_pages} from '/js/mains.js';
+       //import {init_pages} from '/js/mains.js';
 
-       init_pages('index', {{ settings|tojson }}, {});
+       //init_pages('index', {{ settings|tojson }}, {});
     </script>
   {% endif %}
 {% endblock %}

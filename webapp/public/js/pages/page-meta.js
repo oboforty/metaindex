@@ -14,6 +14,7 @@ import {component as metaPathway} from "/js/components/meta/meta-pathway.js";
 import {component as metaTaxonomy} from "/js/components/meta/meta-taxonomy.js";
 
 import {component as metaCiting} from "/js/components/meta/meta-citing.js";
+import {component as metaDisc} from "/js/components/meta/meta-discussion.js";
 
 export let PageMeta = Vue.component('page-meta', {
   template: template,
@@ -24,10 +25,12 @@ export let PageMeta = Vue.component('page-meta', {
     metaRefExtra,
     metaStructure,
     meta3dStruct,
+    meta2dStruct,
     metaOnthology,
     metaPathway,
     metaTaxonomy,
-    metaCiting
+    metaCiting,
+    metaDisc
   ],
 
   data: function() {
@@ -35,12 +38,14 @@ export let PageMeta = Vue.component('page-meta', {
       show: false,
       meta: null,
       meta_id: null,
+      user: null,
     };
   },
 
   methods: {
-    init: function(meta_id, metabolite) {
+    init: function(user, meta_id, metabolite) {
       // runs when jinja page is initialized with this vue.js page
+      this.user = user;
       this.meta_id = meta_id;
       this.meta = metabolite;
     },

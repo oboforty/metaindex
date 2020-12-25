@@ -15,14 +15,14 @@
        // current_user.view|tojson
 
        window.onload = function() {
-         init_pages('meta', {{ settings|tojson }}, {}, '{{ meta_id }}', {{ metabolite.view|tojson }});
+         init_pages('meta', {{ settings|tojson }}, {{ current_user.view|tojson }}, '{{ meta_id }}', {{ metabolite.view|tojson }});
        }
     </script>
   {% else %}
      <script type="module">
        import {init_pages} from '/js/mains.js';
 
-       init_pages('meta', {{ settings|tojson }}, {}, '{{ meta_id }}', {{ metabolite.view|tojson }});
+       init_pages('meta', {{ settings|tojson }}, {{ current_user.view|tojson }}, '{{ meta_id }}', {{ metabolite.view|tojson }});
     </script>
   {% endif %}
 {% endblock %}

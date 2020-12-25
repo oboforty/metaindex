@@ -1,10 +1,4 @@
-import uuid
-
-from sqlalchemy import Column, Integer, String, Boolean, SmallInteger, ForeignKey, ForeignKeyConstraint, Date, DateTime, \
-    TIMESTAMP, func, Float
-
-from eme.data_access import GUID, JSON_GEN
-from eme.data_access import Repository
+from sqlalchemy import Column, String
 
 from core.dal.base.sqlite import EntityBase
 

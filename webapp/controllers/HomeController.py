@@ -8,5 +8,17 @@ class HomeController():
     def welcome(self):
         return render_template('/home/index.html', page='index')
 
-    def formats(self):
-        return render_template('/home/formats.html')
+    def get_about(self):
+        return render_template('/home/about.html')
+
+    def get_sources(self):
+        return render_template('/home/sources.html')
+
+    def get_citing(self):
+        return render_template('/home/citing.html')
+
+    def get_tools(self):
+        return render_template('/home/tools.html')
+
+    def get_terms(self):
+        return render_template('/home/terms.html')

@@ -1,13 +1,13 @@
 from core.dal.base.sqlite import EntityBase
-from eme.data_access import GUID
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, SmallInteger, String, ForeignKey
+from sqlalchemy import Column, Boolean
 
 from ..dal.user_mixin import UserMixin
 
 
 class User(UserMixin, EntityBase):
     __tablename__ = 'users'
+
+    curator = Column(Boolean(), default=False)
 
     def __init__(self, **kwargs):
         self.uid = kwargs.get("uid")
@@ -16,9 +16,12 @@ class User(UserMixin, EntityBase):
         self.face = kwargs.get("face")
         self.points = kwargs.get("points")
         self.admin = kwargs.get("admin")
+        self.curator = kwargs.get("curator")
 
         if not isinstance(self.admin, bool):
             self.admin = bool(self.admin)
+        if not isinstance(self.curator, bool):
+            self.curator = bool(self.curator)
 
     @property
     def view(self):
@@ -28,6 +31,7 @@ class User(UserMixin, EntityBase):
             'face': self.face,
             'points': self.points,
             'admin': self.admin,
+            'curator': self.curator,
         }
 
     @property

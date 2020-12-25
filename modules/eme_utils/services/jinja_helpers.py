@@ -15,7 +15,10 @@ def init_jinja(app, conf):
             # (current_token)
             # conf=conf,
             settings=get_settings().view,
-            js_transpiled=conf['website'].get('js_transpiled', True)
+            js_transpiled=conf['website'].get('js_transpiled', True),
+
+            # Custom MetaIndex functions:
+            is_list= lambda f: isinstance(f, list)
         )
 
     @app.template_filter()

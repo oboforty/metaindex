@@ -1,17 +1,53 @@
 <!DOCTYPE html>
 {% set navigation_bar = [
+  ('Tools', url_for('Home:get_tools')),
+  ('About us', url_for('Home:get_about')),
+  ('Citing', url_for('Home:get_citing')),
+  ('Terms', url_for('Home:get_terms')),
+  ('Sources', url_for('Home:get_sources')),
+] -%}
+{% set active_page = active_page | default('index') -%}
+{% set title = active_page + ' - MetaSeeker' %}
+
+
+{% if current_user.is_authenticated %}
+
+  {% if current_user.admin %}
+    {% set navigation_bar = [
+      ('Curator', url_for('admin.Curator:get_index')),
+    ] + navigation_bar -%}
+  {% endif %}
+
+  {% if current_user.admin %}
+    {% set navigation_bar = [
+      ('Admin', url_for('admin.Admin:get_index')),
+    ] + navigation_bar -%}
+  {% else %}
+    {% set navigation_bar = [
+      (current_user.username, url_for('doors.Users:get_profile')),
+    ] + navigation_bar -%}
+  {% endif %}
+
+  {% set navigation_bar = navigation_bar + [
+    ('Upload', url_for('Metabolite:get_upload')),
+  ] -%}
+
+{% else %}
+  {% set navigation_bar = [
+    ('Login', url_for('doors.Users:get_auth')),
+  ] + navigation_bar -%}
+{% endif %}
+
+<!--
   ('/', 'Browse'),
   ('/', 'Upload'),
   ('/', 'Citing'),
   ('/', 'Tools'),
   ('/', 'Contact'),
-  (url_for('doors.Users:get_auth'), 'Login'),
+  ('Login', url_for('')),
   ('/', 'Terms'),
   ('/', 'Sources')
-] -%}
-{% set active_page = active_page | default('index') -%}
-{% set title = active_page + ' - MetaSeeker' %}
-
+-->
 <html>
 <head>
   <title>{{ title }}</title>
@@ -64,10 +100,27 @@
 
       <div class="navbar-nav ml-auto">
         <ul class="navbar-nav">
-          {% for href, name in navigation_bar %}
-          <li class="nav-item {% if name == active_page %}active{% endif %}">
-            <a href="{{ href }}" class="nav-link text-white">{{ name }}</a>
-          </li>
+          {% for name, href in navigation_bar %}
+            {% if is_list(href) %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ name }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {% for sub_name, sub_href in href %}
+                    {% if sub_name == 'divider' %}
+                      <div class="dropdown-divider"></div>
+                    {% else %}
+                      <a class="dropdown-item" href="{{ sub_href }}">{{ sub_name }}</a>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </li>
+            {% else %}
+              <li class="nav-item {% if name == active_page %}active{% endif %}">
+                <a href="{{ href }}" class="nav-link text-white">{{ name }}</a>
+              </li>
+            {% endif %}
           {% endfor %}
         </ul>
       </div>

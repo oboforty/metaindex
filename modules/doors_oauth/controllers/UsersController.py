@@ -14,6 +14,10 @@ class UsersController():
         self.server = server
         self.repo: UserRepository = get_repo(User)
 
+    @auth.login_required
+    def get_profile(self):
+        return "l"
+
     def get_list(self):
         if not current_user.admin:
             return redirect(url_for('Home.welcome'))

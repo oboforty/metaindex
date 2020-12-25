@@ -10,7 +10,7 @@ import {colorize_moltext} from '/js/model/molutils.js';
 
 let gui = null;
 
-export function init_pages(page, settings, user, ...page_args) {
+export function init_pages(page, settings, ...page_args) {
   Vue.directive('autofocus', {
     inserted: function (el) {
       el.focus();
@@ -33,7 +33,6 @@ export function init_pages(page, settings, user, ...page_args) {
   });
 
   store.settings = settings;
-  store.user = user;
 
   // gui:
   gui = new Vue({

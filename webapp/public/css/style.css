@@ -59,6 +59,13 @@
     font-weight: normal;
 }
 
+.navbar a.text-white {
+  transition: 0.16s;
+}
+a.text-white:hover {
+  color: #341f97 !important;
+}
+
 /* AUTO generated
 https://flatuicolors.com/palette/ca */
 .text-purple { color: #f368e0 !important; }.bg-purple { background-color: #ff9ff3 !important; }

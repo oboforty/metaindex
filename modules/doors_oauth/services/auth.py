@@ -68,7 +68,7 @@ def init(app, c):
     app.config["SECRET_KEY"] = conf.get("secret_key")
 
     login_manager.init_app(app)
-    login_manager.login_view = 'Users.get_auth'
+    login_manager.login_view = 'doors.Users:get_auth'
 
     # oauth protector
     require_oauth.register_token_validator(DoorsTokenValidator())

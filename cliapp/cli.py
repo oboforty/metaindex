@@ -3,6 +3,8 @@ from os.path import dirname, realpath, join
 from eme.entities import load_settings
 from eme.cli import CommandLineInterface
 
+# Init eme ctx & modules
+from core.dal import ctx
 from modules import modules
 
 
@@ -14,4 +16,5 @@ class MetaIndexCommandLineInterface(CommandLineInterface):
 
       super().__init__(conf, script_path)
 
+      assert ctx.get_session() != None
       self.init_modules(modules, conf)

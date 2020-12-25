@@ -2,19 +2,21 @@ import os
 import sys
 
 from eme.entities import load_handlers, load_settings
-
-from .services.jinja_helpers import init_jinja
-from .services.mail import init_mail
+from eme.website import WebsiteBlueprint
 
 
 module_path = os.path.dirname(os.path.realpath(__file__))
 conf = load_settings(os.path.join(module_path, 'config.ini'))
 sys.path.append(module_path)
 
-def init_webapp(app, webconf):
-    init_jinja(app, webconf)
 
-    init_mail(app, conf['mail'])
+blueprint = None
+
+
+def init_webapp(webapp, webconf):
+    global blueprint
+
+    blueprint = WebsiteBlueprint('admin', conf, module_path, module_route="/admin")
 
 
 def init_cliapp(app, conf):

@@ -10,6 +10,10 @@ from core.dal.ctx import db_session, db_engine, db_type
 
 
 def migrate_db(autoclear=False, autofixtures=False):
+    for module in modules:
+        if hasattr(module, 'init_dal'):
+            module.init_dal()
+
     # check if DB is populated
     if not check_db():
         print("The database is not empty. Drop tables? Y/n:", end="")
@@ -45,8 +49,6 @@ def migrate_db(autoclear=False, autofixtures=False):
     from core.dal import migration
 
     for module in modules:
-        if hasattr(module, 'init_dal'):
-            module.init_dal()
         if hasattr(module, 'init_migration'):
             module.init_migration()
 

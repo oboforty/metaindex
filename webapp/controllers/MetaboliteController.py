@@ -20,7 +20,7 @@ class MetaboliteController():
             cas_id = '134-20-3',
             ref_etc = {},
 
-            primary_name='methyl anthranilate',
+            primary_name ='methyl anthranilate',
             names = [
                 'methyl anthranilate',
                 '2-(Methoxycarbonyl)aniline',
@@ -44,3 +44,12 @@ class MetaboliteController():
         )
 
         return render_template('/metabolite/view.html', meta_id=meta_id, metabolite=metabolite)
+
+    def get_upload(self):
+        return render_template('/metabolite/upload.html')
+
+    def get_edit(self):
+        return render_template('/metabolite/edit.html')
+
+    def get_curate(self):
+        return render_template('/metabolite/curate.html')

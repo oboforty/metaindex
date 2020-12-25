@@ -24,9 +24,8 @@ def init_webapp(webapp, webconf):
     blueprint = WebsiteBlueprint('doors', conf, module_path, module_route="/users")
 
 
-
 def init_cliapp(app, conf):
-    app.commands.update(load_handlers(app, 'Command', 'modules/eme_utils/handlers/commands'))
+    app.commands.update(load_handlers(app, 'Command', path=os.path.join(module_path, 'commands')))
 
 
 def init_wsapp(app, conf):
@@ -38,5 +37,4 @@ def init_dal():
 
 
 def init_migration():
-    # todo
-    pass
+    from .dal.user import User
