@@ -1,20 +1,13 @@
-/* CSS Test begin */
-.comment-box {
-    margin-top: 30px !important;
-}
-/* CSS Test end */
-
 .comment-box img {
-    width: 50px;
-    height: 50px;
+    width: 42px;
+    height: 42px;
 }
 .comment-box .media-left {
     padding-right: 10px;
-    width: 65px;
+    width: 56px;
 }
 .comment-box .media-body p {
     border: 1px solid #ddd;
-    padding: 10px;
 }
 .comment-box .media-body .media p {
     margin-bottom: 0;
@@ -29,6 +22,7 @@
     content: "";
     width: 12px;
     height: 12px;
+    background-color: #54a0ff; /* bg-info */
     border: 1px solid #ddd;
     border-width: 1px 0 0 1px;
     -webkit-transform: rotate(-45deg);

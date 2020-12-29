@@ -27,12 +27,20 @@
   font-size: 0.8rem;
 }
 
+.font-bold {
+  font-weight: bold;
+}
+
 .pointer {
   cursor: pointer;
 }
 
 .scroll {
   overflow-y: scroll;
+}
+
+.border-thick {
+  border-width: 3px !important;
 }
 
 /*
@@ -68,13 +76,13 @@ a.text-white:hover {
 
 /* AUTO generated
 https://flatuicolors.com/palette/ca */
-.text-purple { color: #f368e0 !important; }.bg-purple { background-color: #ff9ff3 !important; }
-.text-warning { color: #ff9f43 !important; }.bg-warning { background-color: #feca57 !important; }
-.text-danger { color: #ee5253 !important; }.bg-danger { background-color: #ff6b6b !important; }
-.text-secondary { color: #0abde3 !important; }.bg-secondary { background-color: #48dbfb !important; }
-.text-success { color: #10ac84 !important; }.bg-success { background-color: #1dd1a1 !important; }
-.text-brand { color: #01a3a4 !important; }.bg-brand { background-color: #00d2d3 !important; }
-.text-info { color: #2e86de !important; }.bg-info { background-color: #54a0ff !important; }
-.text-primary { color: #341f97 !important; }.bg-primary { background-color: #5f27cd !important; }
-.text-light { color: #8395a7 !important; }.bg-light { background-color: #c8d6e5 !important; }
-.text-dark { color: #222f3e !important; }.bg-dark { background-color: #576574 !important; }
+.text-purple { color: #f368e0 !important; }.bg-purple { background-color: #ff9ff3 !important; }.border-purple { border-color: #ff9ff3 !important; }
+.text-warning { color: #ff9f43 !important; }.bg-warning { background-color: #feca57 !important; }.border-warning { border-color: #feca57 !important; }
+.text-danger { color: #ee5253 !important; }.bg-danger { background-color: #ff6b6b !important; }.border-danger { border-color: #ff6b6b !important; }
+.text-secondary { color: #0abde3 !important; }.bg-secondary { background-color: #48dbfb !important; }.border-secondary { border-color: #48dbfb !important; }
+.text-success { color: #10ac84 !important; }.bg-success { background-color: #1dd1a1 !important; }.border-success { border-color: #1dd1a1 !important; }
+.text-brand { color: #01a3a4 !important; }.bg-brand { background-color: #00d2d3 !important; }.border-brand { border-color: #00d2d3 !important; }
+.text-info { color: #2e86de !important; }.bg-info { background-color: #54a0ff !important; }.border-info { border-color: #54a0ff !important; }
+.text-primary { color: #341f97 !important; }.bg-primary { background-color: #5f27cd !important; }.border-primary { border-color: #5f27cd !important; }
+.text-light { color: #8395a7 !important; }.bg-light { background-color: #c8d6e5 !important; }.border-light { border-color: #c8d6e5 !important; }
+.text-dark { color: #222f3e !important; }.bg-dark { background-color: #576574 !important; }.border-dark { border-color: #576574 !important; }

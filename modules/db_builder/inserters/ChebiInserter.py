@@ -4,7 +4,7 @@ from eme.data_access import get_repo
 
 from core.dal.entities.dbdata.ChEBIData import ChEBIData
 from core.dal.repositories.ChebiDataRepository import ChebiDataRepository
-from modules.db_builder.services.fileparsing import parse_iter_sdf, strip_attr, force_list
+from modules.db_builder.services.fileparsing import parse_iter_sdf
 
 
 class ChebiInserter:
@@ -12,7 +12,7 @@ class ChebiInserter:
     def __init__(self, conf):
         self.path = conf['bulk_db']['base'] + conf['bulk_db']['chebi_sdf']
         self.mapping = conf['mapping_chebi']
-        self.mcard = self.mapping.pop('__card__')
+        self.mcard = self.mapping.get('__card__')
 
     def run(self, autoclear:bool=False):
         repo: ChebiDataRepository = get_repo(ChEBIData)

@@ -19,14 +19,14 @@ def init_webapp(app, webconf):
 def init_cliapp(app, cliconf):
     app.commands.update(load_handlers(app, 'Command', path=os.path.join(module_path, 'commands')))
 
-    xpl = app.commands['Explore']
-    xpl.explorers = load_handlers(conf, 'Explorer', path=os.path.join(module_path, 'explorers'))
-
     spuderman = app.commands['Scan']
     spuderman.scanners = load_handlers(conf, 'Scanner', path=os.path.join(module_path, 'scanners'))
 
     insert = app.commands['Insert']
     insert.inserters = load_handlers(conf, 'Inserter', path=os.path.join(module_path, 'inserters'))
+
+    xpl = app.commands['Explore']
+    xpl.explorers = load_handlers(conf, 'Explorer', path=os.path.join(module_path, 'explorers'))
 
 
 def init_wsapp(app, conf):

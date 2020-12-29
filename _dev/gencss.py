@@ -40,6 +40,6 @@ for col1,col2 in zip(pa1,pa2):
     elif name2 is None and name1 is None:
         name1 = name2 = col1["name"].lower().replace(" ", "-")
 
-    str0.append(f".text-{name2} {{ color: {col2['hex']} !important; }}.bg-{name1} {{ background-color: {col1['hex']} !important; }}\n")
+    str0.append(f".text-{name2} {{ color: {col2['hex']} !important; }}.bg-{name1} {{ background-color: {col1['hex']} !important; }}.border-{name1} {{ border-color: {col1['hex']} !important; }}\n")
 
 print("".join(str0))

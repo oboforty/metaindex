@@ -1,6 +1,8 @@
 //import {template} from "/js/pages/page-index.vue.js"
 import {store} from '/js/store.js';
 
+import {component as SearchForm} from '/js/forms/search-form.js';
+import {component as SearchResults} from '/js/components/search-results.js';
 
 export let PageIndex = Vue.component('page-index', {
   //template: template,

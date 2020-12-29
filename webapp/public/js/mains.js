@@ -2,9 +2,6 @@ import {PageIndex} from '/js/pages/page-index.js';
 import {PageSearch} from '/js/pages/page-search.js';
 import {PageMeta} from '/js/pages/page-meta.js';
 
-import {component as SearchForm} from '/js/forms/search-form.js';
-import {component as SearchResults} from '/js/components/search-results.js';
-
 import {store} from '/js/store.js';
 import {colorize_moltext} from '/js/model/molutils.js';
 

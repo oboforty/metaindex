@@ -15,6 +15,7 @@ class LipidMapsData(EntityBase):
     hmdb_id = Column(String(20)) # ForeignKey('hmdb_data.hmdb_id', ondelete='SET NULL'))
     chebi_id = Column(String(20)) # ForeignKey('chebi_data.chebi_id', ondelete='SET NULL'))
     pubchem_id = Column(String(20)) # ForeignKey('pubchem_data.pubchem_id', ondelete='SET NULL'))
+    pubchem_sub_id = Column(String(24)) #ForeignKey('pubchem_substrate_data.pubchem_id', ondelete='SET NULL'))
     lipidbank_id = Column(String(20))
     cas_id = Column(String(20))
     ref_etc = Column(JSON_GEN())     # Extra ref Refs

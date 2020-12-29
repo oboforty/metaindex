@@ -7,8 +7,10 @@ class ExploreCommand:
 
         self.explorers = {}
 
-    def run(self):
-
-        for name, xpl in self.explorers.items():
-            print(f"Exploring {name}")
-            xpl.run()
+    def run(self, db=None):
+        if db is None:
+            for name, xpl in self.explorers.items():
+                print(f"Exploring {name}")
+                xpl.run()
+        else:
+            self.explorers[db].run()

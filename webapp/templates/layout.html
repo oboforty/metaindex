@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 {% set navigation_bar = [
-  ('Tools', url_for('Home:get_tools')),
-  ('About us', url_for('Home:get_about')),
-  ('Citing', url_for('Home:get_citing')),
+  ('Tools', url_for('About:get_tools')),
+  ('About us', url_for('About:get_about')),
+  ('Citing', url_for('About:get_citing')),
   ('Terms', url_for('Home:get_terms')),
-  ('Sources', url_for('Home:get_sources')),
+  ('Sources', url_for('About:get_sources')),
 ] -%}
 {% set active_page = active_page | default('index') -%}
 {% set title = active_page + ' - MetaSeeker' %}
@@ -14,13 +14,13 @@
 
   {% if current_user.admin %}
     {% set navigation_bar = [
-      ('Curator', url_for('admin.Curator:get_index')),
+      ('Curator', url_for('admin.Curator:get')),
     ] + navigation_bar -%}
   {% endif %}
 
   {% if current_user.admin %}
     {% set navigation_bar = [
-      ('Admin', url_for('admin.Admin:get_index')),
+      ('Admin', url_for('admin.Admin:get')),
     ] + navigation_bar -%}
   {% else %}
     {% set navigation_bar = [
@@ -38,16 +38,6 @@
   ] + navigation_bar -%}
 {% endif %}
 
-<!--
-  ('/', 'Browse'),
-  ('/', 'Upload'),
-  ('/', 'Citing'),
-  ('/', 'Tools'),
-  ('/', 'Contact'),
-  ('Login', url_for('')),
-  ('/', 'Terms'),
-  ('/', 'Sources')
--->
 <html>
 <head>
   <title>{{ title }}</title>
@@ -106,7 +96,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   {{ name }}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu hidden-sm-down" aria-labelledby="navbarDropdown">
                   {% for sub_name, sub_href in href %}
                     {% if sub_name == 'divider' %}
                       <div class="dropdown-divider"></div>

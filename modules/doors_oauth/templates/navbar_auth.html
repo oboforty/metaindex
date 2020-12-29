@@ -6,7 +6,7 @@
           {{ current_user.username }}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{{ url_for('users.Users:get_index') }}">Profile</a>
+          <a class="dropdown-item" href="{{ url_for('users.Users:get') }}">Profile</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{ url_for('users.Users:get_logout') }}">Logout</a>
         </div>

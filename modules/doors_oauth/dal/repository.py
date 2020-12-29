@@ -1,3 +1,5 @@
+from time import time
+
 from eme.data_access import RepositoryBase, Repository
 
 from ..dal.user import User
@@ -5,6 +7,25 @@ from ..dal.user import User
 
 @Repository(User)
 class UserRepository(RepositoryBase):
+
+    def find_by_token(self, token):
+        return self.session.query(User)\
+            .filter(User.access_token == token)\
+        .first()
+
+    def delete_inactive(self, inactive_for=14*24*3600):
+        self.session.query(User)\
+            .filter(User.last_active + inactive_for < time())\
+        .delete(synchronize_session=False)
+        self.session.commit()
+
+    def create(self, ent, commit=True):
+        user = self.session.query(User).filter(User.uid == ent.uid).first()
+        if user is not None:
+            self.session.delete(user)
+            self.session.commit()
+
+        super().create(ent, commit)
 
     def find_user(self, uid=None, email=None, username=None, code=None):
         if uid is not None:

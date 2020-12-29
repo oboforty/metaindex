@@ -9,6 +9,7 @@ class PubChemData(EntityBase):
 
     # Primary Ids
     pubchem_id = Column(String(20), primary_key=True)
+    pubchem_sub_id = Column(String(24)) #ForeignKey('pubchem_substrate_data.pubchem_id', ondelete='SET NULL'))
 
     # Reference Ids
     chebi_id = Column(String(20)) #ForeignKey('chebi_data.chebi_id', ondelete='SET NULL'))

@@ -7,22 +7,31 @@
   </div>
 {% endblock %}
 
+{% block styles %}
+  <link type="text/css" rel="stylesheet" href="/comments/css/style.css"/>
+{% endblock %}
+
 {% block scripts %}
   {% if js_transpiled %}
      <script defer type="text/javascript" src="/js/client.min.js"></script>
 
      <script defer type="module">
-       // current_user.view|tojson
-
        window.onload = function() {
-         init_pages('meta', {{ settings|tojson }}, {{ current_user.view|tojson }}, '{{ meta_id }}', {{ metabolite.view|tojson }});
-       }
-    </script>
   {% else %}
      <script type="module">
        import {init_pages} from '/js/mains.js';
-
-       init_pages('meta', {{ settings|tojson }}, {{ current_user.view|tojson }}, '{{ meta_id }}', {{ metabolite.view|tojson }});
-    </script>
+       import {init_api} from '/js/api.mjs';
+       {
   {% endif %}
+       {% if current_user.is_authenticated %}
+         const user = {{ current_user.view_full|tojson }};
+
+         init_api(user.access_token);
+       {% else %}
+         const user = null;
+       {% endif %}
+
+         init_pages('meta', {{ settings|tojson }}, user, '{{ meta_id }}', {{ metabolite.view|tojson }});
+       }
+    </script>
 {% endblock %}

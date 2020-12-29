@@ -4,7 +4,6 @@ from collections import defaultdict
 from ftplib import FTP
 
 
-
 DBs = ['hmdb', 'kegg', 'chebi', 'chemspider', 'pubchem', 'metlin']
 
 LOG = ''
@@ -58,30 +57,35 @@ def download_file_ftp(url, local_filename, username, password):
     print('All files downloaded for ' + str(diff.seconds) + 's')
 
 
-def _nil(var):
-    if not bool(var):
-        return True
-    # accounts for xml newlines, whitespace & etc
-    s = var.strip().replace('\r', '').replace('\n', '')
-    return not bool(s)
-
-
-def parse_xml_recursive(context, cur_elem=None):
+def parse_xml_recursive(context, cur_elem=None, _mapping: dict = None, tag_path=None):
     items = defaultdict(list)
+
+    if _mapping is None:
+        _mapping = {}
 
     if cur_elem:
         items.update(cur_elem.attrib)
 
-    text = ""
+    text = None
+    if tag_path is None:
+        tag_path = []
 
     for action, elem in context:
         # print("{0:>6} : {1:20} {2:20} '{3}'".format(action, elem.tag, elem.attrib, str(elem.text).strip()))
 
         if action == "start":
             tag = elem.tag.split('}', 1)[1]
-            items[tag].append(parse_xml_recursive(context, elem))
+            tag_path.append(tag)
+            state = '.'.join(tag_path)
+            state = _mapping.get(state.lower(), tag)
+
+            items[state].append(parse_xml_recursive(context, elem, _mapping=_mapping, tag_path=tag_path))
         elif action == "end":
-            text = elem.text.strip() if elem.text else ""
+            text = elem.text.strip() if elem.text else None
+
+            #tag = elem.tag.split('}', 1)[1]
+            if tag_path:
+                tag_path.pop()
 
             elem.clear()
             break
@@ -89,7 +93,8 @@ def parse_xml_recursive(context, cur_elem=None):
     if len(items) == 0:
         return text
 
-    return { k: v[0] if len(v) == 1 else v for k, v in items.items() }
+    return items
+    #{ k: v[0] if len(v) == 1 else v for k, v in items.items() }
 
 
 def parse_iter_sdf(fn, _mapping: dict = None):
@@ -129,77 +134,3 @@ def parse_iter_sdf(fn, _mapping: dict = None):
                         buffer[attr] = [val, line]
                 else:
                     buffer[attr] = line
-
-
-def compile_names(*args):
-    names = []
-
-    for syn in args:
-        if syn:
-            if isinstance(syn, str):
-                names.append(syn)
-            else:
-                for sy in syn:
-                    names.append(sy)
-    return list(set(names))
-
-
-def compile_extra_refs(dc, value, attr, parse=None):
-
-    if isinstance(value, list):
-        if len(value) == 1:
-            return pp(value[0], parse)
-        elif len(value) == 0:
-            return None
-        else:
-            # return None, because the rest of Ids area stored in a json
-            dc[attr] = [pp(el, parse) for el in value]
-            return None
-
-    # scalar type:
-    return pp(value, parse)
-
-
-def pp(val, parse=None):
-    if parse is None:
-        return val
-    if val is None:
-        return None
-    return parse(val)
-
-
-def force_list(r, key, f=None):
-    if key not in r:
-        return
-
-    v = r[key]
-
-    if isinstance(v, list):
-        if f is not None:
-            r[key] = [f(e) for e in v]
-        r[key] = v
-    elif v is None:
-        r[key] = None
-    else:
-        if f is not None:
-            r[key] = [f(v)]
-        r[key] = [v]
-
-
-def strip_attr(r, key, prefix):
-    if key not in r:
-        return
-
-    if isinstance(r[key], list):
-        r[key] = list(map(lambda v: v.lstrip(prefix), r[key]))
-    else:
-        r[key] = r[key].lstrip(prefix)
-
-
-def rlen(v):
-    if isinstance(v, list):
-        return len(v)
-    elif v is None:
-        return 0
-    else:
-        return 1

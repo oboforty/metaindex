@@ -52,7 +52,7 @@ export const template = `<div v-if="show" class="container-xl p-4">
         </div>
 
         
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="col-sm-12 col-lg-6">
             <a class="btn btn-link w-100 text-info pointer" v-b-toggle.collapseDiscussion role="button"><b>Discussion</b></a>
             <div class="border rounded p-3">
                 <b-collapse visible class="collapse" id="collapseDiscussion">

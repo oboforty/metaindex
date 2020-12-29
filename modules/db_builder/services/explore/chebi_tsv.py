@@ -1,9 +1,3 @@
-import json
-from collections import defaultdict
-
-from ..fileparsing import parse_iter_sdf, rlen
-
-from ..fileparsing import parse_iter_sdf, rlen
 
 
 def parse_chebi_tsv(path_fn):

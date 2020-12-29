@@ -1,3 +1,4 @@
+import uuid
 from time import time
 
 from eme.data_access import GUID
@@ -11,17 +12,17 @@ from modules.doors_oauth.dal.user import User
 class Comment(EntityBase):
     __tablename__ = 'comments'
 
-    cid = Column(Integer(), primary_key=True)
+    cid = Column(GUID(), primary_key=True, default=uuid.uuid4)
     content = Column(Text)
     created_at = Column(Integer, nullable=False, default=lambda: int(time()))
 
-    author_id = Column(GUID(), ForeignKey('users.uid', ondelete='CASCADE'), primary_key=True)
+    author_id = Column(GUID(), ForeignKey('users.uid', ondelete='CASCADE'))
     author = relationship("User", foreign_keys=[author_id], lazy='joined') # eager loading
 
-    parent_id = Column(Integer(), ForeignKey('comments.cid', ondelete='CASCADE'))
+    parent_id = Column(GUID(), ForeignKey('comments.cid', ondelete='CASCADE'))
     reply_to = relationship("Comment", foreign_keys=[parent_id], lazy='select') # lazy loading
 
-    entity_id = Column(GUID())
+    entity_id = Column(String(128))
     entity_type = Column(String(32))
 
     @property

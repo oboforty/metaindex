@@ -1,0 +1,182 @@
+{% extends "layout.html" %}
+{% set active_page = "Sources" %}
+
+{% block content %}
+  <div class="container">
+    <h1>Data sources</h1>
+    <p>tbd</p>
+
+    <h2>Databases</h2>
+    <p>tbd</p>
+
+    <h2>Attribute cardinality</h2>
+    <p>This table shows the number of records with cardinality>1 inside the _data tables.</p>
+
+    <table class="table table-sm table-hover table-borderless border border-info border-thick">
+      <thead>
+        <tr class="bg-info text-white">
+          <th>Attribute</th>
+          <th>HMDB</th>
+          <th>ChEBI</th>
+          <th>LipidMaps</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th><i>TOTAL</i></th>
+          <td title="HMDB"></td>
+          <td title="ChEBI">124311</td>
+          <td title="LipidMaps">44428</td>
+        </tr>
+
+        <tr class="bg-info"> <td colspan="4"></td> </tr> <!-- ------------------------------------- -->
+
+        <tr>
+          <th>names</th>
+          <td title="HMDB" class="text-danger font-bold"></td>
+          <td title="ChEBI" class="text-danger font-bold">69931</td>
+          <td title="LipidMaps" class="text-danger font-bold">37865</td>
+        </tr>
+        <tr>
+          <th>formula</th>
+          <td title="HMDB"></td>
+          <td title="ChEBI">664</td>
+          <td title="LipidMaps">0</td>
+        </tr>
+        <tr>
+          <th>smiles</th>
+          <td title="HMDB"></td>
+          <td title="ChEBI">0</td>
+          <td title="LipidMaps">0</td>
+        </tr>
+        <tr>
+          <th>inchi</th>
+          <td title="HMDB"></td>
+          <td title="ChEBI">1</td>
+          <td title="LipidMaps">0</td>
+        </tr>
+        <tr>
+          <th>mass</th>
+          <td title="HMDB"></td>
+          <td title="ChEBI">0</td>
+          <td title="LipidMaps">0</td>
+        </tr>
+        <tr>
+          <th>mono_mass</th>
+          <td title="HMDB"></td>
+          <td title="ChEBI">0</td>
+          <td title="LipidMaps">0</td>
+        </tr>
+
+        <tr class="bg-info"> <td colspan="4"></td> </tr> <!-- ------------------------------------- -->
+
+        <tr>
+          <th>hmdb_id</th>
+          <th title="HMDB" class="text-primary">1/-</th>
+          <td title="ChEBI">8</td>
+          <td title="LipidMaps">0</td>
+        </tr>
+        <tr>
+          <th>chebi_id</th>
+          <td title="HMDB"></td>
+          <th title="ChEBI" class="text-primary">1/5193</th>
+          <td title="LipidMaps">0</td>
+        </tr>
+        <tr>
+          <th>pubchem_id</th>
+          <td title="HMDB"></td>
+          <td title="ChEBI">13</td>
+          <td title="LipidMaps">0</td>
+        </tr>
+        <tr>
+          <th>lipidmaps_id</th>
+          <td title="HMDB"></td>
+          <td title="ChEBI">17</td>
+          <th title="LipidMaps" class="text-primary">1/?</th>
+        </tr>
+        <tr>
+          <th>kegg_id</th>
+          <td title="HMDB"></td>
+          <td title="ChEBI">108</td>
+          <td title="LipidMaps">0</td>
+        </tr>
+        <tr>
+          <th>cas_id</th>
+          <td title="HMDB"></td>
+          <td title="ChEBI">258</td>
+          <td title="LipidMaps">0</td>
+        </tr>
+
+        <tr class="bg-info"> <td colspan="4"></td> </tr> <!-- ------------------------------------- -->
+
+        <tr>
+          <th>pubmed_id</th>
+          <td title="HMDB">-</td>
+          <td title="ChEBI">11331</td>
+          <td title="LipidMaps">-</td>
+        </tr>
+        <tr>
+          <th>chembl_id</th>
+          <td title="HMDB">-</td>
+          <td title="ChEBI">0</td>
+          <td title="LipidMaps">-</td>
+        </tr>
+        <tr>
+          <th>metabolights_id</th>
+          <td title="HMDB">-</td>
+          <td title="ChEBI">7867</td>
+          <td title="LipidMaps">-</td>
+        </tr>
+        <tr>
+          <th>pdb_id</th>
+          <td title="HMDB">-</td>
+          <td title="ChEBI">3122</td>
+          <td title="LipidMaps">-</td>
+        </tr>
+        <tr>
+          <th>uniprot_id</th>
+          <td title="HMDB">-</td>
+          <td title="ChEBI">7774</td>
+          <td title="LipidMaps">-</td>
+        </tr>
+        <tr>
+          <th>swisslipids_id</th>
+          <td title="HMDB">-</td>
+          <td title="ChEBI">1</td>
+          <td title="LipidMaps">-</td>
+        </tr>
+        <tr>
+          <th>wiki_id</th>
+          <td title="HMDB">-</td>
+          <td title="ChEBI">6</td>
+          <td title="LipidMaps">-</td>
+        </tr>
+        <tr>
+          <th>drugbank_id</th>
+          <td title="HMDB">-</td>
+          <td title="ChEBI">4</td>
+          <td title="LipidMaps">-</td>
+        </tr>
+        <tr>
+          <th>kegg_drug_id</th>
+          <td title="HMDB">-</td>
+          <td title="ChEBI">-</td>
+          <td title="LipidMaps">-</td>
+        </tr>
+        <tr>
+          <th>pubchem_sub_id</th>
+          <td title="HMDB">-</td>
+          <td title="ChEBI">-</td>
+          <td title="LipidMaps">-</td>
+        </tr>
+        <tr>
+          <th>chemspider_id</th>
+          <td title="HMDB">-</td>
+          <td title="ChEBI">1</td>
+          <td title="LipidMaps">-</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

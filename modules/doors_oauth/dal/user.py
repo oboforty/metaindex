@@ -35,9 +35,9 @@ class User(UserMixin, EntityBase):
         }
 
     @property
-    def token_view(self):
-        # used for mock auth server
+    def view_full(self):
         return {
+            **self.view,
             "token_type": "Bearer",
             "scope": "profile",
 
