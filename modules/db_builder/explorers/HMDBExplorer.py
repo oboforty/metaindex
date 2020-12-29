@@ -1,3 +1,4 @@
+from modules.db_builder.services.ding import ding
 from modules.db_builder.services.fileparsing import parse_xml_recursive
 from modules.db_builder.services.attr_parsing import process_general_attributes
 from modules.db_builder.services.cardinality import count_cardinality, start_count, print_cardinality_statistics
@@ -23,9 +24,7 @@ class HMDBExplorer:
 
         v_card_max, v_card_count = start_count()
 
-        while True:
-            ev_2, xmeta = next(context)
-
+        for ev_2, xmeta in context:
             # Úgy még sosem volt, hogy valahogy ne lett volna
             me = parse_xml_recursive(context, _mapping=self.mapping)
 
@@ -45,3 +44,5 @@ class HMDBExplorer:
 
         print_cardinality_statistics(v_card_max, v_card_count, mcard=self.mcard, include_one=self.incl_one)
 
+        print("Total: ", i)
+        ding()

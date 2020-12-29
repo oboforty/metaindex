@@ -1,3 +1,4 @@
+from modules.db_builder.services.ding import ding
 from modules.db_builder.services.fileparsing import parse_iter_sdf
 from modules.db_builder.services.attr_parsing import process_general_attributes
 from modules.db_builder.services.cardinality import count_cardinality, start_count, print_cardinality_statistics
@@ -31,3 +32,4 @@ class ChebiExplorer:
         print_cardinality_statistics(v_card_max, v_card_count, mcard=self.mcard, include_one=self.incl_one)
 
         print("Total: ", i)
+        ding()

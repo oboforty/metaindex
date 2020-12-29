@@ -13,14 +13,20 @@ class HMDBData(EntityBase):
     hmdb_id_alt = Column(ARRAY(String(20)))
 
     # Reference Ids
-    chemspider_id = Column(String(20))
-    kegg_id = Column(String(20)) #ForeignKey('kegg_data.kegg_id', ondelete='SET NULL'))
-    metlin_id = Column(String(20))
-    pubchem_id = Column(String(20)) #ForeignKey('pubchem_data.pubchem_id'), ondelete='SET NULL')
-    pubchem_sub_id = Column(String(24)) #ForeignKey('pubchem_substrate_data.pubchem_id', ondelete='SET NULL'))
-    chebi_id = Column(String(20)) #ForeignKey('chebi_data.chebi_id'), ondelete='SET NULL')
-    cas_id = Column(String(20))
+    kegg_id = Column(String(24)) #ForeignKey('kegg_data.kegg_id', ondelete='SET NULL'))
+    pubchem_id = Column(String(24)) #ForeignKey('pubchem_data.pubchem_id'), ondelete='SET NULL')
+    chebi_id = Column(String(24)) #ForeignKey('chebi_data.chebi_id'), ondelete='SET NULL')
+    cas_id = Column(String(24))
+
     ref_etc = Column(JSON_GEN())     # Extra ref Refs
+    chemspider_id = Column(String(24))
+    metlin_id = Column(String(24))
+    pubchem_sub_id = Column(String(24))
+    wiki_id = Column(String(24))
+    drugbank_id = Column(String(24))
+    pdb_id = Column(String(24))
+    pubmed_id = Column(String(24))
+
 
     # Shared metadata
     names = Column(ARRAY(TEXT))
