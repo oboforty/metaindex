@@ -16,10 +16,10 @@ class Comment(EntityBase):
     content = Column(Text)
     created_at = Column(Integer, nullable=False, default=lambda: int(time()))
 
-    author_id = Column(GUID(), ForeignKey('users.uid', ondelete='CASCADE'))
+    author_id = Column(GUID(), ForeignKey('users.uid', ondelete='SET NULL'))
     author = relationship("User", foreign_keys=[author_id], lazy='joined') # eager loading
 
-    parent_id = Column(GUID(), ForeignKey('comments.cid', ondelete='CASCADE'))
+    parent_id = Column(GUID(), ForeignKey('comments.cid', ondelete='SET NULL'))
     reply_to = relationship("Comment", foreign_keys=[parent_id], lazy='select') # lazy loading
 
     entity_id = Column(String(128))

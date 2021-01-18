@@ -2,7 +2,7 @@ import json
 
 from eme.entities import EntityJSONEncoder
 
-from core.utils import get_settings
+from core.settings import get_settings
 
 
 def init_jinja(app, conf):

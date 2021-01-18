@@ -2,7 +2,7 @@ from time import time
 
 from pyproto import ctx
 from pyproto.utils import download_file
-from .FetcherBase import FetcherBase
+from core.managers.ManagerBase import Managerbase
 
 
 def call_ChemSpider(db_id):
@@ -44,7 +44,7 @@ def parse_ChemSpider(db_id, c):
 
     return dataSPIDER
 
-class FetcherChemSpider(FetcherBase):
+class FetcherChemSpider(Managerbase):
     def __init__(self, fake=False):
         super().__init__(
             url_get='{}',

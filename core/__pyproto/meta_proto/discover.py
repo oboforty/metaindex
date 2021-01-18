@@ -1,8 +1,8 @@
 import queue
 
-from .handlers.FetcherBase import FetcherBase
-from .handlers.FetcherChEBI import FetcherChEBI
-from .handlers.FetcherHMDB import FetcherHMDB
+from core.managers.ManagerBase import Managerbase
+from .dbhandlers.FetcherChEBI import FetcherChEBI
+from .dbhandlers.FetcherHMDB import FetcherHMDB
 
 from pyproto.utils import _nil
 
@@ -17,7 +17,7 @@ proxy_db = {
 }
 
 
-def get_db(db_tag) -> FetcherBase:
+def get_db(db_tag) -> Managerbase:
     return proxy_db.get(db_tag)
 
 

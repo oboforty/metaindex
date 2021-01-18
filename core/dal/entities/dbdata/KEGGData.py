@@ -1,6 +1,6 @@
 from core.dal.base.sqlite import EntityBase
 
-from sqlalchemy import Column, String, Float, TEXT, ARRAY, Integer, ForeignKey
+from sqlalchemy import Column, String, Float, Text, ARRAY, Integer, ForeignKey
 from eme.data_access import JSON_GEN
 
 
@@ -27,7 +27,7 @@ class KeggData(EntityBase):
 
 
     # Shared metadata
-    names = Column(ARRAY(TEXT))
+    names = Column(ARRAY(Text))
     exact_mass = Column(Float)
     mol_weight = Column(Float)
 
@@ -35,7 +35,7 @@ class KeggData(EntityBase):
     formula = Column(String(256))
 
     # Other Fun Facts
-    comments = Column(TEXT)
+    comments = Column(Text)
 
 
     def __init__(self, **kwargs):

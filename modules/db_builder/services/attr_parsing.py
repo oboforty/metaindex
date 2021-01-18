@@ -9,8 +9,9 @@ def process_general_attributes(r, flavor: str):
         flatten_hmdb_hierarchies(r)
 
         for k, v in r.items():
-            r[k] = flatten_list(v)
 
+            # todo: process extra refs?
+            r[k] = flatten_list(v)
 
     strip_attr(r, 'chebi_id', 'CHEBI:')
     strip_attr(r, 'chebi_id_alt', 'CHEBI:')
@@ -18,39 +19,41 @@ def process_general_attributes(r, flavor: str):
     strip_attr(r, 'inchi', 'InChI=')
 
     force_list(r, 'chebi_id_alt')
+    force_list(r, 'names')
 
     if flavor == 'chebi':
         # pubchem requires special attention
+
+        # TODO: split pubchem SID not just ignore it!
         split_pubchem_ids(r)
 
-
-def process_names(*args):
-    names = []
-
-    for syn in args:
-        if syn:
-            if isinstance(syn, str):
-                names.append(syn)
-            else:
-                for sy in syn:
-                    names.append(sy)
-    return list(set(names))
+        process_extra_refs(r, [
+            'chebi_id_alt',
+            'hmdb_id', 'pubchem_id', 'lipidmaps_id', 'kegg_id', 'cas_id',
+            'chemspider_id', 'pubchem_sub_id', 'chembl_id', 'metabolights_id', 'swisslipids_id',
+            'pdb_id', 'uniprot_id',
+            'drugbank_id', 'kegg_drug_id',
+            'wiki_id',
+            # 'pubmed_id',
+        ])
 
 
-def process_extra_refs(dc, value, attr, parse=None):
+def process_extra_refs(r, attr_arr, ex_attr=None):
+    if ex_attr is None:
+        ex_attr = 'ref_etc'
 
-    if isinstance(value, list):
-        if len(value) == 1:
-            return pp(value[0], parse)
-        elif len(value) == 0:
-            return None
-        else:
-            # return None, because the rest of Ids area stored in a json
-            dc[attr] = [pp(el, parse) for el in value]
-            return None
+    ref = r.setdefault(ex_attr, {})
 
-    # scalar type:
-    return pp(value, parse)
+    for attr in attr_arr:
+        if attr not in r:
+            continue
+
+        val = r[attr]
+
+        if isinstance(val, list) and len(val) > 1:
+            r[attr] = val[0]
+            ref.setdefault(attr, [])
+            ref[attr].extend(val[1:])
 
 
 def split_pubchem_ids(r):
@@ -92,12 +95,12 @@ def flatten_hmdb_hierarchies(r):
                 r['hmdb_id_alt'][i] = syn['accession']
 
 
-def pp(val, parse=None):
-    if parse is None:
-        return val
-    if val is None:
-        return None
-    return parse(val)
+# def pp(val, parse=None):
+#     if parse is None:
+#         return val
+#     if val is None:
+#         return None
+#     return parse(val)
 
 
 def force_list(r, key, f=None):
@@ -109,13 +112,15 @@ def force_list(r, key, f=None):
     if isinstance(v, list):
         if f is not None:
             r[key] = [f(e) for e in v]
-        r[key] = v
+        else:
+            r[key] = v
     elif v is None:
         r[key] = None
     else:
         if f is not None:
             r[key] = [f(v)]
-        r[key] = [v]
+        else:
+            r[key] = [v]
 
 
 def flatten_list(v):
@@ -142,11 +147,6 @@ def rlen(v):
         return 0
     else:
         return 1
-
-
-def append_or_create(r, key, val):
-    if key in r:
-        key[r]
 
 
 def _nil(var):

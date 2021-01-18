@@ -1,25 +1,25 @@
 from eme.data_access import get_repo
 
-from core.dal.entities.dbdata.ChEBIData import ChEBIData
-from core.dal.repositories.ChebiDataRepository import ChebiDataRepository
+from core.dal.entities.dbdata.LipidMapsData import LipidMapsData
+from core.dal.repositories.LipidMapsDataRepository import LipidMapsDataRepository
 
 from modules.db_builder.services.ding import ding
 from modules.db_builder.services.fileparsing import parse_iter_sdf
 from modules.db_builder.services.attr_parsing import process_general_attributes
 
 
-class ChebiInserter:
+class LipidMapsInserter:
 
     def __init__(self, conf):
-        self.path = conf['bulk_db']['base'] + conf['bulk_db']['chebi_sdf']
-        self.mapping = conf['mapping_chebi']
+        self.path = conf['bulk_db']['base'] + conf['bulk_db']['lipidmaps_sdf']
+        self.mapping = conf['mapping_lipidmaps']
         self.mcard = self.mapping.get('__card__')
 
     def run(self, autoclear:bool=False):
-        repo: ChebiDataRepository = get_repo(ChEBIData)
+        repo: LipidMapsDataRepository = get_repo(LipidMapsData)
 
         if repo.count() > 0:
-            print("Chebi Data is not empty. Truncate the table? Y/n:", end="")
+            print("LipidMaps Data is not empty. Truncate the table? Y/n:", end="")
             if autoclear or input().lower() == 'y':
                 print("Clearing DB")
                 repo.delete_all()
@@ -29,12 +29,12 @@ class ChebiInserter:
         i = 0
 
         for me in parse_iter_sdf(self.path, _mapping=self.mapping):
-            process_general_attributes(me, flavor='chebi')
+            process_general_attributes(me, flavor='lipidmaps')
 
             # todo: do something with None (=mol struct) key
-            me.pop(None)
+            me.pop(None, None)
 
-            data = ChEBIData(**me)
+            data = LipidMapsData(**me)
             repo.create(data, commit=False)
 
             if i % 2000 == 0:

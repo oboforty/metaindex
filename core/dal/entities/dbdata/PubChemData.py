@@ -1,6 +1,6 @@
 from core.dal.base.sqlite import EntityBase
 
-from sqlalchemy import Column, String, Float, TEXT, ARRAY, Integer, ForeignKey
+from sqlalchemy import Column, String, Float, Text, ARRAY, Integer, ForeignKey
 from eme.data_access import JSON_GEN
 
 
@@ -26,14 +26,14 @@ class PubChemData(EntityBase):
     pubmed_id = Column(String(24))
 
     # Shared metadata
-    names = Column(ARRAY(TEXT))
+    names = Column(ARRAY(Text))
     mass = Column(Float)
     #weight = Column(Float)
     monoisotopic_mass = Column(Float)
 
     # Structure
-    smiles = Column(ARRAY(TEXT))
-    inchi = Column(TEXT)
+    smiles = Column(ARRAY(Text))
+    inchi = Column(Text)
     inchikey = Column(String(27))
     formula = Column(String(256))
 

@@ -7,4 +7,4 @@ class InsertCommand:
         self.inserters = {}
 
     def run(self, db: str, autoclear: bool = False):
-        self.inserters[db.title()].run(autoclear=autoclear)
+        self.inserters[db].run(autoclear=autoclear)

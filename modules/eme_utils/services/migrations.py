@@ -7,6 +7,7 @@ from modules import modules
 
 from core.dal.base.sqlite import EntityBase
 from core.dal.ctx import db_session, db_engine, db_type
+from modules.eme_utils.migrations.migrate_instr import drop_order
 
 
 def migrate_db(autoclear=False, autofixtures=False):
@@ -14,13 +15,18 @@ def migrate_db(autoclear=False, autofixtures=False):
         if hasattr(module, 'init_dal'):
             module.init_dal()
 
+        if hasattr(module, 'init_migration'):
+            module.init_migration()
+
     # check if DB is populated
     if not check_db():
         print("The database is not empty. Drop tables? Y/n:", end="")
 
         if autoclear or input().lower() == 'y':
             print("Dropping tables")
-            EntityBase.metadata.drop_all(db_engine)
+
+            # todo: later: drop only selected tables
+            EntityBase.metadata.drop_all(db_engine, tables=drop_order())
         else:
             print("Truncate tables? Y/n:", end="")
             if autoclear or input().lower() == 'y':
@@ -34,7 +40,7 @@ def migrate_db(autoclear=False, autofixtures=False):
 
         if autoclear or input().lower() == 'y':
             print("Dropping tables")
-            EntityBase.metadata.drop_all(db_engine)
+            EntityBase.metadata.drop_all(db_engine, tables=drop_order())
 
     base = 'modules/eme_utils/migrations/' + db_type + '/'
     try:
@@ -47,10 +53,6 @@ def migrate_db(autoclear=False, autofixtures=False):
     # SQLAlchemy migration
     print("Applying SQLAlchemy migrations...")
     from core.dal import migration
-
-    for module in modules:
-        if hasattr(module, 'init_migration'):
-            module.init_migration()
 
     EntityBase.metadata.create_all(db_engine)
 

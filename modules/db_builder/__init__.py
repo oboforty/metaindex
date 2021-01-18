@@ -19,9 +19,6 @@ def init_webapp(app, webconf):
 def init_cliapp(app, cliconf):
     app.commands.update(load_handlers(app, 'Command', path=os.path.join(module_path, 'commands')))
 
-    spuderman = app.commands['Scan']
-    spuderman.scanners = load_handlers(conf, 'Scanner', path=os.path.join(module_path, 'scanners'))
-
     insert = app.commands['Insert']
     insert.inserters = load_handlers(conf, 'Inserter', path=os.path.join(module_path, 'inserters'))
 

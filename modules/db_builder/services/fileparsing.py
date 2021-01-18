@@ -63,7 +63,7 @@ def parse_xml_recursive(context, cur_elem=None, _mapping: dict = None, tag_path=
     if _mapping is None:
         _mapping = {}
 
-    if cur_elem:
+    if cur_elem and cur_elem.attrib:
         items.update(cur_elem.attrib)
 
     text = None
