@@ -11,6 +11,6 @@ class CuratorController():
 
     def get(self):
         if not current_user.curator:
-            return redirect(url_for('Home.welcome'))
+            return redirect(url_for('Home:welcome'))
 
         return render_template('dashboard/curators.html')

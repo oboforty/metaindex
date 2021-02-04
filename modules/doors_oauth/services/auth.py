@@ -21,9 +21,11 @@ conf: dict
 
 class DoorsCachedToken(TokenMixin):
 
-    def __init__(self, access_token, user):
+    def __init__(self, access_token, user, expires_in=None, issued_at=None):
         self.access_token = access_token
         self.user = user
+        self.expires_in = expires_in
+        self.issued_at = issued_at
 
     def get_client_id(self):
         return conf['client_id']
@@ -32,12 +34,14 @@ class DoorsCachedToken(TokenMixin):
         return conf['scope']
 
     def get_expires_in(self):
-        # todo: get these info later
-        return float('inf')
+        return self.expires_in
 
     def get_expires_at(self):
-        # todo: get these info later
-        return float('inf')
+        if self.issued_at is None or self.expires_in is None:
+            # bugfix for records that have no expiry
+            return 0
+
+        return self.expires_in + self.issued_at
 
 
 class DoorsTokenValidator(BearerTokenValidator):

@@ -9,11 +9,13 @@ from modules import comments
 
 modules = [
     eme_utils,
-    search,
-    db_builder,
     doors_oauth,
-    admin,
-    comments,
-    #favourites,
 
+    # todo:     unfinished eme modules
+    search,
+    comments,
+    # favourites,
+
+    db_builder,
+    admin,
 ]

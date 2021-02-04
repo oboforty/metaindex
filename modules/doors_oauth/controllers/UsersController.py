@@ -20,9 +20,11 @@ class UsersController():
 
     def get_list(self):
         if not current_user.admin:
-            return redirect(url_for('Home.welcome'))
+            return redirect(url_for('Home:welcome'))
 
-        return ""
+        users = self.repo.list_all()
+
+        return render_template('/users/list.html', users=users)
 
     @auth.login_forbidden
     def auth(self):

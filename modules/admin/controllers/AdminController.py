@@ -12,6 +12,6 @@ class AdminController():
 
     def get(self):
         if not current_user.admin:
-            return redirect(url_for('Home.welcome'))
+            return redirect(url_for('Home:welcome'))
 
         return render_template('dashboard/admins.html')
