@@ -1,7 +1,7 @@
-from modules.db_builder.services.ding import ding
-from modules.db_builder.services.fileparsing import parse_xml_recursive
-from modules.db_builder.services.attr_parsing import process_general_attributes
-from modules.db_builder.services.cardinality import count_cardinality, start_count, print_cardinality_statistics
+from ..services.ding import ding
+from ..services.fileparsing import parse_xml_recursive
+from ..services.attr_parsing import process_general_attributes
+from ..services.cardinality import count_cardinality, start_count, print_cardinality_statistics
 
 import xml.etree.ElementTree as ET
 

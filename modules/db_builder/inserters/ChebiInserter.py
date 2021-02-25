@@ -1,11 +1,10 @@
 from eme.data_access import get_repo
 
-from core.dal.entities.dbdata.ChEBIData import ChEBIData
-from core.dal.repositories.ChebiDataRepository import ChebiDataRepository
+from core.dal import ChEBIData, ChebiDataRepository
 
-from modules.db_builder.services.ding import ding
-from modules.db_builder.services.fileparsing import parse_iter_sdf
-from modules.db_builder.services.attr_parsing import process_general_attributes
+from ..services.ding import ding
+from ..services.fileparsing import parse_iter_sdf
+from ..services.attr_parsing import process_general_attributes
 
 
 class ChebiInserter:

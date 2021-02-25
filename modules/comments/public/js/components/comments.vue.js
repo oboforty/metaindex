@@ -1,5 +1,5 @@
 export const template = `<div v-if="meta_id">
-    <div v-if="user.curator || user.admin">
+    <div v-if="user && (user.curator || user.admin)">
         <div class="input-group mb-3">
             <textarea v-model="input_text" @keyup.enter="onSendComment" class="form-control" placeholder="Add comment..."></textarea>
 
@@ -18,8 +18,8 @@ export const template = `<div v-if="meta_id">
         </div>
         <div class="media-body">
             <div class="media-heading bg-info text-white p-1 pl-2">
-                <span class="ra ra-house" v-if="user.admin"></span> 
-                <span class="ra ra-id-card" v-else-if="user.curator"></span> 
+                <span class="ra ra-house" v-if="comment.author && comment.author.admin"></span> 
+                <span class="ra ra-id-card" v-else-if="comment.author && comment.author.curator"></span> 
                 {{ comment.author.username }}
             </div>
             <p class="p-2">{{ comment.content }}</p>

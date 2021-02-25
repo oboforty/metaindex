@@ -41,8 +41,10 @@ export let component = Vue.component('search-results', {
     },
 
     OnClick(result) {
-
-      this.open_page('meta');
+      
+      let page = this.open_page('meta');
+      // todo: set url somewhere?
+      page.init('TTTT', {});
 
       // todo: load meta page
 

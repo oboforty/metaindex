@@ -3,20 +3,16 @@ from authlib.integrations.requests_client import OAuth2Auth
 from authlib.oauth2.rfc6749 import TokenMixin
 from authlib.oauth2.rfc6750 import BearerTokenValidator
 from authlib.integrations.flask_oauth2 import ResourceProtector
-from flask_login import LoginManager, current_user, login_user, logout_user, login_required
-from eme.data_access import get_repo
+from flask_login import LoginManager
+from eme.websocket import RouteForbiddenError
 
-from ..dal.user import User
-from ..dal.repository import UserRepository
-
-
+user_repo = None
 require_oauth = ResourceProtector()
-
-
 login_manager = LoginManager()
-user_repo: UserRepository = get_repo(User)
 
 conf: dict
+allowed_noauth = set()
+_validator: BearerTokenValidator
 
 
 class DoorsCachedToken(TokenMixin):
@@ -65,9 +61,10 @@ class DoorsTokenValidator(BearerTokenValidator):
         return False
 
 
-def init(app, c):
-    global login_manager, conf
+def init(app, c, repo):
+    global login_manager, conf, user_repo
     conf = c
+    user_repo = repo
 
     app.config["SECRET_KEY"] = conf.get("secret_key")
 
@@ -76,6 +73,14 @@ def init(app, c):
 
     # oauth protector
     require_oauth.register_token_validator(DoorsTokenValidator())
+
+
+def init_ws(app, c, repo):
+    global _validator, conf, user_repo
+    conf = c
+    user_repo = repo
+
+    _validator = DoorsTokenValidator()
 
 
 @login_manager.user_loader
@@ -138,6 +143,10 @@ def fetch_user(access_token=None):
     return user
 
 
+def get_validator():
+    return _validator
+
+
 from functools import wraps
 
 from flask import current_app, request
@@ -167,5 +176,16 @@ def login_forbidden(func):
             return func(*args, **kwargs)
         elif current_user.is_authenticated:
             return current_app.login_manager.unauthorized()
+        return func(*args, **kwargs)
+    return decorated_view
+
+
+def require_wsauth(func):
+    @wraps(func)
+    def decorated_view(*args, **kwargs):
+        #@todo: later: require profile too?
+
+        if 'user' not in kwargs or not kwargs['user']:
+            raise RouteForbiddenError()
         return func(*args, **kwargs)
     return decorated_view

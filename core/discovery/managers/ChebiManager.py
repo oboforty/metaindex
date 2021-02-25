@@ -1,7 +1,7 @@
 from eme.data_access import get_repo
 
-from core.dal.entities.dbdata.ChEBIData import ChEBIData
-from core.managers.ManagerBase import ManagerBase
+from core.dal import ChEBIData
+from .ManagerBase import ManagerBase
 
 
 class ChebiManager(ManagerBase):

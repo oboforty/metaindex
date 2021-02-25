@@ -1,14 +1,13 @@
 import redis
-from eme import data_access
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, close_all_sessions
 
+from eme import data_access
 from eme.data_access import register_session
 from eme.entities import load_settings
 
 
-config = load_settings("core/content/ctx.ini")
+config = load_settings("core/dal/ctx.ini")
 db_type = config.get('db.type')
 
 # an Engine, which the Session will use for connection resources

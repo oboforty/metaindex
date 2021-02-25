@@ -1,11 +1,10 @@
 from flask import url_for, render_template, request
-from flask_login import current_user, logout_user
+from flask_login import current_user, logout_user, login_required, login_user
 from werkzeug.utils import redirect
 
 from eme.data_access import get_repo
 
-from modules.doors_oauth.dal.repository import UserRepository
-from modules.doors_oauth.dal.user import User
+from core.dal import User, UserRepository
 from modules.doors_oauth.services import auth
 
 
@@ -13,8 +12,9 @@ class UsersController():
     def __init__(self, server):
         self.server = server
         self.repo: UserRepository = get_repo(User)
+        self.route = ''
 
-    @auth.login_required
+    @login_required
     def get_profile(self):
         return "l"
 
@@ -50,7 +50,7 @@ class UsersController():
             self.repo.create(user)
 
             # we do not rely on access_token, but sessions for the web interface!
-            auth.login_user(user, remember=True)
+            login_user(user, remember=True)
 
             return redirect('/')
 

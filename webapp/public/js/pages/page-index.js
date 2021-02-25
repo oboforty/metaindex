@@ -1,36 +1,32 @@
 //import {template} from "/js/pages/page-index.vue.js"
-import {store} from '/js/store.js';
 
 import {component as SearchForm} from '/js/forms/search-form.js';
 import {component as SearchResults} from '/js/components/search-results.js';
 
 export let PageIndex = Vue.component('page-index', {
+  //el: "#tpl-page-index",
   //template: template,
-  el: "#tpl-page-index",
+  
+  props: {
+    url: {
+      default: "/"
+    }
+  },
 
-  data: function() {
+  data() {
     return {
       show: true
     };
   },
 
   methods: {
-    init: function() {
+    init() {
       // runs when jinja page is initialized with this vue.js page
-
     },
-
-    onTyping: function() {
-      let search1 = this.$refs['search-form'];
-      store.search_predecessor = search1;
-
-      // navigate to page-search and pass required parameters
-      this.open_page("search");
-    }
   },
 
   watch: {
-    show: function(val) {
+    show(val) {
       if (!val) {
         // hide static HTML as well when index gets hidden
         $("#static-page-description").style.display = 'none';

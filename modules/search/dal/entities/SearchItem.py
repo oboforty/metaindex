@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String
 
-from core.dal.base.sqlite import EntityBase
+from core.dal import EntityBase
 
 """
 Add levensthein distance (EME?)

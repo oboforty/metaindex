@@ -7,20 +7,23 @@ import {colorize_moltext} from '/js/model/molutils.js';
 
 let gui = null;
 
-export function init_pages(page, settings, ...page_args) {
+export function init_pages(page, settings, user, ...page_args) {
   Vue.directive('autofocus', {
     inserted: function (el) {
       el.focus();
     }
   });
-  
+
+
   Vue.mixin({
     // mixin data isn't accessible in component data func
     methods: {
       open_page(name) {
         gui.show(name);
-        
-        return gui.page(name);
+        let page = gui.page(name);
+
+        history.pushState({}, "", page.url);
+        return page;
       },
 
       molcol(text) {
@@ -30,35 +33,39 @@ export function init_pages(page, settings, ...page_args) {
   });
 
   store.settings = settings;
+  store.user = user;
 
   // gui:
   gui = new Vue({
     el: '#app-pages',
 
-    components: [
-      PageIndex,
-      PageSearch,
-      PageMeta
-    ],
+    // components: [
+    //   PageIndex,
+    //   PageSearch,
+    //   PageMeta
+    // ],
 
     data: {
       current: `page-${page}`,
     },
     mounted() {
       let _page = this.page(this.current);
+
+      if (_page == null || !_page.init)
+        throw "Page not found: "+this.current;
       
       _page.show = true;
       _page.init(...page_args);
     },
     methods: {
-      page: function(name) {
+      page(name) {
         if (name.substring(0,5) != 'page-')
           name = 'page-'+name;
 
         return this.$refs[name];
       },
 
-      show: function(name) {
+      show(name) {
         if (this.current != null)
           this.page(this.current).show = false;
         
@@ -66,7 +73,7 @@ export function init_pages(page, settings, ...page_args) {
         this.page(this.current).show = true;
       },
 
-      hide: function(name) {
+      hide(name) {
         if (name != null)
           this.page(name).show = false;
         else if (this.current != null) {
@@ -76,4 +83,6 @@ export function init_pages(page, settings, ...page_args) {
       }
     },
   });
+
+  window.gui = gui;
 }

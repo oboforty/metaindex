@@ -1,18 +1,16 @@
 import {template} from "/js/components/meta/meta-discussion.vue.js";
+import {store} from "/js/store.js";
 
 import {component as CommentsList} from "/comments/js/components/comments.js";
 
 
 export let component = Vue.component('meta-discussion', {
     template: template,
-    components: [
-        CommentsList
-    ],
+    // components: [
+    //     CommentsList
+    // ],
     props: {
         meta: {
-            default: null
-        },
-        user: {
             default: null
         }
     },
@@ -22,6 +20,9 @@ export let component = Vue.component('meta-discussion', {
       };
     },
   
-    methods: {
+    computed: {
+        user() {
+            return store.user;
+        }
     }
 });

@@ -16,6 +16,7 @@ def init_mail(server, conf):
 
     mail.init_app(server)
 
+
 def send_mail(email, title, content):
     msg = Message(title, sender=('YourAppName', from_email), recipients=[email])
     msg.html = content

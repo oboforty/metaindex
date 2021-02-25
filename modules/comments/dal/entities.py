@@ -6,7 +6,6 @@ from sqlalchemy import Column, String, Integer, Text, ForeignKey
 from sqlalchemy.orm import relationship
 
 from core.dal.base.sqlite import EntityBase
-from modules.doors_oauth.dal.user import User
 
 
 class Comment(EntityBase):

@@ -1,14 +1,16 @@
 import {template} from "/js/forms/search-form.vue.js";
 import {store} from '/js/store.js';
 
+const search_min_chars = 3;
+let search_predecessor = null;
 
 export let component = Vue.component('search-form', {
   template: template,
 
   props: {
-    onTypingOverride: {
-      type: Function,
-      default: null
+    savePredecessorForm: {
+      type: Boolean,
+      default: true
     },
   },
 
@@ -39,13 +41,13 @@ export let component = Vue.component('search-form', {
       search_term: "",
     };
 
-    if (store.search_predecessor != null) {
-      // take search form data over previous page
-      _data.search_term = store.search_predecessor.search_term;
-      _data.db_enabled = store.search_predecessor.db_enabled;
-      _data.searchtype_selected = store.search_predecessor.searchtype_selected;
+    // load from predecessor
+    if (search_predecessor != null) {
+      _data.search_term = search_predecessor.search_term;
+      _data.db_enabled = search_predecessor.db_enabled;
+      _data.searchtype_selected = search_predecessor.searchtype_selected;
 
-      store.search_predecessor = null;
+      search_predecessor = null;
     }
 
     return _data;
@@ -53,17 +55,24 @@ export let component = Vue.component('search-form', {
 
   methods: {
     onTyping: function() {
-      if (this.onTypingOverride != null) {
-        // Parent overrides searching
-        this.onTypingOverride(this.search_term);
+      if (this.search_term.length < search_min_chars)
         return;
+
+      if (this.savePredecessorForm) {
+        // save as predecessor (for upcoming search bar)
+        search_predecessor = this;
       }
 
-      // without an override, start searching the API
-      if (this.search_term.length > 3) {
+      //if (this.$listeners['search'])
+        this.$emit('search', this.search_term);
+
+      // only submit query if has result listeners
+      if (this.$listeners['results']) {
+        // start searching the API
         // todo: call api
 
-        this.$emit('results', this.search_term, [
+        // @TEMPORAL
+        this.$emit('results', [
           {
             search_value: "C-vitamin",
             search_key: "name",

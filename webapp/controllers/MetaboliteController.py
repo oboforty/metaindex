@@ -1,9 +1,9 @@
 from flask import render_template
 
-from core.dal.entities.views.MetaboliteScalar import MetaboliteScalar
+from core.dal import MetaboliteScalar
 
 
-class MetaboliteController():
+class MetaboliteController:
     def __init__(self, server):
         pass
 
@@ -20,7 +20,7 @@ class MetaboliteController():
             cas_id = '134-20-3',
             ref_etc = {},
 
-            primary_name ='methyl anthranilate',
+            primary_name = 'methyl anthranilate',
             names = [
                 'methyl anthranilate',
                 '2-(Methoxycarbonyl)aniline',

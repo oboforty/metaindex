@@ -4,7 +4,7 @@ from eme.website import WebsiteApp
 
 # Init eme ctx & modules
 from core.dal import ctx
-from modules import modules
+from modules.modules import modules
 
 
 class MetaIndexWebsite(WebsiteApp):

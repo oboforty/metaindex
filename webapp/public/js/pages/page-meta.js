@@ -18,34 +18,40 @@ import {component as metaDisc} from "/js/components/meta/meta-discussion.js";
 
 export let PageMeta = Vue.component('page-meta', {
   template: template,
-  components: [
-    metaSynonyms,
-    metaDescr,
-    metaReferences,
-    metaRefExtra,
-    metaStructure,
-    meta3dStruct,
-    meta2dStruct,
-    metaOnthology,
-    metaPathway,
-    metaTaxonomy,
-    metaCiting,
-    metaDisc
-  ],
+  // components: [
+  //   metaSynonyms,
+  //   metaDescr,
+  //   metaReferences,
+  //   metaRefExtra,
+  //   metaStructure,
+  //   meta3dStruct,
+  //   meta2dStruct,
+  //   metaOnthology,
+  //   metaPathway,
+  //   metaTaxonomy,
+  //   metaCiting,
+  //   metaDisc
+  // ],
+  
+  props: {
+    url: {
+      default: "/meta"
+    }
+  },
 
-  data: function() {
+  data() {
     return {
       show: false,
       meta: null,
       meta_id: null,
-      user: null,
     };
   },
 
   methods: {
-    init: function(user, meta_id, metabolite) {
+    init(meta_id, metabolite) {
+      console.log("I saw a documentary on penguins", meta_id, metabolite);
+
       // runs when jinja page is initialized with this vue.js page
-      this.user = user;
       this.meta_id = meta_id;
       this.meta = metabolite;
     },

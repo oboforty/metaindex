@@ -1,7 +1,7 @@
-from core.managers.ManagerBase import ManagerBase
+from .ManagerBase import ManagerBase
 
 
-class LipidMapsManager(ManagerBase):
+class HmdbManager(ManagerBase):
 
     def fetch_api(self, db_id):
         pass

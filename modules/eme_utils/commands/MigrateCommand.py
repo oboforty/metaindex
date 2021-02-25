@@ -1,4 +1,4 @@
-from modules.eme_utils.services.migrations import migrate_db
+from modules.eme_utils import migrate_db
 
 
 class MigrateCommand:

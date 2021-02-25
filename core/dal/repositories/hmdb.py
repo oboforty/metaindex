@@ -1,6 +1,6 @@
 from eme.data_access import Repository, RepositoryBase
 
-from core.dal.entities.dbdata.HMDBData import HMDBData
+from ..entities.dbdata.hmdb import HMDBData
 
 
 @Repository(HMDBData)

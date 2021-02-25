@@ -5,7 +5,7 @@ from eme.cli import CommandLineInterface
 
 # Init eme ctx & modules
 from core.dal import ctx
-from modules import modules
+from modules.modules import modules
 
 
 class MetaIndexCommandLineInterface(CommandLineInterface):

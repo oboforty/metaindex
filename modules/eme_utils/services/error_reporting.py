@@ -1,3 +1,5 @@
+import logging
+import os
 from logging.config import dictConfig
 
 
@@ -18,3 +20,29 @@ def init(conf, app):
                 'handlers': ['wsgi']
             }
         })
+
+
+def init_ws(conf, app):
+    return
+
+    # Logging
+    logger = logging.getLogger(conf.get('logprefix', 'eme'))
+    logger.setLevel(logging.DEBUG)
+
+    # file log
+    fh = logging.FileHandler(conf.get('logfile', os.path.join(fbase, 'logs.txt')))
+    lvl = conf.get('loglevel', 'WARNING')
+    fh.setLevel(getattr(logging, lvl))
+
+    # console log
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.ERROR)
+
+    formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
+    ch.setFormatter(formatter)
+    fh.setFormatter(formatter)
+
+    logger.addHandler(ch)
+    logger.addHandler(fh)
+
+    app.logger = logger

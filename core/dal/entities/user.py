@@ -1,7 +1,7 @@
 from core.dal.base.sqlite import EntityBase
 from sqlalchemy import Column, Boolean
 
-from ..dal.user_mixin import UserMixin
+from modules.doors_oauth import UserMixin
 
 
 class User(UserMixin, EntityBase):

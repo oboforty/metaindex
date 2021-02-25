@@ -1,16 +1,12 @@
 import os
 from sqlalchemy import text
 
-from eme.data_access import get_repo
-
-from modules import modules
-
-from core.dal.base.sqlite import EntityBase
-from core.dal.ctx import db_session, db_engine, db_type
-from modules.eme_utils.migrations.migrate_instr import drop_order
+from core.dal import EntityBase, ctx, drop_order
 
 
 def migrate_db(autoclear=False, autofixtures=False):
+    from modules.modules import modules
+
     for module in modules:
         if hasattr(module, 'init_dal'):
             module.init_dal()
@@ -26,7 +22,7 @@ def migrate_db(autoclear=False, autofixtures=False):
             print("Dropping tables")
 
             # todo: later: drop only selected tables
-            EntityBase.metadata.drop_all(db_engine, tables=drop_order())
+            EntityBase.metadata.drop_all(ctx.db_engine, tables=drop_order())
         else:
             print("Truncate tables? Y/n:", end="")
             if autoclear or input().lower() == 'y':
@@ -40,21 +36,20 @@ def migrate_db(autoclear=False, autofixtures=False):
 
         if autoclear or input().lower() == 'y':
             print("Dropping tables")
-            EntityBase.metadata.drop_all(db_engine, tables=drop_order())
+            EntityBase.metadata.drop_all(ctx.db_engine, tables=drop_order())
 
-    base = 'modules/eme_utils/migrations/' + db_type + '/'
+    base = 'modules/eme_utils/migrations/' + ctx.db_type + '/'
     try:
         files = os.listdir(base)
     except:
         files = []
 
-    conn = db_session.connection()
+    conn = ctx.db_session.connection()
 
     # SQLAlchemy migration
     print("Applying SQLAlchemy migrations...")
-    from core.dal import migration
 
-    EntityBase.metadata.create_all(db_engine)
+    EntityBase.metadata.create_all(ctx.db_engine)
 
     # SQL-based migrations
     for f in files:
@@ -71,18 +66,19 @@ def migrate_db(autoclear=False, autofixtures=False):
 
 
 def run_sql_migration(conn, f):
-    base = 'modules/eme_utils/migrations/' + db_type + '/'
+    base = 'modules/eme_utils/migrations/' + ctx.db_type + '/'
 
     with open(os.path.join(base, f), 'r') as sql_file:
         sql = text(sql_file.read())
 
     result = conn.execute(sql)
 
-    db_session.commit()
+    ctx.db_session.commit()
     conn.close()
 
 
 def check_db():
+    from modules.modules import modules
     for module in modules:
         if hasattr(module, 'is_empty'):
             if not module.is_empty():
@@ -92,6 +88,7 @@ def check_db():
 
 
 def clear_db():
+    from modules.modules import modules
     for module in modules:
         if hasattr(module, 'clear_db'):
             module.clear_db()

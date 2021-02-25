@@ -1,11 +1,10 @@
 from eme.data_access import get_repo
 
-from core.dal.entities.dbdata.HMDBData import HMDBData
-from core.dal.repositories.HMDBDataRepository import HMDBDataRepository
+from core.dal import HMDBData, HMDBDataRepository
 
-from modules.db_builder.services.ding import ding
-from modules.db_builder.services.fileparsing import parse_xml_recursive
-from modules.db_builder.services.attr_parsing import process_general_attributes
+from ..services.ding import ding
+from ..services.fileparsing import parse_xml_recursive
+from ..services.attr_parsing import process_general_attributes
 
 import xml.etree.ElementTree as ET
 

@@ -85,4 +85,3 @@ class UserMixin(FlaskUserMixin):
 
         if user.last_active != self.last_active and user.last_active is not None:
             self.last_active = user.last_active
-

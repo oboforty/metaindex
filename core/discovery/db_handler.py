@@ -1,10 +1,10 @@
-from core.managers.ChebiManager import ChebiManager
-from core.managers.HmdbManager import HmdbManager
-from core.managers.LipidMapsManager import LipidMapsManager
+from .managers.ChebiManager import ChebiManager
+from .managers.HmdbManager import HmdbManager
+from .managers.LipidMapsManager import LipidMapsManager
+from .managers.ManagerBase import ManagerBase
 
-from core.dal.entities.Metabolite import Metabolite
-from core.managers.ManagerBase import ManagerBase
-from core.settings import getcfg
+from core.dal import Metabolite
+from .settings import getcfg
 from typing import Dict
 
 dbs = getcfg('discovery.databases')

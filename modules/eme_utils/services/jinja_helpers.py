@@ -2,7 +2,7 @@ import json
 
 from eme.entities import EntityJSONEncoder
 
-from core.settings import get_settings
+from core.discovery.settings import get_settings
 
 
 def init_jinja(app, conf):
@@ -15,7 +15,8 @@ def init_jinja(app, conf):
             # (current_token)
             # conf=conf,
             settings=get_settings().view,
-            js_transpiled=conf['website'].get('js_transpiled', True),
+            js_transpiled=conf.get('website.js_transpiled', True),
+            ws_address=conf.get('website.ws_address'),
 
             # Custom MetaIndex functions:
             is_list= lambda f: isinstance(f, list)
