@@ -1,3 +1,5 @@
+from . import ctx
+
 from .entities.user import User
 from .entities.dbdata.hmdb import HMDBData
 from .entities.dbdata.chebi import ChEBIData
@@ -7,7 +9,6 @@ from .entities.dbdata.kegg import KeggData
 from .entities.Metabolite import Metabolite
 from .entities.SecondaryID import SecondaryID
 
-from . import ctx
 from .base.sqlite import EntityBase
 
 from .views.user import UserView

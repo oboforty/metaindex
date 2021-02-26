@@ -12,7 +12,7 @@ class CommentsApi:
     def __init__(self, server):
         self.server = server
         self.group = 'CommentsApi'
-        self.route = 'api/comments'
+        self.route = ''
 
         self.server.preset_endpoints({
             'GET /api/<entity_type>/<entity_id>/comments': 'CommentsApi:get',

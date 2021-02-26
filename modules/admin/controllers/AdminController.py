@@ -8,7 +8,7 @@ class AdminController():
     def __init__(self, server):
         self.server = server
         self.group = 'Admin'
-        self.route = 'admin'
+        self.route = ''
 
     def get(self):
         if not current_user.admin:

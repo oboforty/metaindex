@@ -21,7 +21,7 @@ def init_webapp(webapp, webconf):
     # TODO: ITT: test with eme first?
     from core.dal import User
 
-    auth.init(webapp, conf['auth'], get_repo(User))
+    auth.init(webapp, conf['auth'], User)
 
     global blueprint
 

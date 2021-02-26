@@ -3,9 +3,12 @@ from authlib.integrations.requests_client import OAuth2Auth
 from authlib.oauth2.rfc6749 import TokenMixin
 from authlib.oauth2.rfc6750 import BearerTokenValidator
 from authlib.integrations.flask_oauth2 import ResourceProtector
+from eme.data_access import get_repo
 from flask_login import LoginManager
 from eme.websocket import RouteForbiddenError
+from werkzeug.utils import redirect
 
+user_entity = None
 user_repo = None
 require_oauth = ResourceProtector()
 login_manager = LoginManager()
@@ -61,10 +64,11 @@ class DoorsTokenValidator(BearerTokenValidator):
         return False
 
 
-def init(app, c, repo):
-    global login_manager, conf, user_repo
+def init(app, c, entity):
+    global login_manager, conf, user_repo, user_entity
     conf = c
-    user_repo = repo
+    user_entity = entity
+    user_repo = get_repo(user_entity)
 
     app.config["SECRET_KEY"] = conf.get("secret_key")
 
@@ -92,9 +96,7 @@ def load_user(uid):
 
 
 def get_authorize_url():
-    url = '/oauth/authorize?response_type=code&client_id={}&state=xyz&scope=profile'.format(conf['client_id'])
-
-    return conf['doors_url'] + url
+    return conf['doors_url'] + conf['doors_auth_endpoint'].format(conf['client_id'])
 
 
 def fetch_token(code):
@@ -131,14 +133,14 @@ def fetch_user(access_token=None):
         'access_token': access_token
     })
 
-    r = requests.get(doors_url + "/api/me", headers={
+    r = requests.get(doors_url + "/oauth/me", headers={
         "access_token": access_token
     }, auth=token_auth)
 
     if r.status_code != 200:
         return None
 
-    user = User(**r.json())
+    user = user_entity(**r.json())
 
     return user
 
@@ -175,7 +177,7 @@ def login_forbidden(func):
         elif current_app.login_manager._login_disabled:
             return func(*args, **kwargs)
         elif current_user.is_authenticated:
-            return current_app.login_manager.unauthorized()
+            return redirect('/')
         return func(*args, **kwargs)
     return decorated_view
 

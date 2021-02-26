@@ -39,12 +39,11 @@ class UsersController():
             # get access token
             access_token = auth.fetch_token(code)
 
-            # todo --------------------------------
-            # todo: itt: user is None!
-            # todo --------------------------------
+            # todo: @later: handle all error cases
 
             # store user in DB
             user = auth.fetch_user(access_token)
+
             user.access_token = access_token
 
             self.repo.create(user)
