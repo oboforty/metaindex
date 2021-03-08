@@ -11,9 +11,9 @@ dbs = getcfg('discovery.databases')
 
 
 db_managers: Dict[str, ManagerBase] = {
-    'chebi': ChebiManager(),
-    'hmdb': HmdbManager(),
-    'lipidmaps': LipidMapsManager(),
+    'chebi': ChebiManager(getcfg('hmdb')),
+    'hmdb': HmdbManager(getcfg('chebi')),
+    'lipidmaps': LipidMapsManager(getcfg('lipidmaps')),
 }
 
 
@@ -23,6 +23,10 @@ def getdb(dbid):
         dbid = dbid[:-3]
 
     return db_managers[dbid]
+
+
+def get_db_ids():
+    return map(lambda s: s+'_id', db_managers.keys())
 
 
 def query_metabolite(metabolite: Metabolite):

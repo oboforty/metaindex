@@ -10,10 +10,10 @@ from .entities.Metabolite import Metabolite
 from .entities.SecondaryID import SecondaryID
 
 from .base.sqlite import EntityBase
+from .base.meta_repo import MetaboliteDataRepositoryBase
 
 from .views.user import UserView
-from .views.MetaboliteScalar import MetaboliteScalar
-
+from .views.metabolites import MetaboliteScalar, MetaboliteView
 
 from .repositories.users import UserRepository
 from .repositories.chebi import ChebiDataRepository

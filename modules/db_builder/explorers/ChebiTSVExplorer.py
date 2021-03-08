@@ -1,4 +1,4 @@
-from ..services.explore.chebi_tsv import parse_chebi_tsv
+from modules.db_builder.services.explore.chebi_tsv import parse_chebi_tsv
 
 
 class ChebiTSVExplorer:

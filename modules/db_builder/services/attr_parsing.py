@@ -16,6 +16,7 @@ def process_general_attributes(r, flavor: str):
     strip_attr(r, 'chebi_id', 'CHEBI:')
     strip_attr(r, 'chebi_id_alt', 'CHEBI:')
     strip_attr(r, 'hmdb_id', 'HMDB')
+    strip_attr(r, 'lipidmaps_id', 'LM')
     strip_attr(r, 'inchi', 'InChI=')
 
     force_list(r, 'chebi_id_alt')

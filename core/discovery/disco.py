@@ -1,0 +1,156 @@
+from queue import Queue
+
+from core.dal import MetaboliteView
+from .db_handler import get_db_ids, getdb
+
+#from .utils import filter_requested_attr
+from .managers.ManagerBase import ManagerBase
+
+attr_refs = set(get_db_ids())
+attr_meta = attr_refs | {
+  "inchi", "inchikey", "smiles",
+  "names", "formula",
+  "charge", "mass", "monoisotopic_mass"
+}
+
+
+def resolve_metabolites(df: MetaboliteView, verbose: bool = False):
+    # data used in the algorithm:
+    #df_disc = transform_df(df)     # discovered Metabolite views
+    # todo: @temporal
+    df_disc = df
+    undiscovered = set()
+    secondary_ids = set()
+    ambigous = []
+    Q = Queue()
+    discovered = set()
+
+    #L = nrow(df_disc)
+
+    # todo: @later: how to filter which attributes to use
+    # todo: @temporal: for now, all is requested
+    #attr_df = filter_requested_attr(names(df_disc), attr_meta)
+    attr_df = attr_meta
+    #refids_req = intersect(attr_df, attr_refs)
+    refids_req = attr_refs
+
+    # queue initial items for the discover algorithm
+    for attr in refids_req:
+        # insert all reference IDs to the queue
+        db_id = getattr(df_disc, attr)
+
+        if not db_id:
+            Q.put((attr, db_id, "root", "-"))
+
+    while Q:
+        # Keep getting IDs out of the queue while it's not empty
+        db_tag,db_id,db_ref,db_ref_id = Q.get()
+        hand: ManagerBase = getdb(db_tag)
+
+        if not hand:
+            # unknown database type
+            undiscovered.add((db_tag,db_id,db_ref,db_ref_id))
+            return
+
+        # Query metabolite record from local database or web api
+        if verbose:
+            print(f"{db_ref}[{db_ref_id}] -> {db_tag}[{db_id}]")
+
+        # todo: itt: what type is DF result?
+        df_result = hand.query_primary(db_id)
+
+        # call API
+        if not df_result:
+            df_result = hand.fetch_api(db_id)
+
+            if df_result:
+                hand.save(db_id, df_result)
+
+
+        if not df_result:
+            # check if we get a hit treating 'db_id' as a secondary id
+            db_id_primary = find_by_secondary_id(db_tag, db_id)
+
+            if db_id_primary:
+                # put the primary ID in the queue again to be resolved
+                Q.put((db_tag, db_id_primary, "2nd_"+db_tag, db_id))
+
+                # exclude secondary ids from output dataframe
+                ids = getattr(df_disc, db_tag)
+                setattr(df_disc, db_tag, ids - {db_id})
+
+                # and add it to a special list
+                secondary_ids.add((db_tag, db_id))
+            else:
+                # none of the fallback strategies have worked, mark as 'undiscovered'
+                undiscovered.add((db_tag,db_id,db_ref,db_ref_id))
+
+            continue
+
+        # df_result != null => mark discovered
+        # todo: this is not needed (see 100th line)
+        discovered.add((db_tag, db_id))
+
+        # merge result with previously discovered data
+        df_disc.update(df_result)
+
+        # parse novel reference IDs found in the API result and add them to queue
+        for new_db_tag in refids_req:
+            new_db_id = df_result[[1, new_db_tag]]
+
+            # check if such dbid is present in the record
+            if new_db_id and (new_db_tag, new_db_id) not in discovered:
+                if new_db_id != db_id or new_db_tag != db_tag:
+                    # enqueue for exploration, but only if it hasn't occured before
+                    # Format: (db_tag, db_id, db_tag that referenced this id)
+                    Q.put((new_db_tag, new_db_id, db_tag, db_id))
+                    discovered.add((new_db_tag, new_db_id))
+
+        if not Q:
+            # once we ran out of ids to explore, try reverse queries
+            for db_tag_missing in refids_req:
+                if not getattr(df_disc, db_tag_missing):
+                    # if (!verbose)
+                    #   print(sprintf("Reverse-querying: %s", db_tag_missing))
+
+                    # this db reference is still missing, try querying in reverse
+                    hand = getdb(db_tag_missing)
+                    db_ids = hand.query_reverse(df_disc)
+
+                    for db_id_missing in db_ids:
+                        # put these newly discovered ids to the queue
+                        if (db_tag_missing, db_id_missing) not in discovered:
+                            Q.put((db_tag_missing, db_id_missing, "reversed", "-"))
+
+    # post parse data
+    # todo: find ambigous data
+
+    # Return complex output of everything
+    resp = dict(
+        df=df_disc,
+
+        # discovered = lapply(discovered, as_vector),
+        undiscovered=undiscovered,
+        secondary=secondary_ids,
+        ambigous=ambigous
+    )
+
+    # if (verbose & & length(resp$undiscovered) > 0):
+    #     warning("You have undiscovered metabolite IDs! Check return$undiscovered for details_")
+
+    return resp
+
+
+def resolve_single_id(start_db_tag, start_db_id):
+    # Create initial dataframe from user input:
+    df_res = MetaboliteView()
+    setattr(df_res, start_db_tag, {start_db_id})
+
+    # call the resolve algorithm
+    return resolve_metabolites(df_res)
+
+
+def find_by_secondary_id(db_tag, db_id):
+    # todo: use repo
+
+    return None

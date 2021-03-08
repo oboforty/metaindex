@@ -1,10 +1,9 @@
 from eme.data_access import Repository, RepositoryBase
 
+from ..base.meta_repo import MetaboliteDataRepositoryBase
 from ..entities.dbdata.hmdb import HMDBData
 
 
 @Repository(HMDBData)
-class HMDBDataRepository(RepositoryBase):
-
-    def get_first(self):
-        return self.session.query(HMDBData).first()
+class HMDBDataRepository(MetaboliteDataRepositoryBase):
+    primary_id = 'hmdb_id'

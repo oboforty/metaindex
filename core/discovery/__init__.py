@@ -1,4 +1,7 @@
+# DB handlers:
 from core.discovery.db_handler import getdb, query_metabolite, db_managers
 from core.discovery.settings import getcfg
 
-# todo: discover & discover_df & etc
+# discovery algorithm & useful util funcs:
+from core.discovery.disco import resolve_metabolites, resolve_single_id, find_by_secondary_id
+from core.discovery.utils import id_to_url, guess_db

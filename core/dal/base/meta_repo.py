@@ -4,6 +4,9 @@ from eme.data_access import RepositoryBase
 class MetaboliteDataRepositoryBase(RepositoryBase):
     primary_id = None
 
+    def select(self):
+        return self.session.query(self.primary_id)
+
     def get_first(self):
         return self.session.query(self.T).first()
 

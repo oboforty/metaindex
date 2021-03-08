@@ -10,9 +10,12 @@ Add levensthein distance (EME?)
 class SearchItem(EntityBase):
     __tablename__ = 'search_items'
 
-    search_value = Column(String(128), primary_key=True, nullable=False)
-    search_key = Column(String(64), primary_key=True, nullable=False)
+    # TODO: order of pkey
+    search_attr = Column(String(64), nullable=False)
+    search_value = Column(String(128), nullable=False)
 
-    result_value = Column(String(128), nullable=False)
-    result_key = Column(String(64), nullable=True)
+    entity_type = Column(String(64))
+    entity_id = Column(String(64))
 
+    # flask endpoint or url
+    url = Column(String(256))
