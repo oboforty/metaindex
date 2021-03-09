@@ -23,14 +23,18 @@ def create_empty_record(n, cnames, cvectors=None):
 #     inchikey
 #     formula
 
+_PADDINGS = {
+    'hmdb_id': 'HMDB',
+    'chebi_id': 'CHEBI:',
+    #'kegg_id': 'C',
+    'lipidmaps_id': 'LM',
+}
+
 
 def guess_db(db_id: str):
-    if db_id.startswith('HMDB'):
-        return 'hmdb_id'
-    elif db_id.startswith('CHEBI:'):
-        return 'chebi_id'
-    elif db_id.startswith('C'):
-        return 'kegg_id'
+    for db_tag, _pad in _PADDINGS.items():
+        if db_id.startswith(_pad):
+            return db_tag
 
 
 def id_to_url(db_id, db_tag=None):
@@ -55,6 +59,30 @@ def id_to_url(db_id, db_tag=None):
         url = f"https://www.lipidmaps.org/data/LMSDRecord.php?LMID={db_id}"
 
     return url
+
+
+def depad_id(db_id, db_tag=None):
+    if db_tag is None:
+        db_tag = guess_db(db_id)
+
+        if db_tag is None:
+            raise Exception("db_tag not provided for depad_id. How couldst i depad yond hast mere db tag?")
+
+    padding = _PADDINGS.get(db_tag)
+
+    if padding is not None and db_id.startswith(padding):
+        return db_id[len(padding):]
+
+    return db_id
+
+
+def pad_id(db_id, db_tag):
+    padding = _PADDINGS[db_tag]
+
+    if not db_id.startswith(padding):
+        return padding+db_id
+
+    return db_id
 
 
 def merge_attr(mv: MetaboliteView, attr, _val2):

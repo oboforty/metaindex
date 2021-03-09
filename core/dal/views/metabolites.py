@@ -62,6 +62,18 @@ class MetaboliteView:
     inchikey: set = field(default_factory=set)
     formula: set = field(default_factory=set)
 
+    def update(self, df):
+        for ref_tag, _ref_ids in self.refs:
+            _ref_ids.update(getattr(df, ref_tag))
+
+        for attr, val in self.attributes:
+            if attr == 'names': continue
+
+            val.update(getattr(df, attr))
+
+        if df.names is not None:
+            self.names.extend(df.names)
+
     @property
     def view(self):
         return self.__dict__.copy()
@@ -70,39 +82,41 @@ class MetaboliteView:
     def primary_name(self):
         return "ehh"
 
-    def update(self, df):
-        if df.chebi_id is not None:
-            self.chebi_id.update(df.chebi_id)
-        if df.kegg_id is not None:
-            self.kegg_id.update(df.kegg_id)
-        if df.hmdb_id is not None:
-            self.hmdb_id.update(df.hmdb_id)
-        if df.lipidmaps_id is not None:
-            self.lipidmaps_id.update(df.lipidmaps_id)
-        if df.pubchem_id is not None:
-            self.pubchem_id.update(df.pubchem_id)
-        if df.cas_id is not None:
-            self.cas_id.update(df.cas_id)
-        if df.ref_etc is not None:
-            self.ref_etc.update(df.ref_etc)
-        if df.names is not None:
-            self.names.extend(df.names)
-        if df.description is not None:
-            self.description.update(df.description)
-        if df.charge is not None:
-            self.charge.update(df.charge)
-        if df.mass is not None:
-            self.mass.update(df.mass)
-        if df.monoisotopic_mass is not None:
-            self.monoisotopic_mass.update(df.monoisotopic_mass)
-        if df.smiles is not None:
-            self.smiles.update(df.smiles)
-        if df.inchi is not None:
-            self.inchi.update(df.inchi)
-        if df.inchikey is not None:
-            self.inchikey.update(df.inchikey)
-        if df.formula is not None:
-            self.formula.update(df.formula)
+    @property
+    def refs(self):
+        yield 'chebi_id', self.chebi_id
+        yield 'hmdb_id', self.hmdb_id
+        yield 'lipidmaps_id', self.lipidmaps_id
+        yield 'pubchem_id', self.pubchem_id
+        yield 'cas_id', self.cas_id
+        yield 'kegg_id', self.kegg_id
+        yield 'metlin_id', self.metlin_id
+
+        # todo: should we care about refs? the relevant IDs should already been merged to the ids above!
+        # for _ref_tag, _xtra_refs in self.ref_etc.items():
+        #     for _ref_id in _xtra_refs:
+        #         yield _ref_tag, _ref_id
+
+    @property
+    def refs_flat(self):
+        # yield only the references that are present as flat (tag, id) enumerable
+        for _tag, _ids in self.refs:
+            if _ids:
+                for _id in _ids:
+                    if _id: # this should be checked because {None} sets are possible... boo
+                        yield _tag, _id
+
+    @property
+    def attributes(self):
+        yield 'names', self.names
+        yield 'description', self.description
+        yield 'charge', self.charge
+        yield 'mass', self.mass
+        yield 'monoisotopic_mass', self.monoisotopic_mass
+        yield 'smiles', self.smiles
+        yield 'inchi', self.inchi
+        yield 'inchikey', self.inchikey
+        yield 'formula', self.formula
 
     def __repr__(self):
         return self.names[0]

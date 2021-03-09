@@ -2,9 +2,9 @@ from queue import Queue
 
 from core.dal import MetaboliteView
 from .db_handler import get_db_ids, getdb
-
-#from .utils import filter_requested_attr
+from .utils import depad_id, pad_id
 from .managers.ManagerBase import ManagerBase
+
 
 attr_refs = set(get_db_ids())
 attr_meta = attr_refs | {
@@ -30,42 +30,30 @@ def resolve_metabolites(df: MetaboliteView, verbose: bool = False):
     # todo: @later: how to filter which attributes to use
     # todo: @temporal: for now, all is requested
     #attr_df = filter_requested_attr(names(df_disc), attr_meta)
-    attr_df = attr_meta
+    #attr_df = attr_meta
     #refids_req = intersect(attr_df, attr_refs)
     refids_req = attr_refs
 
     # queue initial items for the discover algorithm
-    for attr in refids_req:
+    for db_tag, db_id in df_disc.refs_flat:
         # insert all reference IDs to the queue
-        db_id = getattr(df_disc, attr)
+        Q.put((db_tag, depad_id(db_id, db_tag), "root", "-"))
 
-        if not db_id:
-            Q.put((attr, db_id, "root", "-"))
-
-    while Q:
+    while Q.qsize() > 0:
         # Keep getting IDs out of the queue while it's not empty
-        db_tag,db_id,db_ref,db_ref_id = Q.get()
+        db_tag, db_id, db_ref, db_ref_id = Q.get()
         hand: ManagerBase = getdb(db_tag)
 
         if not hand:
             # unknown database type
             undiscovered.add((db_tag,db_id,db_ref,db_ref_id))
-            return
+            continue
 
         # Query metabolite record from local database or web api
         if verbose:
             print(f"{db_ref}[{db_ref_id}] -> {db_tag}[{db_id}]")
 
-        # todo: itt: what type is DF result?
-        df_result = hand.query_primary(db_id)
-
-        # call API
-        if not df_result:
-            df_result = hand.fetch_api(db_id)
-
-            if df_result:
-                hand.save(db_id, df_result)
-
+        df_result: MetaboliteView = hand.get_metabolite(db_id)
 
         if not df_result:
             # check if we get a hit treating 'db_id' as a secondary id
@@ -95,11 +83,9 @@ def resolve_metabolites(df: MetaboliteView, verbose: bool = False):
         df_disc.update(df_result)
 
         # parse novel reference IDs found in the API result and add them to queue
-        for new_db_tag in refids_req:
-            new_db_id = df_result[[1, new_db_tag]]
-
+        for new_db_tag, new_db_id in df_result.refs_flat:
             # check if such dbid is present in the record
-            if new_db_id and (new_db_tag, new_db_id) not in discovered:
+            if (new_db_tag, new_db_id) not in discovered:
                 if new_db_id != db_id or new_db_tag != db_tag:
                     # enqueue for exploration, but only if it hasn't occured before
                     # Format: (db_tag, db_id, db_tag that referenced this id)
@@ -110,8 +96,9 @@ def resolve_metabolites(df: MetaboliteView, verbose: bool = False):
             # once we ran out of ids to explore, try reverse queries
             for db_tag_missing in refids_req:
                 if not getattr(df_disc, db_tag_missing):
-                    # if (!verbose)
-                    #   print(sprintf("Reverse-querying: %s", db_tag_missing))
+
+                    if verbose:
+                        print(f'Reverse-querying: {db_tag_missing}')
 
                     # this db reference is still missing, try querying in reverse
                     hand = getdb(db_tag_missing)
@@ -125,10 +112,12 @@ def resolve_metabolites(df: MetaboliteView, verbose: bool = False):
     # post parse data
     # todo: find ambigous data
 
+    # TODO: ITT: trim data n shit
+
+    # TODO: smart_trim ? return scalars as scalars instead of sets with len 1
+
     # Return complex output of everything
     resp = dict(
-        df=df_disc,
-
         # discovered = lapply(discovered, as_vector),
         undiscovered=undiscovered,
         secondary=secondary_ids,
@@ -138,16 +127,16 @@ def resolve_metabolites(df: MetaboliteView, verbose: bool = False):
     # if (verbose & & length(resp$undiscovered) > 0):
     #     warning("You have undiscovered metabolite IDs! Check return$undiscovered for details_")
 
-    return resp
+    return df_disc, resp
 
 
-def resolve_single_id(start_db_tag, start_db_id):
+def resolve_single_id(start_db_tag, start_db_id, verbose=False):
     # Create initial dataframe from user input:
     df_res = MetaboliteView()
     setattr(df_res, start_db_tag, {start_db_id})
 
     # call the resolve algorithm
-    return resolve_metabolites(df_res)
+    return resolve_metabolites(df_res, verbose=verbose)
 
 
 def find_by_secondary_id(db_tag, db_id):

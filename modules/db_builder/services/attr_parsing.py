@@ -9,7 +9,6 @@ def process_general_attributes(r, flavor: str):
         flatten_hmdb_hierarchies(r)
 
         for k, v in r.items():
-
             # todo: process extra refs?
             r[k] = flatten_list(v)
 
@@ -38,6 +37,17 @@ def process_general_attributes(r, flavor: str):
             # 'pubmed_id',
         ])
 
+    elif flavor == 'pubchem':
+        # pubchem requires special attention
+
+        process_extra_refs(r, [
+            'pubchem_id'
+            'hmdb_id', 'chebi_id', 'kegg_id', 'cas_id',
+            'chemspider_id',
+
+            'mass', 'formula',
+            'inchi', 'inchikey',
+        ])
 
 def process_extra_refs(r, attr_arr, ex_attr=None):
     if ex_attr is None:

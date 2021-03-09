@@ -57,7 +57,7 @@ def download_file_ftp(url, local_filename, username, password):
     print('All files downloaded for ' + str(diff.seconds) + 's')
 
 
-def parse_xml_recursive(context, cur_elem=None, _mapping: dict = None, tag_path=None):
+def parse_xml_recursive(context, cur_elem=None, _mapping: dict = None, tag_path=None, has_xmlns=True):
     items = defaultdict(list)
 
     if _mapping is None:
@@ -74,12 +74,12 @@ def parse_xml_recursive(context, cur_elem=None, _mapping: dict = None, tag_path=
         # print("{0:>6} : {1:20} {2:20} '{3}'".format(action, elem.tag, elem.attrib, str(elem.text).strip()))
 
         if action == "start":
-            tag = elem.tag.split('}', 1)[1]
+            tag = elem.tag.split('}', 1)[1] if has_xmlns else elem.tag
             tag_path.append(tag)
             state = '.'.join(tag_path)
             state = _mapping.get(state.lower(), tag)
 
-            items[state].append(parse_xml_recursive(context, elem, _mapping=_mapping, tag_path=tag_path))
+            items[state].append(parse_xml_recursive(context, elem, _mapping=_mapping, tag_path=tag_path, has_xmlns=has_xmlns))
         elif action == "end":
             text = elem.text.strip() if elem.text else None
 

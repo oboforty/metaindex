@@ -1,7 +1,11 @@
+import requests
 from eme.data_access import get_repo
 
+from core.dal import HMDBData
+from core.parsers import parse_hmdb_str_xml
+from core.discovery.utils import pad_id
+
 from .ManagerBase import ManagerBase
-from ...dal.entities.dbdata.hmdb import HMDBData
 
 
 class HmdbManager(ManagerBase):
@@ -27,6 +31,16 @@ class HmdbManager(ManagerBase):
             'pubchem_id', 'kegg_id', 'chebi_id',
         )
 
-    def fetch_api(self, db_id):
-        print("TODO API")
-        return None
+    def fetch_api(self, db_id, save_cached=True):
+        db_id = pad_id(db_id, 'hmdb_id')
+        r = requests.get(url=f'http://www.hmdb.ca/metabolites/{db_id}.xml')
+
+        if r.status_code != 200 and r.status_code != 304:
+            return None
+
+        data: HMDBData = parse_hmdb_str_xml(r.content)
+
+        if save_cached:
+            self.repo.create(data)
+
+        return self.to_view(data)

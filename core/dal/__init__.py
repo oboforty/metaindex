@@ -19,8 +19,8 @@ from .repositories.users import UserRepository
 from .repositories.chebi import ChebiDataRepository
 from .repositories.lipidmaps import LipidMapsDataRepository
 from .repositories.hmdb import HMDBDataRepository
-#from .repositories.kegg import KeggDataRepository
-#from .repositories.pubchem import PubChemDataRepository
+from .repositories.kegg import KeggDataRepository
+from .repositories.pubchem import PubChemDataRepository
 
 
 def drop_order():

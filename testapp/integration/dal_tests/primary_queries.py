@@ -1,14 +1,7 @@
-
-"""
-This tests DAL accesses used in discovery
-
-- primary query
-- reverted query
-- secondary resolve
-- api fetch
-- query multiple
-"""
+from core.dal import MetaboliteView
 from core.discovery import getdb
+from testapp.utils.testutils import gecc
+
 
 _test_primary = [
     ('hmdb_id', 'HMDB0000010'),
@@ -27,24 +20,15 @@ _test_primary = [
     ('lipidmaps_id', 'FA01030327'),
 ]
 
-_test_reverse = [
-]
 
-_test_api = [
-]
-
-_test_secondary = [
-]
-
-_test_multiple = [
-]
-
-#TODO: ITT
-
+"""
+  Primary database queries
+"""
+print("\nPrimary queries:")
 for db_tag, db_id in _test_primary:
     hand = getdb(db_tag)
 
     print(f"\rQuerying {db_tag} = {db_id}...", end="")
 
-    res = hand.query_primary(db_id)
+    res: MetaboliteView = hand.query_primary(db_id)
     print(f"\r{db_id} ({db_tag}) ==> {res}")

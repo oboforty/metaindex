@@ -1,12 +1,13 @@
 from eme.data_access import get_repo
 
 from .ManagerBase import ManagerBase
-from ...dal.entities.dbdata.lipidmaps import LipidMapsData
+from core.dal import LipidMapsData
+from core.discovery.utils import pad_id
 
 
 class LipidMapsManager(ManagerBase):
     def __init__(self, dbconf):
-        self.name = 'hmdb'
+        self.name = 'lipidmaps'
         self.repo = get_repo(LipidMapsData)
         self.conf = dbconf
 
@@ -23,5 +24,6 @@ class LipidMapsManager(ManagerBase):
         )
 
     def fetch_api(self, db_id):
-        print("TODO API")
-        return None
+        url = f'https://www.lipidmaps.org/rest/compound/lm_id/{pad_id(db_id, "lipidmaps_id")}/all/'
+
+        # todo : json parse

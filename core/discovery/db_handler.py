@@ -1,6 +1,8 @@
 from .managers.ChebiManager import ChebiManager
 from .managers.HmdbManager import HmdbManager
 from .managers.LipidMapsManager import LipidMapsManager
+from .managers.KeggManager import KeggManager
+from .managers.PubchemManager import PubchemManager
 from .managers.ManagerBase import ManagerBase
 
 from core.dal import Metabolite
@@ -14,6 +16,8 @@ db_managers: Dict[str, ManagerBase] = {
     'chebi': ChebiManager(getcfg('hmdb')),
     'hmdb': HmdbManager(getcfg('chebi')),
     'lipidmaps': LipidMapsManager(getcfg('lipidmaps')),
+    'kegg': KeggManager(getcfg('kegg')),
+    'pubchem': PubchemManager(getcfg('pubchem')),
 }
 
 
@@ -22,7 +26,7 @@ def getdb(dbid):
     if '_id' in dbid:
         dbid = dbid[:-3]
 
-    return db_managers[dbid]
+    return db_managers.get(dbid, None)
 
 
 def get_db_ids():
