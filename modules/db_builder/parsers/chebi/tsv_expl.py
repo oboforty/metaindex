@@ -1,6 +1,6 @@
 
 
-def parse_chebi_tsv(path_fn):
+def explore_chebi_tsv(path_fn):
 
     foreign = set()
 

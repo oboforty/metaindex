@@ -1,46 +1,51 @@
-from modules.search.dal.entity import SearchItem
-
-search_tables = {
-    SearchItem
-}
-
-# and SEARCH_TYPES config file + service + CLI
-def init_search(app, conf):
-
-    pass
+from eme.data_access import get_repo
 from sqlalchemy import and_, func
-
 from core.dal.ctx import get_session
-#from .entity import SearchItem
 
-sess = None
+from ..dal.entity import SearchItem
+
+"""
+Add levensthein distance (EME?)
+ https://towardsdatascience.com/fuzzy-matching-with-levenshtein-and-postgresql-ed66cad01c03
+
+"""
+_searches: dict
 
 
-def init_qb():
-    global sess
+def init_search(app, conf):
+    global _searches
+    _searches = conf
 
+
+def search(search: str, attrs: list = None):
     sess = get_session()
 
-
-def search(search_type):
-
-    # todo: itt:    how to cache non-id attrs, when they're not present in Metabolite?
-    # todo:         if we do store them in Metabolite, that's redundant!
-    # todo:         ... and the eme-search is pointless to exist
-    # todo:         but if we don't, then we can't configure search as easily
-    # todo:         ---> make custom search code and fuck eme module?
-    # todo  -----------------> then put this logic into DAL <-------------------
-
-    # names
-    # description
-    # charge
-    # mass
-    # monoisotopic_mass
-    # smiles
-    # inchi
-    # inchikey
-    # formula
-
     q = sess.query(SearchItem)\
-        .filter(SearchItem.entity_type)
-        .all()
+        .filter(SearchItem.search_term == search)
+
+    if attrs:
+        q = q.filter(SearchItem.search_attr.in_(attrs))
+
+    # .all()
+    return q
+
+
+def cache_search(entities):
+    global _searches
+    sess = get_session()
+
+    # todo: @temporal: no subents
+    ent = entities[0]
+    cfg = _searches[ent.search_entity]
+
+    repo = get_repo(SearchItem)
+
+    for attr in cfg['attributes']:
+        st = SearchItem()
+        st.search_attr = f'{ent.search_entity}.{attr}'
+        st.search_term = getattr(ent, attr)
+        st.endpoint, st.entity_id = ent.search_endpoint
+
+        repo.create(st, commit=False)
+
+    repo.commit()

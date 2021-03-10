@@ -1,7 +1,7 @@
 from abc import abstractmethod, ABCMeta
 
 from core.dal import MetaboliteDataRepositoryBase, MetaboliteView
-from core.discovery.utils import merge_attr, depad_id
+from core.discovery.utils import merge_attr, depad_id, pad_id
 
 
 class ManagerBase(metaclass=ABCMeta):
@@ -14,42 +14,29 @@ class ManagerBase(metaclass=ABCMeta):
 
     repo: MetaboliteDataRepositoryBase
 
-    def get_metabolite(self, db_id):
+    def get_metabolite(self, db_id, cache=True):
         """
         Fetches record from cache or public API
         """
+        db_tag = self.repo.primary_id
+        db_data = self.repo.get(depad_id(db_id, db_tag))
 
-        cached = self.query_primary(db_id)
+        if not db_data:
+            # fetch public API in case the data record wasn't found
+            print("API")
+            db_data = self.fetch_api(pad_id(db_id, db_tag), meta_view=False)
 
-        if not cached:
+            if db_data and cache:
+                self.repo.create(db_data)
 
-            self.fetch_api(db_id)
-
-            print("TDOO")
-
-        #
-        # def save(self, db_id, df_result):
-        #     self.repo.create(df_result)
-
-        # @abstractmethod
-        # def fetch_api(self, db_id):
-        #     pass
-        #
-        # # call API
-        # if not df_result:
-        #     df_result = hand.fetch_api(db_id)
-        #
-        #     if df_result:
-        #         hand.save(db_id, df_result)
-
-    def query_primary(self, db_id) -> MetaboliteView:
-        db_data = self.repo.get(depad_id(db_id, self.repo.primary_id))
-
-        if db_data is None:
-            # not found
-            return None
-
+        # transform data to common interface
         return self.to_view(db_data)
+
+    def query_primary(self, db_id, meta_view: bool = True) -> MetaboliteView:
+        db_tag = self.repo.primary_id
+        db_data = self.repo.get(depad_id(db_id, db_tag))
+
+        return self.to_view(db_data) if meta_view else db_data
 
     def query_reverse(self, df_disc):
         q = self.repo.select()
@@ -81,13 +68,16 @@ class ManagerBase(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def fetch_api(self, db_id, save_cached=True):
+    def fetch_api(self, db_id, meta_view: bool = True):
         pass
 
     def to_view(self, db_data) -> MetaboliteView:
         """
             Converts [DB]Data into generalized Metabolite view
         """
+        if db_data is None:
+            return None
+
         mv = MetaboliteView()
         mv.meta_id = None
 

@@ -17,13 +17,13 @@ class KeggData(EntityBase):
     cas_id = Column(String(20))
 
     ref_etc = Column(JSON_GEN())     # Extra ref Refs
-    chemspider_id = Column(String(24))
-    metlin_id = Column(String(24))
-    pubchem_sub_id = Column(String(24))
-    wiki_id = Column(String(24))
-    drugbank_id = Column(String(24))
-    pdb_id = Column(String(24))
-    pubmed_id = Column(String(24))
+    #chemspider_id = Column(String(24))
+    #metlin_id = Column(String(24))
+    #pubchem_sub_id = Column(String(24))
+    # wiki_id = Column(String(24))
+    # drugbank_id = Column(String(24))
+    # pdb_id = Column(String(24))
+    # pubmed_id = Column(String(24))
 
 
     # Shared metadata

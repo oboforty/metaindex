@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 
+from flask import url_for
+
 
 @dataclass
 class MetaboliteScalar:
@@ -81,6 +83,14 @@ class MetaboliteView:
     @property
     def primary_name(self):
         return "ehh"
+
+    @property
+    def search_entity(self):
+        return self.__class__.__name__
+
+    @property
+    def search_endpoint(self):
+        return 'Metabolite.get', self.meta_id
 
     @property
     def refs(self):

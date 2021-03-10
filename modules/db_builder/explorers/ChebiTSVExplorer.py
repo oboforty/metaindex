@@ -1,10 +1,10 @@
-from modules.db_builder.services.explore.chebi_tsv import parse_chebi_tsv
+from modules.db_builder.parsers.chebi.tsv_expl import explore_chebi_tsv
 
 
 class ChebiTSVExplorer:
 
     def __init__(self, conf):
-        self.path = conf['bulk_db']['base'] + conf['bulk_db']['chebi_tsv']
+        self.path = conf['base'] + conf['chebi_tsv']
 
     def run(self):
-        parse_chebi_tsv(self.path)
+        explore_chebi_tsv(self.path)

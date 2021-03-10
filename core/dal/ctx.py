@@ -39,9 +39,9 @@ def set_session(sess, sessid='db'):
 
 
 def get_session(force=False):
-    if force:
-        global db_session
+    global db_session
 
+    if force:
         db_session.close()
         db_session = Session()
 

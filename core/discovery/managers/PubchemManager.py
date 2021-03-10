@@ -3,7 +3,8 @@ from eme.data_access import get_repo
 
 from .ManagerBase import ManagerBase
 from core.dal import PubChemData
-from core.parsers import parse_pubchem
+
+from modules.db_builder import parse_pubchem
 
 
 class PubchemManager(ManagerBase):
@@ -28,7 +29,7 @@ class PubchemManager(ManagerBase):
             'chebi_id', 'hmdb_id', 'kegg_id'
         )
 
-    def fetch_api(self, db_id, save_cached=True):
+    def fetch_api(self, db_id, meta_view=True):
         r = requests.get(url=f'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{db_id}/json')
         r2 = requests.get(url=f'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{db_id}/xrefs/SourceName,RegistryID/JSON')
 
@@ -40,7 +41,4 @@ class PubchemManager(ManagerBase):
 
         data = parse_pubchem(db_id, r.text, r2.text)
 
-        if save_cached:
-            self.repo.create(data)
-
-        return self.to_view(data)
+        return self.to_view(data) if meta_view else data

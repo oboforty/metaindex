@@ -1,16 +1,27 @@
 {
-  "metabolites": {
-    "entity_map": [
-      {
-        "entity": "Metabolite",
-        "search_attr": [
-          ""
-        ]
-      }
+  "MetaboliteView": {
+
+    "attributes": [
+      "meta_id",
+      "names",
+      "chebi_id",
+      "kegg_id",
+      "hmdb_id",
+      "lipidmaps_id",
+      "pubchem_id",
+      "cas_id",
+      "metlin_id",
+      "description",
+      "charge",
+      "mass",
+      "monoisotopic_mass",
+      "smiles",
+      "inchi",
+      "inchikey",
+      "formula"
+    ],
+
+    "subentities": [
     ]
-  },
-
-  "website": {
-
   }
 }

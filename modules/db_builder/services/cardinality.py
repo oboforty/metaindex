@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from .attr_parsing import rlen
+from ..parsers.lib import rlen
 
 
 def start_count():

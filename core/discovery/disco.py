@@ -14,7 +14,7 @@ attr_meta = attr_refs | {
 }
 
 
-def resolve_metabolites(df: MetaboliteView, verbose: bool = False):
+def resolve_metabolites(df: MetaboliteView, verbose: bool = False, cache: bool = True):
     # data used in the algorithm:
     #df_disc = transform_df(df)     # discovered Metabolite views
     # todo: @temporal
@@ -53,11 +53,11 @@ def resolve_metabolites(df: MetaboliteView, verbose: bool = False):
         if verbose:
             print(f"{db_ref}[{db_ref_id}] -> {db_tag}[{db_id}]")
 
-        df_result: MetaboliteView = hand.get_metabolite(db_id)
+        df_result: MetaboliteView = hand.get_metabolite(db_id, cache=cache)
 
         if not df_result:
             # check if we get a hit treating 'db_id' as a secondary id
-            db_id_primary = find_by_secondary_id(db_tag, db_id)
+            db_id_primary = hand.resolve_secondary_id(db_id)
 
             if db_id_primary:
                 # put the primary ID in the queue again to be resolved
@@ -130,16 +130,10 @@ def resolve_metabolites(df: MetaboliteView, verbose: bool = False):
     return df_disc, resp
 
 
-def resolve_single_id(start_db_tag, start_db_id, verbose=False):
+def resolve_single_id(start_db_tag, start_db_id, verbose=False, cache=True):
     # Create initial dataframe from user input:
     df_res = MetaboliteView()
     setattr(df_res, start_db_tag, {start_db_id})
 
     # call the resolve algorithm
-    return resolve_metabolites(df_res, verbose=verbose)
-
-
-def find_by_secondary_id(db_tag, db_id):
-    # todo: use repo
-
-    return None
+    return resolve_metabolites(df_res, verbose=verbose, cache=cache)

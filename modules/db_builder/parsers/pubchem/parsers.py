@@ -3,10 +3,43 @@ import re
 from collections import defaultdict
 
 from core.dal import PubChemData
-from modules.db_builder import process_general_attributes
+from modules.db_builder.parsers.lib import strip_attr, force_list, force_flatten_extra_refs, flatten_refs
+from modules.db_builder.parsers.pubchem.utils import split_pubchem_ids
+
+_mapping: dict
+
+
+def init_mapping(_map):
+    global _mapping
+    _mapping = _map
+
+
+def metajson_transform(me):
+    flatten_refs(me)
+
+    strip_attr(me, 'chebi_id', 'CHEBI:')
+    strip_attr(me, 'hmdb_id', 'HMDB')
+    strip_attr(me, 'lipidmaps_id', 'LM')
+    strip_attr(me, 'inchi', 'InChI=')
+
+    force_list(me, 'names')
+
+    #split_pubchem_ids(me)
+
+    # force non-scalars into extra refs
+    force_flatten_extra_refs(me)
 
 
 def parse_pubchem(db_id, c0,c1):
+    """
+    Parses API response for PubChem
+
+    :param db_id:
+    :param c0:
+    :param c1:
+    :return:
+    """
+
     data = defaultdict(list)
     _refs = defaultdict(list)
 
@@ -64,12 +97,8 @@ def parse_pubchem(db_id, c0,c1):
         else:
             data[label] = prop['value']
 
-    process_general_attributes(data, flavor='pubchem')
-    process_general_attributes(_refs, flavor='pubchem')
+    # merge and transform to standard json
+    data.update(_refs)
+    metajson_transform(data)
 
-    q = _refs['ref_etc']
-    p = data.pop('ref_etc')
-    for k,v in p.items():
-        q[k].append(v)
-
-    return PubChemData(pubchem_id=pubchem_id, **data, **_refs)
+    return PubChemData(pubchem_id=pubchem_id, **data)

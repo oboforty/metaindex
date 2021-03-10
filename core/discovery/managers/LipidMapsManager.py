@@ -23,7 +23,8 @@ class LipidMapsManager(ManagerBase):
             'pubchem_id', 'kegg_id', 'hmdb_id', 'chebi_id',
         )
 
-    def fetch_api(self, db_id):
+    def fetch_api(self, db_id, meta_view=True):
         url = f'https://www.lipidmaps.org/rest/compound/lm_id/{pad_id(db_id, "lipidmaps_id")}/all/'
 
         # todo : json parse
+        #return self.to_view(data) if meta_view else data

@@ -22,6 +22,7 @@ class ChebiManager(ManagerBase):
             'pubchem_id', 'kegg_id', 'hmdb_id', 'lipidmaps_id',
         )
 
-    def fetch_api(self, db_id):
+    def fetch_api(self, db_id, meta_view=True):
         print("TODO API")
-        return None
+        #return self.to_view(data) if meta_view else data
+
