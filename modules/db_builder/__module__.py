@@ -3,12 +3,6 @@ import sys
 
 from eme.entities import load_handlers, load_settings
 
-from .parsers.chebi.parsers import init_mapping as init_chebi
-from .parsers.hmdb.parsers import init_mapping as init_hmdb
-from .parsers.pubchem.parsers import init_mapping as init_pubchem
-from .parsers.lipidmaps.parsers import init_mapping as init_lipidmaps
-from .parsers.kegg.parsers import init_mapping as init_kegg
-
 module_path = os.path.dirname(os.path.realpath(__file__))
 conf = load_settings(os.path.join(module_path, 'config.ini'))
 sys.path.append(module_path)
@@ -35,12 +29,7 @@ def init_wsapp(app, conf):
 
 
 def init_dal():
-    init_chebi(conf.get('mapping_chebi', {}))
-    init_hmdb(conf.get('mapping_hmdb', {}))
-    init_pubchem(conf.get('mapping_pubchem', {}))
-    init_lipidmaps(conf.get('mapping_lipidmaps', {}))
-    init_kegg(conf.get('mapping_kegg', {}))
-
+    pass
 
 
 def init_migration():

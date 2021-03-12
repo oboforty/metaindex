@@ -4,12 +4,16 @@ from core.dal.entities.dbdata.kegg import KeggData
 
 from modules.db_builder.parsers.lib import strip_attr, force_list, flatten_refs, force_flatten_extra_refs
 
-_mapping: dict
-
-
-def init_mapping(_map):
-    global _mapping
-    _mapping = _map
+_mapping = dict(
+    name='names',
+    exact_mass='monoisotopic_mass',
+    mol_weight="mass",
+    chebi='chebi_id',
+    lipidmaps='lipidmaps_id',
+    hmdb='hmdb_id',
+    pdb='pdb_id',
+    kegg='kegg_id',
+)
 
 
 def metajson_transform(me):
@@ -75,9 +79,10 @@ def parse_kegg(db_id, content):
             for db_id in ref_ids.split(" "):
                 _refs[db_tag].append(db_id)
         else:
-            data[state].append(line)
-            # todo: parse rest of file
-            pass
+            attr = _mapping.get(state.lower(), state.lower())
+            data[attr].append(line)
+
+    # todo: parse rest of file ?
 
     # merge and transform to standard json
     data.update(_refs)

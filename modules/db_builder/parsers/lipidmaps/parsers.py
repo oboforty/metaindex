@@ -1,12 +1,37 @@
+import json
+
+from core.dal.entities.dbdata.lipidmaps import LipidMapsData
 from modules.db_builder.parsers.lib import strip_attr, force_list, flatten_refs, force_flatten_extra_refs
 from modules.db_builder.parsers.pubchem.utils import split_pubchem_ids
 
-_mapping: dict
+_mapping = dict(
+    LM_ID='lipidmaps_id',
+    NAME='names',
+    SYSTEMATIC_NAME='names',
+    SYNONYMS='names',
+    ABBREVIATION='names',
 
+    EXACT_MASS='mass',
+    #SMILES='smiles',
+    #INCHI='inchi',
+    INCHI_KEY='inchikey',
+    #FORMULA='formula',
 
-def init_mapping(_map):
-    global _mapping
-    _mapping = _map
+    #KEGG_ID='kegg_id',
+    #HMDB_ID='hmdb_id',
+    #CHEBI_ID='chebi_id',
+    PUBCHEM_CID='pubchem_id',
+    pubchem_compound_id='pubchem_id',
+    #LIPIDBANK_ID='lipidbank_id',
+    #SWISSLIPIDS_ID='swisslipids_id',
+
+    wikipedia_id='wiki_id',
+
+    #CATEGORY='category',
+    #MAIN_CLASS='main_class',
+    #SUB_CLASS='sub_class',
+    CLASS_LEVEL4='lvl4_class',
+)
 
 
 def metajson_transform(me):
@@ -24,3 +49,26 @@ def metajson_transform(me):
     split_pubchem_ids(me)
 
     force_flatten_extra_refs(me)
+
+
+def parse_lipidmaps(db_id, content):
+    data = json.loads(content)
+
+    for k,k2 in _mapping.items():
+        k = k.lower()
+        k2 = k2.lower()
+
+        if k in data:
+            if k2 not in data:
+                data[k2] = []
+
+            v = data.pop(k)
+            if isinstance(v, (list, tuple, set)):
+                data[k2].extend(v)
+            else:
+                data[k2].append(v)
+
+    # reduce vectors to scalars:
+    metajson_transform(data)
+
+    return LipidMapsData(**data)

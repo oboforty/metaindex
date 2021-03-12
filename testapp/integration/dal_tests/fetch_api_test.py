@@ -5,13 +5,14 @@ from testapp.utils.testutils import gecc
 
 _api = [
     # todo: HMDB is buggy
-    #('hmdb_id', '0000010'),
-    ('pubchem_id', '440624'),
-    ('kegg_id', 'C05299'),
+    ##('hmdb_id', '0000010'),
+    #('pubchem_id', '440624'),
+    #('kegg_id', 'C05299'),
+    #('kegg_id', 'C02838')
 
     # todo: ITT:
-    # ('chebi_id', '1189'),
-    # ('lipidmaps_id', 'ST02010033'),
+    ('chebi_id', '1189'),
+    #('lipidmaps_id', 'ST02010033'),
     #('metlin_id', '2578')
 ]
 

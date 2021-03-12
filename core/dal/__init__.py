@@ -21,6 +21,8 @@ from .repositories.lipidmaps import LipidMapsDataRepository
 from .repositories.hmdb import HMDBDataRepository
 from .repositories.kegg import KeggDataRepository
 from .repositories.pubchem import PubChemDataRepository
+from .repositories.metabolites import MetaboliteRepository
+
 
 
 def drop_order():

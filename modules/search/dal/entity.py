@@ -11,3 +11,9 @@ class SearchItem(EntityBase):
 
     entity_id = Column(String(64))
     endpoint = Column(String(64))
+
+    def __init__(self, **kwargs):
+        self.search_attr = kwargs.get('search_attr')
+        self.search_term = kwargs.get('search_term')
+        self.entity_id = kwargs.get('entity_id')
+        self.endpoint = kwargs.get('endpoint')

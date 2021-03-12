@@ -17,19 +17,12 @@ class KeggData(EntityBase):
     cas_id = Column(String(20))
 
     ref_etc = Column(JSON_GEN())     # Extra ref Refs
-    #chemspider_id = Column(String(24))
-    #metlin_id = Column(String(24))
-    #pubchem_sub_id = Column(String(24))
-    # wiki_id = Column(String(24))
-    # drugbank_id = Column(String(24))
-    # pdb_id = Column(String(24))
-    # pubmed_id = Column(String(24))
-
+    pdb_id = Column(String(24))
 
     # Shared metadata
     names = Column(ARRAY(Text))
-    exact_mass = Column(Float)
-    mol_weight = Column(Float)
+    monoisotopic_mass = Column(Float)
+    mass = Column(Float)
 
     # Structure
     formula = Column(String(256))
@@ -37,12 +30,11 @@ class KeggData(EntityBase):
     # Other Fun Facts
     comments = Column(Text)
 
-
     def __init__(self, **kwargs):
         self.kegg_id = kwargs.get('kegg_id')
         self.names = kwargs.get('names')
-        self.exact_mass = kwargs.get('exact_mass')
-        self.mol_weight = kwargs.get('mol_weight')
+        self.monoisotopic_mass = kwargs.get('monoisotopic_mass')
+        self.mass = kwargs.get('mass')
         self.comments = kwargs.get('comments')
         self.formula = kwargs.get('formula')
         self.cas_id = kwargs.get('cas_id')
@@ -52,15 +44,15 @@ class KeggData(EntityBase):
         self.pubchem_id = kwargs.get('pubchem_id')
         self.ref_etc = kwargs.get('ref_etc')
 
-        if isinstance(self.mol_weight, str):
-            if not self.mol_weight:
-                self.mol_weight = None
+        if isinstance(self.monoisotopic_mass, str):
+            if not self.monoisotopic_mass:
+                self.monoisotopic_mass = None
             else:
-                self.mol_weight = float(self.mol_weight)
+                self.monoisotopic_mass = float(self.monoisotopic_mass)
 
-        if isinstance(self.exact_mass, str):
-            if not self.exact_mass:
-                self.exact_mass = None
+        if isinstance(self.mass, str):
+            if not self.mass:
+                self.mass = None
             else:
-                self.exact_mass = float(self.exact_mass)
+                self.mass = float(self.mass)
 

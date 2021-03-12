@@ -21,7 +21,7 @@ db_managers: Dict[str, ManagerBase] = {
 }
 
 
-def getdb(dbid):
+def getdb(dbid) -> ManagerBase:
     dbid = dbid.lower()
     if '_id' in dbid:
         dbid = dbid[:-3]

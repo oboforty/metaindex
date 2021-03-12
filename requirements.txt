@@ -5,3 +5,4 @@ requests
 pillow
 psycopg2
 playsound
+xmltodict

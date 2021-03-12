@@ -1,4 +1,3 @@
-from eme.data_access import get_repo
 from sqlalchemy import and_, func
 from core.dal.ctx import get_session
 
@@ -38,14 +37,19 @@ def cache_search(entities):
     ent = entities[0]
     cfg = _searches[ent.search_entity]
 
-    repo = get_repo(SearchItem)
-
     for attr in cfg['attributes']:
         st = SearchItem()
         st.search_attr = f'{ent.search_entity}.{attr}'
         st.search_term = getattr(ent, attr)
         st.endpoint, st.entity_id = ent.search_endpoint
 
-        repo.create(st, commit=False)
+        sess.add(st)
 
-    repo.commit()
+    sess.commit()
+
+
+def clear_table():
+    sess = get_session()
+
+    sess.execute(f'TRUNCATE TABLE {SearchItem.__tablename__}')
+    sess.commit()

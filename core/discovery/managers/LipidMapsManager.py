@@ -1,8 +1,10 @@
+import requests
 from eme.data_access import get_repo
 
 from .ManagerBase import ManagerBase
 from core.dal import LipidMapsData
-from core.discovery.utils import pad_id
+from ..utils import pad_id
+from modules.db_builder import parse_lipidmaps
 
 
 class LipidMapsManager(ManagerBase):
@@ -25,6 +27,8 @@ class LipidMapsManager(ManagerBase):
 
     def fetch_api(self, db_id, meta_view=True):
         url = f'https://www.lipidmaps.org/rest/compound/lm_id/{pad_id(db_id, "lipidmaps_id")}/all/'
+        r = requests.get(url=url)
 
-        # todo : json parse
-        #return self.to_view(data) if meta_view else data
+        data = parse_lipidmaps(db_id, r.text)
+
+        return self.to_view(data) if meta_view else data

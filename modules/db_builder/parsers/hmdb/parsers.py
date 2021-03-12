@@ -8,12 +8,38 @@ from modules.db_builder.parsers.hmdb.utils import flatten_hmdb_hierarchies
 from modules.db_builder.parsers.lib import strip_attr, force_list, force_flatten_extra_refs, flatten_refs
 from modules.db_builder.parsers.pubchem.utils import split_pubchem_ids
 
-_mapping: dict
+_mapping = dict(
+    accession='hmdb_id',
+    ##- secondary_accessions.accession = 'hmdb_id_alt',
 
+    name='names',
+    iupac_name='names',
+    traditional_iupac='names',
+    ##- synonyms.synonym = 'names',
 
-def init_mapping(_map):
-    global _mapping
-    _mapping = _map
+    # description = 'description',
+    state='state',
+
+    average_molecular_weight='mass',
+    monisotopic_molecular_weight='monoisotopic_mass',
+    avg_mol_weight='mass',
+    monoisotopic_mol_weight='monoisotopic_mass',
+    chemical_formula='formula',
+    smiles='smiles',
+    inchi='inchi',
+    inchikey='inchikey',
+
+    cas_registry_number='cas_id',
+    pubchem_compound_id='pubchem_id',
+    wikipedia_id='wiki_id',
+
+    # chemspider_id = 'chemspider_id',
+    # kegg_id = 'kegg_id',
+    # metlin_id = 'metlin_id',
+    # chebi_id = 'chebi_id',
+    # pdb_id = 'pdb_id',
+    # drugbank_id = 'drugbank_id',
+)
 
 
 def metajson_transform(me):

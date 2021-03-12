@@ -33,12 +33,18 @@ class ManagerBase(metaclass=ABCMeta):
         return self.to_view(db_data)
 
     def query_primary(self, db_id, meta_view: bool = True) -> MetaboliteView:
+        """
+        Queries from meta data table
+        """
         db_tag = self.repo.primary_id
         db_data = self.repo.get(depad_id(db_id, db_tag))
 
         return self.to_view(db_data) if meta_view else db_data
 
     def query_reverse(self, df_disc):
+        """
+        Queries from meta data table, based on foreign keys
+        """
         q = self.repo.select()
         T = self.repo.T
 
@@ -81,12 +87,19 @@ class ManagerBase(metaclass=ABCMeta):
         mv = MetaboliteView()
         mv.meta_id = None
 
+        self.merge_into(mv, db_data)
+
+        return mv
+
+    def merge_into(self, mv, db_data):
+
         for attr in self._select:
             dbval = getattr(db_data, attr)
+
+            if dbval is None or not dbval:
+                continue
 
             mattr = self._remap.get(attr, attr)
 
             # set multi value:
             merge_attr(mv, mattr, dbval)
-
-        return mv

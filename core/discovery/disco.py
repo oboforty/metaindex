@@ -1,4 +1,5 @@
 from queue import Queue
+from typing import Tuple
 
 from core.dal import MetaboliteView
 from .db_handler import get_db_ids, getdb
@@ -14,7 +15,7 @@ attr_meta = attr_refs | {
 }
 
 
-def resolve_metabolites(df: MetaboliteView, verbose: bool = False, cache: bool = True):
+def resolve_metabolites(df: MetaboliteView, verbose: bool = False, cache: bool = True) -> Tuple[MetaboliteView, dict]:
     # data used in the algorithm:
     #df_disc = transform_df(df)     # discovered Metabolite views
     # todo: @temporal
@@ -46,7 +47,7 @@ def resolve_metabolites(df: MetaboliteView, verbose: bool = False, cache: bool =
 
         if not hand:
             # unknown database type
-            undiscovered.add((db_tag,db_id,db_ref,db_ref_id))
+            undiscovered.add((db_tag, db_id, db_ref, db_ref_id))
             continue
 
         # Query metabolite record from local database or web api
@@ -78,6 +79,11 @@ def resolve_metabolites(df: MetaboliteView, verbose: bool = False, cache: bool =
         # df_result != null => mark discovered
         # todo: this is not needed (see 100th line)
         discovered.add((db_tag, db_id))
+
+        # @temp: debug {None} cases
+        # if None in df_result.chebi_id:
+        #     grr = None in df_disc.chebi_id
+        #     print(db_id, db_tag, grr)
 
         # merge result with previously discovered data
         df_disc.update(df_result)

@@ -4,6 +4,7 @@ from eme.data_access import get_repo
 from modules.db_builder import parse_kegg
 from .ManagerBase import ManagerBase
 from core.dal import KeggData
+from ..utils import pad_id
 
 
 class KeggManager(ManagerBase):
@@ -15,14 +16,9 @@ class KeggManager(ManagerBase):
         self._select = (
             'kegg_id', 'chebi_id', 'lipidmaps_id',
             'names', 'formula',
-            'exact_mass', 'mol_weight',
+            'mass', 'monoisotopic_mass',
             #'comments'
         )
-
-        self._remap = {
-            "exact_mass": "monoisotopic_mass",
-            "mol_weight": "mass"
-        }
 
         self._reverse = (
             'chebi_id',
@@ -31,7 +27,7 @@ class KeggManager(ManagerBase):
         )
 
     def fetch_api(self, db_id, meta_view=True):
-        r = requests.get(url=f'http://rest.kegg.jp/get/cpd:{db_id}')
+        r = requests.get(url=f'http://rest.kegg.jp/get/cpd:{pad_id(db_id)}')
 
         data = parse_kegg(db_id, r.text)
 
