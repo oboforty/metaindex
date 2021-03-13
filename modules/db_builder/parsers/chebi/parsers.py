@@ -2,7 +2,9 @@ from collections import defaultdict
 import requests
 import xmltodict
 
+from core.dal import ChEBIData
 from ..lib import strip_attr, force_list, flatten_refs, force_flatten_extra_refs
+from .utils import flatten_chebi_api_attr
 from ..pubchem.utils import split_pubchem_ids
 
 # Chebi Bulk DB mapping
@@ -43,7 +45,30 @@ _mapping = {
 
 # chebi API XML mapping
 _mapping_api = {
+    'chebiId': 'chebi_id',
 
+    'chebiAsciiName': 'names',
+    'Synonyms': 'names',
+    'IupacNames': 'names',
+
+    #'definition': '',
+    #'status': '',
+    # 'smiles': '',
+    # 'inchi': '',
+    # 'inchiKey': '',
+    #'charge': '',
+    #'mass': '',
+    'monoisotopicMass': 'monoisotopic_mass',
+
+    'entityStar': 'stars',
+    'Formulae': '',
+    # 'RegistryNumbers': '',
+    # 'Citations': '',
+    # 'ChemicalStructures': '',
+    # 'DatabaseLinks': '',
+    # 'OntologyParents': '',
+    # 'OntologyChildren': '',
+    # 'CompoundOrigins': ''
 }
 
 
@@ -67,21 +92,20 @@ def metajson_transform(me):
 def parse_chebi(db_id, content):
     refs = defaultdict(list)
 
-    cont = dict(xmltodict.parse(content))
-    x = cont['S:Envelope']['S:Body']['getCompleteEntityResponse']['return']
+    cont = xmltodict.parse(content)
+    ch = cont['S:Envelope']['S:Body']['getCompleteEntityResponse']['return']
 
     # add DatabaseLinks as refs
-    for oof in x.pop('DatabaseLinks'):
+    for oof in ch.pop('DatabaseLinks'):
         db_tag = oof['type'].lower()
+        db_tag = _mapping_api.get(db_tag, db_tag)
         db_id = oof['data']
 
-        if 'kegg' in db_tag:
-            refs['kegg'].append(db_id)
-        else:
-            refs[db_tag].append(db_id)
+        refs[db_tag].append(db_id)
 
-    # todo: add data from x
-    data = dict(x)
-    names = [x.get('chebiAsciiName')]
+    for state in list(ch.keys()):
+        flatten_chebi_api_attr(ch, state, _mapping=_mapping_api)
+    ch.update(refs)
+    metajson_transform(ch)
 
-    return data, refs
+    return ChEBIData(**ch)

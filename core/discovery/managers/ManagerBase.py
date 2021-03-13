@@ -91,7 +91,7 @@ class ManagerBase(metaclass=ABCMeta):
 
         return mv
 
-    def merge_into(self, mv, db_data):
+    def merge_into(self, mv: MetaboliteView, db_data):
 
         for attr in self._select:
             dbval = getattr(db_data, attr)
