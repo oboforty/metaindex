@@ -3,7 +3,7 @@ from eme.data_access import get_repo
 
 from core.dal import HMDBData
 from core.discovery.utils import pad_id
-from modules.db_builder import parse_hmdb
+from modules.db_builder import parse_hmdb_api
 
 from .ManagerBase import ManagerBase
 
@@ -38,6 +38,6 @@ class HmdbManager(ManagerBase):
         if r.status_code != 200 and r.status_code != 304:
             return None
 
-        data: HMDBData = parse_hmdb(r.content)
+        data: HMDBData = parse_hmdb_api(r.content)
 
         return self.to_view(data) if meta_view else data

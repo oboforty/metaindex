@@ -3,7 +3,8 @@ from eme.data_access import get_repo
 from core.dal import LipidMapsData, LipidMapsDataRepository
 
 from modules.db_builder.services import ding, cardinality
-from modules.db_builder.parsers.lipidmaps.parsers import metajson_transform, _mapping
+
+from modules.db_builder.parsers.lipidmaps.parsers import parse_lipidmaps
 from modules.db_builder.parsers.fileparsing import parse_iter_sdf
 
 
@@ -26,13 +27,11 @@ class LipidMapsExplorer:
                 return
         i = 0
 
-        for me in parse_iter_sdf(self.path, _mapping=_mapping):
+        for me in parse_iter_sdf(self.path):
             # todo: do something with None (=mol struct) key
             me.pop(None, None)
 
-            metajson_transform(me)
-
-            data = LipidMapsData(**me)
+            data: LipidMapsData = parse_lipidmaps(me)
             repo.create(data, commit=False)
 
             if i % 2000 == 0:

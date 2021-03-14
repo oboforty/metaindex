@@ -41,9 +41,7 @@ def parse_xml_recursive(context, cur_elem=None, _mapping: dict = None, tag_path=
     #{ k: v[0] if len(v) == 1 else v for k, v in items.items() }
 
 
-def parse_iter_sdf(fn, _mapping: dict = None):
-    if _mapping is None:
-        _mapping = {}
+def parse_iter_sdf(fn):
 
     with open(fn, 'r', encoding='utf8') as fh:
         buffer = {}
@@ -60,21 +58,16 @@ def parse_iter_sdf(fn, _mapping: dict = None):
                 continue
             elif not line:
                 continue
-            elif line.startswith('>'):
+            elif line.startswith('> <'):
                 state = line[3:-1]
             else:
-                if state is None:
-                    attr = None
-                else:
-                    attr = _mapping.get(state.lower(), state)
-
-                if attr in buffer:
+                if state in buffer:
                     # there are multiple entries in buffer, create a list
-                    val = buffer[attr]
+                    val = buffer[state]
 
                     if isinstance(val, list):
-                        buffer[attr].append(line)
+                        buffer[state].append(line)
                     else:
-                        buffer[attr] = [val, line]
+                        buffer[state] = [val, line]
                 else:
-                    buffer[attr] = line
+                    buffer[state] = line

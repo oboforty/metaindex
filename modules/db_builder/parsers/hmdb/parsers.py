@@ -64,6 +64,12 @@ def metajson_transform(me):
 
 
 def parse_hmdb(data):
+    metajson_transform(data)
+
+    return HMDBData(**data)
+
+
+def parse_hmdb_api(data):
     global _mapping
     if data is None:
         return None
@@ -79,6 +85,4 @@ def parse_hmdb(data):
     if isinstance(me, str) or me is None:
         return None
 
-    metajson_transform(me)
-
-    return HMDBData(**me)
+    return parse_hmdb(me)

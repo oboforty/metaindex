@@ -4,7 +4,7 @@ from core.dal import ChEBIData, ChebiDataRepository
 
 from modules.db_builder.services import cardinality
 from modules.db_builder.services.ding import ding
-from modules.db_builder.parsers.chebi.parsers import metajson_transform, _mapping
+from modules.db_builder.parsers.chebi.parsers import parse_chebi
 from modules.db_builder.parsers.fileparsing import parse_iter_sdf
 
 
@@ -31,13 +31,11 @@ class ChebiExplorer:
                 return
         i = 0
 
-        for me in parse_iter_sdf(self.path, _mapping=_mapping):
-            metajson_transform(me)
-
+        for me in parse_iter_sdf(self.path):
             # todo: do something with None (=mol struct) key
             me.pop(None)
 
-            data = ChEBIData(**me)
+            data: ChEBIData = parse_chebi(me)
             repo.create(data, commit=False)
 
             if i % 2000 == 0:

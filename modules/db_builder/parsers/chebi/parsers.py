@@ -1,9 +1,10 @@
+import json
 from collections import defaultdict
 import requests
 import xmltodict
 
 from core.dal import ChEBIData
-from ..lib import strip_attr, force_list, flatten_refs, force_flatten_extra_refs
+from ..lib import strip_attr, force_list, flatten_refs, force_flatten_extra_refs, flatten
 from .utils import flatten_chebi_api_attr
 from ..pubchem.utils import split_pubchem_ids
 
@@ -61,7 +62,7 @@ _mapping_api = {
     'monoisotopicMass': 'monoisotopic_mass',
 
     'entityStar': 'stars',
-    'Formulae': '',
+    'Formulae': 'formula',
     # 'RegistryNumbers': '',
     # 'Citations': '',
     # 'ChemicalStructures': '',
@@ -84,12 +85,39 @@ def metajson_transform(me):
     force_list(me, 'chebi_id_alt')
     force_list(me, 'names')
 
+    flatten(me, 'quality')
+    flatten(me, 'description')
+
     split_pubchem_ids(me)
+
 
     force_flatten_extra_refs(me)
 
+def parse_chebi(content):
+    if isinstance(content, str):
+        data = json.loads(content)
+    else:
+        data = content
 
-def parse_chebi(db_id, content):
+    for k in list(data.keys()):
+        k2 = _mapping.get(k, k).lower()
+
+        if k2 not in data:
+            data[k2] = []
+
+        v = data.pop(k)
+        if isinstance(v, (list, tuple, set)):
+            data[k2].extend(v)
+        else:
+            data[k2].append(v)
+
+
+    metajson_transform(data)
+
+    return ChEBIData(**data)
+
+
+def parse_chebi_api(content):
     refs = defaultdict(list)
 
     cont = xmltodict.parse(content)

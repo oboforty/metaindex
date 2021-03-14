@@ -9,7 +9,7 @@ _SPEC_REF_ATTR = (
     #'pubmed_id',
 
     'inchi', 'inchikey', 'smiles',
-    'mass', 'monoisotopic_mass',
+    'mass', 'monoisotopic_mass',"charge",
     'formula',
 )
 
@@ -31,7 +31,6 @@ def _nil(var):
     return not bool(s)
 
 
-
 def strip_attr(r, key, prefix):
     if key not in r or not r[key]:
         return
@@ -42,10 +41,15 @@ def strip_attr(r, key, prefix):
         r[key] = r[key].lstrip(prefix)
 
 
-def flatten(v):
+def flatten(v, attr=None):
     """
     Flattens value
     """
+    if attr is not None:
+        if isinstance(v,dict) and attr in v:
+            v[attr] = flatten(v[attr])
+        return
+
     if isinstance(v, (list, tuple, set)) and len(v) == 1:
         return list(v)[0]
     else:

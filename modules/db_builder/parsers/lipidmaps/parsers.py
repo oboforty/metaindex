@@ -51,22 +51,23 @@ def metajson_transform(me):
     force_flatten_extra_refs(me)
 
 
-def parse_lipidmaps(db_id, content):
-    data = json.loads(content)
+def parse_lipidmaps(content):
+    if isinstance(content, str):
+        data = json.loads(content)
+    else:
+        data = content
 
-    for k,k2 in _mapping.items():
-        k = k.lower()
-        k2 = k2.lower()
+    for k in list(data.keys()):
+        k2 = _mapping.get(k, k).lower()
 
-        if k in data:
-            if k2 not in data:
-                data[k2] = []
+        if k2 not in data:
+            data[k2] = []
 
-            v = data.pop(k)
-            if isinstance(v, (list, tuple, set)):
-                data[k2].extend(v)
-            else:
-                data[k2].append(v)
+        v = data.pop(k)
+        if isinstance(v, (list, tuple, set)):
+            data[k2].extend(v)
+        else:
+            data[k2].append(v)
 
     # reduce vectors to scalars:
     metajson_transform(data)

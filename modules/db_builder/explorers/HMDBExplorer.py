@@ -4,7 +4,7 @@ from core.dal import HMDBData, HMDBDataRepository
 
 from modules.db_builder.services import cardinality
 from modules.db_builder.services.ding import ding
-from modules.db_builder.parsers.hmdb.parsers import metajson_transform, _mapping
+from modules.db_builder.parsers.hmdb.parsers import metajson_transform, _mapping, parse_hmdb
 from modules.db_builder.parsers.fileparsing import parse_xml_recursive
 
 import xml.etree.ElementTree as ET
@@ -41,9 +41,8 @@ class HMDBExplorer:
 
             if isinstance(me, str) or me is None:
                 continue
-            metajson_transform(me)
 
-            data = HMDBData(**me)
+            data: HMDBData = parse_hmdb(me)
             repo.create(data, commit=False)
 
             if i % 500 == 0:

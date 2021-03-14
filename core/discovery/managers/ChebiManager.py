@@ -2,7 +2,7 @@ import requests
 from eme.data_access import get_repo
 
 from core.dal import ChEBIData
-from modules.db_builder import parse_chebi
+from modules.db_builder import parse_chebi_api
 from .ManagerBase import ManagerBase
 from ..utils import pad_id
 
@@ -29,7 +29,7 @@ class ChebiManager(ManagerBase):
         url = f'https://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId={pad_id(db_id, "chebi_id")}'
         r = requests.get(url=url)
 
-        data = parse_chebi(db_id, r.text)
+        data = parse_chebi_api(r.text)
 
         return self.to_view(data) if meta_view else data
 

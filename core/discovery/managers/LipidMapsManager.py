@@ -29,6 +29,6 @@ class LipidMapsManager(ManagerBase):
         url = f'https://www.lipidmaps.org/rest/compound/lm_id/{pad_id(db_id, "lipidmaps_id")}/all/'
         r = requests.get(url=url)
 
-        data = parse_lipidmaps(db_id, r.text)
+        data = parse_lipidmaps(r.text)
 
         return self.to_view(data) if meta_view else data
