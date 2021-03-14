@@ -1,5 +1,6 @@
 import {template} from "/js/forms/search-form.vue.js";
 import {store} from '/js/store.js';
+import {request} from '/js/api.mjs';
 
 const search_min_chars = 3;
 let search_predecessor = null;
@@ -12,6 +13,10 @@ export let component = Vue.component('search-form', {
       type: Boolean,
       default: true
     },
+
+    url: {
+      default: '/metabolite/search'
+    }
   },
 
   data() {
@@ -46,6 +51,7 @@ export let component = Vue.component('search-form', {
       _data.search_term = search_predecessor.search_term;
       _data.db_enabled = search_predecessor.db_enabled;
       _data.searchtype_selected = search_predecessor.searchtype_selected;
+      this.url = search_predecessor.url;
 
       search_predecessor = null;
     }
@@ -68,28 +74,12 @@ export let component = Vue.component('search-form', {
 
       // only submit query if has result listeners
       if (this.$listeners['results']) {
+
         // start searching the API
-        // todo: call api
-
-        // @TEMPORAL
-        this.$emit('results', [
-          {
-            search_value: "C-vitamin",
-            search_key: "name",
-            
-            result_display: "Ascorbic Acid",
-            result_value: "rndid12345",
-            result_key: "meta_id",
-          },
-          {
-            search_value: "ascorbate",
-            search_key: "name",
-
-            result_display: "Display 2",
-            result_value: "ascorbic_acid",
-            result_key: "meta_id",
-          },
-        ]);
+        request(`GET ${this.url}?attr=${this.searchtype_selected}&s=${this.search_term}`, {
+        }, results=>{
+          this.$emit('results', results);
+        });
       }
     },
 

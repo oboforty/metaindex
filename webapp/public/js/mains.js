@@ -1,6 +1,7 @@
 import {PageIndex} from '/js/pages/page-index.js';
 import {PageSearch} from '/js/pages/page-search.js';
 import {PageMeta} from '/js/pages/page-meta.js';
+import {PageMolSearch} from '/js/pages/page-molsearch.js';
 
 import {store} from '/js/store.js';
 import {colorize_moltext} from '/js/model/molutils.js';
@@ -85,4 +86,5 @@ export function init_pages(page, settings, user, ...page_args) {
   });
 
   window.gui = gui;
+  return gui;
 }

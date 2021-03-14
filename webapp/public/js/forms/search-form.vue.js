@@ -10,7 +10,12 @@ export const template = `<div>
 
   <!-- Advanced search -->
   <div>
-    <a class="btn btn-link text-primary float-right" v-b-toggle.collapseAdvanced role="button" aria-expanded="false" aria-controls="collapseAdvanced">Search options</a>
+    <span class="float-right">
+      <a class="btn btn-link text-primary nounderline" href="/search-molecules">Molecule Search</a>
+
+      <a class="btn btn-link text-primary pointer" v-b-toggle.collapseAdvanced role="button" aria-expanded="false" aria-controls="collapseAdvanced">Search options</a>
+    </span>
+
     <br class="clearfix"/>
 
     <b-collapse class="collapse" id="collapseAdvanced">
@@ -30,7 +35,7 @@ export const template = `<div>
           <p class="text-small">Search type:</p>
 
           <b-form-radio name="searchtype"
-            v-for="searchtype in searchtypes_available"
+            v-for="searchtype in searchtypes_available" :key="searchtype"
             v-model="searchtype_selected" :value="searchtype.lower()">
             {{ searchtype }}
           </b-form-radio>

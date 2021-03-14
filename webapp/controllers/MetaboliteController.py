@@ -3,6 +3,7 @@ from flask import render_template
 from core.dal import MetaboliteScalar
 from core.metabolite import search_metabolite
 from modules.eme_utils import ApiResponse
+from modules.search import SearchItem
 
 
 class MetaboliteController:
@@ -46,17 +47,6 @@ class MetaboliteController:
         )
 
         return render_template('/metabolite/view.html', meta_id=meta_id, metabolite=metabolite)
-
-    def get_search(self):
-
-
-        search_metabolite()
-
-
-        return ApiResponse({
-
-        })
-
 
     def get_upload(self):
         return render_template('/metabolite/upload.html')

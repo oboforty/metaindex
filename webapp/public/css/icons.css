@@ -117,48 +117,45 @@
 .ra-microscope:before {
   content: "\e91e";
 }
-.ra-open-folder-1:before {
+.ra-open-folder:before {
   content: "\e91f";
 }
-.ra-open-folder:before {
+.ra-parmecia:before {
   content: "\e920";
 }
-.ra-parmecia:before {
+.ra-pencil:before {
   content: "\e921";
 }
-.ra-pencil:before {
+.ra-pencil-ruler:before {
   content: "\e922";
 }
-.ra-pencil-ruler:before {
+.ra-pie-chart:before {
   content: "\e923";
 }
-.ra-pie-chart:before {
+.ra-poison-bottle:before {
   content: "\e924";
 }
-.ra-poison-bottle:before {
+.ra-poison-cloud:before {
   content: "\e925";
 }
-.ra-poison-cloud:before {
+.ra-pull:before {
   content: "\e926";
 }
-.ra-pull:before {
+.ra-pulse:before {
   content: "\e927";
 }
-.ra-pulse:before {
+.ra-radiations:before {
   content: "\e928";
 }
-.ra-radiations:before {
+.ra-radioactive:before {
   content: "\e929";
 }
-.ra-radioactive:before {
+.ra-scales:before {
   content: "\e92a";
 }
-.ra-scales:before {
+.ra-virus:before {
   content: "\e92b";
 }
-.ra-virus:before {
-  content: "\e92c";
-}
 .ra-white-book:before {
-  content: "\e92d";
+  content: "\e92c";
 }

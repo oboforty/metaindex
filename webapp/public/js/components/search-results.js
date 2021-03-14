@@ -9,6 +9,12 @@ function splice_string(value, offset, text, removeCount=0) {
 export let component = Vue.component('search-results', {
   template: template,
 
+  props: {
+    hardLinks: {
+      default: false
+    }
+  },
+
   data() {
     return {
         search_tag1: '<b class="text-danger"><i>',
@@ -21,15 +27,16 @@ export let component = Vue.component('search-results', {
 
   methods: {
     showText(r) {
-      let value = r.search_value;
+      let value = r.search_term;
       let term = this.search_term.lower();
+      let search_attr = r.search_attr;
     
       // case insensitive replace
       value = value.lower().replace(term, "<QQ>"+term.lower()+"</Q>");
       let i = value.indexOf("<QQ>");
       let j = value.indexOf("</Q>", i+4)-4;
       
-      value = r.search_value;
+      value = r.search_term;
 
       if (i>0 && j>0 && i<=value.length && j<=value.length && i != j) {
         // highlight search term
@@ -37,11 +44,16 @@ export let component = Vue.component('search-results', {
         value = splice_string(value, j+this.search_tag1.length, this.search_tag2);
       }
 
-      return `<span>${value}</span><br/><span class="small">(${r.search_key})</span>`;
+      return `<span>${value}</span><br/><span class="small">(${search_attr})</span>`;
     },
 
     OnClick(result) {
-      
+      if (this.hardLinks) {
+        console.log("TODO HARD LINK ", result);
+
+        return false;
+      }
+
       let page = this.open_page('meta');
       // todo: set url somewhere?
       page.init('TTTT', {});

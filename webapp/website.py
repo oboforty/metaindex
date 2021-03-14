@@ -1,5 +1,5 @@
 from os.path import realpath, dirname, join
-from eme.entities import load_settings
+from eme.entities import load_settings, load_handlers
 from eme.website import WebsiteApp
 
 # Init eme ctx & modules
@@ -15,6 +15,8 @@ class MetaIndexWebsite(WebsiteApp):
         conf = load_settings(join(script_path, 'config.ini'))
 
         super().__init__(conf, script_path)
+
+        self.load_controllers(load_handlers(self, 'Api', module_path='api', path=join(script_path, 'api')), conf=conf.get('routing', {}))
 
         # Initialize database & modules
         assert ctx.get_session() != None

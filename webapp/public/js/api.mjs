@@ -6,8 +6,9 @@ export function init_api(at) {
 }
 
 export function request(group, data, cb) {
-  if (access_token == null)
-    throw "access_token not provided";
+// @todo: later: how to rate limit anonymous user?
+//   if (access_token == null)
+//     throw "access_token not provided";
 
   const method = group.split(' ')[0].upper();
   const url = group.substr(len(method)+1, len(group));

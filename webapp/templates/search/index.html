@@ -17,7 +17,7 @@
             <p class="font-light">This is a public search engine dedicated to rapidly identify and label metabolites.</p>
             <p class="font-light text-danger font-small"><i>The search bar recognizes various input formats that can identify metabolites. <a href="/home/formats">See the full list of searchable formats.</a></i></p>
 
-            <search-form ref="search-form" @search="open_page('search')" :save-predecessor-form="true">
+            <search-form ref="search-form" @search="open_page('search')" url="{{ url_for('SearchApi:get') }}" :save-predecessor-form="true">
               <!-- fake search form, the real one is in a vue template -->
               <div class="input-group">
                 <div class="input-group-prepend">
@@ -31,8 +31,7 @@
         </div>
       </page-index>
 
-      <page-search url="/searchie" ref="page-search"></page-search>
-      <page-meta url="/metabolite/test" ref="page-meta"></page-meta>
+      <page-search url="/" ref="page-search" :hard-links="true"></page-search>
     </div>
 
     <div id="static-page-description" class="row">
@@ -73,6 +72,7 @@
       {% else %}
         const user = null;
       {% endif %}
+        init_api(null);
 
         init_pages('index', {{ settings|tojson }}, user);
       }

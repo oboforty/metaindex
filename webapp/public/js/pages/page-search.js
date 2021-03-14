@@ -7,6 +7,9 @@ export let PageSearch = Vue.component('page-search', {
   props: {
     url: {
       default: "/search"
+    },
+    hardLinks: {
+      default: false,
     }
   },
 
