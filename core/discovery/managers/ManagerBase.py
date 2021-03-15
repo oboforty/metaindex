@@ -19,15 +19,19 @@ class ManagerBase(metaclass=ABCMeta):
         Fetches record from cache or public API
         """
         db_tag = self.repo.primary_id
-        db_data = self.repo.get(depad_id(db_id, db_tag))
+        db_data = self.query_primary(db_id, meta_view=False)
 
         if not db_data:
             # fetch public API in case the data record wasn't found
-            print("API")
+            print(f"  Fetching {db_tag} API: {pad_id(db_id, db_tag)}")
             db_data = self.fetch_api(pad_id(db_id, db_tag), meta_view=False)
 
             if db_data and cache:
                 self.repo.create(db_data)
+
+                # fixme: db_data.[primary_id] will issue a new query
+                # force query db_data
+                db_data = self.query_primary(db_id, meta_view=False)
 
         # transform data to common interface
         return self.to_view(db_data)

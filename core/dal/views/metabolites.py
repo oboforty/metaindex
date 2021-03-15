@@ -52,7 +52,7 @@ class MetaboliteView:
     ref_etc: dict = field(default_factory=dict)
 
     # Metadata
-    names: list = field(default_factory=list)
+    names: set = field(default_factory=set)
     description: set = field(default_factory=set)
     charge: set = field(default_factory=set)
     mass: set = field(default_factory=set)
@@ -69,12 +69,7 @@ class MetaboliteView:
             _ref_ids.update(getattr(df, ref_tag))
 
         for attr, val in self.attributes:
-            if attr == 'names': continue
-
             val.update(getattr(df, attr))
-
-        if df.names is not None:
-            self.names.extend(df.names)
 
     @property
     def view(self):
@@ -82,7 +77,8 @@ class MetaboliteView:
 
     @property
     def primary_name(self):
-        return "ehh"
+        # @todo: policy to find primary_name ?
+        return list(self.names)[0]
 
     @property
     def search_entity(self):
@@ -129,4 +125,4 @@ class MetaboliteView:
         yield 'formula', self.formula
 
     def __repr__(self):
-        return self.names[0]
+        return list(self.names)[0]

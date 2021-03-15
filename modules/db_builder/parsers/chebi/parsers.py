@@ -90,8 +90,12 @@ def metajson_transform(me):
 
     split_pubchem_ids(me)
 
-
     force_flatten_extra_refs(me)
+
+    if 'chebi_id_alt' in me and me['chebi_id_alt']:
+        force_list(me, 'chebi_id_alt')
+        me['ref_etc']['chebi_id'] = me.pop('chebi_id_alt')
+
 
 def parse_chebi(content):
     if isinstance(content, str):
@@ -110,7 +114,6 @@ def parse_chebi(content):
             data[k2].extend(v)
         else:
             data[k2].append(v)
-
 
     metajson_transform(data)
 

@@ -72,7 +72,6 @@ def depad_id(db_id, db_tag=None):
 
     if padding is not None and db_id.startswith(padding):
         return db_id[len(padding):]
-
     return db_id
 
 
@@ -80,9 +79,11 @@ def pad_id(db_id, db_tag):
     padding = _PADDINGS.get(db_tag)
 
     if padding is None or db_id.startswith(padding):
-        return db_id
+        _id = str(db_id)
+    else:
+        _id = padding+db_id
 
-    return padding+db_id
+    return _id
 
 
 def merge_attr(mv: MetaboliteView, attr, _val2):

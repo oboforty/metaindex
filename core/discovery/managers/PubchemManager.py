@@ -31,7 +31,9 @@ class PubchemManager(ManagerBase):
 
     def fetch_api(self, db_id, meta_view=True):
         r = requests.get(url=f'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{db_id}/json')
-        r2 = requests.get(url=f'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{db_id}/xrefs/SourceName,RegistryID/JSON')
+        r2 = requests.get(url=f'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{db_id}/xrefs/SBURL/json')
+
+        # todo: description, synonyms, services
 
         s1 = r.status_code
         s2 = r2.status_code

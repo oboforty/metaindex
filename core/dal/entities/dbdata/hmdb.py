@@ -10,7 +10,6 @@ class HMDBData(EntityBase):
 
     # Primary Ids
     hmdb_id = Column(String(20), primary_key=True)
-    hmdb_id_alt = Column(ARRAY(String(20)))
 
     # Reference Ids
     kegg_id = Column(String(24)) #ForeignKey('kegg_data.kegg_id', ondelete='SET NULL'))

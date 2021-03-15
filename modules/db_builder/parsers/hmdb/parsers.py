@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 from core.dal import HMDBData
 from modules.db_builder.parsers.fileparsing import parse_xml_recursive
 
-from modules.db_builder.parsers.hmdb.utils import flatten_hmdb_hierarchies
+from modules.db_builder.parsers.hmdb.utils import flatten_hmdb_hierarchies, remove_obvious_secondary_ids
 from modules.db_builder.parsers.lib import strip_attr, force_list, force_flatten_extra_refs, flatten_refs
 from modules.db_builder.parsers.pubchem.utils import split_pubchem_ids
 
@@ -55,12 +55,17 @@ def metajson_transform(me):
     strip_attr(me, 'inchi', 'InChI=')
 
     force_list(me, 'names')
+    remove_obvious_secondary_ids(me)
 
     #split_pubchem_ids(me)
 
     # flattens everything else that wasn't flattened before
     # (len>1 lists are processed into extra refs JSON attribute)
     force_flatten_extra_refs(me)
+
+    if 'hmdb_id_alt' in me and me['hmdb_id_alt']:
+        force_list(me, 'hmdb_id_alt')
+        me['ref_etc']['hmdb_id'] = me.pop('hmdb_id_alt')
 
 
 def parse_hmdb(data):

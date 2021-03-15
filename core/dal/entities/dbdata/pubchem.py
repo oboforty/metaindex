@@ -28,7 +28,6 @@ class PubChemData(EntityBase):
     # Shared metadata
     names = Column(ARRAY(Text))
     mass = Column(Float)
-    #weight = Column(Float)
     monoisotopic_mass = Column(Float)
 
     # Structure
@@ -55,14 +54,14 @@ class PubChemData(EntityBase):
         self.pdb_id = kwargs.get('pdb_id')
         self.pubmed_id = kwargs.get('pubmed_id')
         self.names = kwargs.get('names')
-        #self.mass = kwargs.get('mass')
+        self.mass = kwargs.get('mass')
         self.weight = kwargs.get('weight')
         self.monoisotopic_mass = kwargs.get('monoisotopic_mass')
         self.smiles = kwargs.get('smiles')
         self.inchi = kwargs.get('inchi')
         self.inchikey = kwargs.get('inchikey')
         self.formula = kwargs.get('formula')
-        #self.logp = kwargs.get('logp')
+        self.logp = kwargs.get('logp')
 
 
-        print("TODO: pubchem handle mass and logp")
+        print("TODO: pubchem handle synonyms and description")

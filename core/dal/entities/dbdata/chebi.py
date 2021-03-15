@@ -9,7 +9,6 @@ class ChEBIData(EntityBase):
 
     # Primary Ids
     chebi_id = Column(String(20), primary_key=True)
-    chebi_id_alt = Column(ARRAY(String(20)))
 
     # Reference Ids
     # from database_accession.tsv  # todo: add Foreign Keys!
@@ -48,7 +47,6 @@ class ChEBIData(EntityBase):
 
     def __init__(self, **kwargs):
         self.chebi_id = kwargs.get('chebi_id')
-        self.chebi_id_alt = kwargs.get('chebi_id_alt')
         self.kegg_id = kwargs.get('kegg_id')
         self.hmdb_id = kwargs.get('hmdb_id')
         self.lipidmaps_id = kwargs.get('lipidmaps_id')

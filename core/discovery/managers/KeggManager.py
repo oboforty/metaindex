@@ -27,7 +27,7 @@ class KeggManager(ManagerBase):
         )
 
     def fetch_api(self, db_id, meta_view=True):
-        r = requests.get(url=f'http://rest.kegg.jp/get/cpd:{pad_id(db_id)}')
+        r = requests.get(url=f'http://rest.kegg.jp/get/cpd:{pad_id(db_id, "kegg_id")}')
 
         data = parse_kegg(db_id, r.text)
 

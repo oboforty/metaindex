@@ -65,7 +65,7 @@ def force_list(r, key, f=None):
 
     v = r[key]
 
-    if isinstance(v, list):
+    if isinstance(v, (list, tuple, set)):
         if f is not None:
             r[key] = [f(e) for e in v]
         else:
@@ -79,7 +79,7 @@ def force_list(r, key, f=None):
             r[key] = [v]
 
 
-def force_flatten_extra_refs(r, ex_attr=None):
+def force_flatten_extra_refs(r, ex_attr=None, _except: tuple=None):
     """
     Processes extra references (beyond the 1st value for scalars)
     and adds them to a json dictionary
@@ -92,11 +92,13 @@ def force_flatten_extra_refs(r, ex_attr=None):
 
     if ex_attr is None:
         ex_attr = 'ref_etc'
+    if _except is None:
+        _except = set()
 
     ref = r.setdefault(ex_attr, {})
 
     for attr in _SPEC_REF_ATTR:
-        if attr not in r:
+        if attr not in r or (attr in _except):
             continue
 
         val = r[attr]

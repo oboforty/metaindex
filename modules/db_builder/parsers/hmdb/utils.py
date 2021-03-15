@@ -20,3 +20,10 @@ def flatten_hmdb_hierarchies(r):
             if isinstance(syn, dict):
                 r['hmdb_id_alt'][i] = syn['accession']
 
+
+def remove_obvious_secondary_ids(r):
+    _id = r['hmdb_id']
+
+    # TODO: clear hmdb_id redundancy or w/e
+
+
