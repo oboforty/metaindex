@@ -13,9 +13,8 @@
           <!-- Search bar area -->
           <div class="jumbotron mt-4">
             <!-- this shit gotta stay here for SEO -->
-            <h6 class="lead text-success">Welcome to MetaSeeker!</h6>
-            <p class="font-light">This is a public search engine dedicated to rapidly identify and label metabolites.</p>
-            <p class="font-light text-danger font-small"><i>The search bar recognizes various input formats that can identify metabolites. <a href="/home/formats">See the full list of searchable formats.</a></i></p>
+            <h3 class="title text-success text-center">Welcome to MetaSeeker!</h3>
+            <p class="font-light">This is a public derivative metabolome database, dedicated to rapidly identify and search metabolites.</p>
 
             <search-form ref="search-form" @search="open_page('search')" url="{{ url_for('SearchApi:get') }}" :save-predecessor-form="true">
               <!-- fake search form, the real one is in a vue template -->
@@ -27,6 +26,36 @@
                 <textarea class="form-control" placeholder="Search for ID, Chemical name, Structure string, etc..."></textarea>
               </div>
             </search-form>
+            
+            <div class="mt-4">
+              <h6 class="text-center">Other services</h6>
+
+              <div class="row">
+                <div class="col-4 text-center p-4">
+                  <a class="btn btn-link btn-block pb-3 text-brand" href="{{ url_for('Home:get_molsearch') }}">Molecular Search</a>
+                  <p class="text-justify">Search the database using an interactive 2D molecule editor. Can be used to discover novel compounds.</p>
+                </div>
+
+                <div class="col-4 text-center p-4">
+                  <a class="btn btn-link btn-block pb-3 text-brand" href="{{ url_for('Home:get_discovery') }}">Discovery</a>
+                  <p class="text-justify">This service resolves partial datasets of external database identifiers. Can be used to normalize a set of metabolites with incomplete database references.</p>
+                </div>
+
+                <div class="col-4 text-center p-4">
+                  <a class="btn btn-link btn-block pb-3 text-brand" href="{{ url_for('Metabolites:get') }}">Browse metabolites</a>
+                  <p class="text-justify">Browse our database manually.</p>
+                </div>
+
+                <div class="col-4 text-center p-4">
+                  <a class="btn btn-link btn-block pb-3 text-brand" href="{{ url_for('Home:get_api') }}">HTTP API</a>
+                  <p class="text-justify">Use our services through R and Py packages, or the HTTP Rest service.</p>
+                </div>
+              </div>
+
+
+
+            </div>
+
           </div>
         </div>
       </page-index>

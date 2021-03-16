@@ -6,11 +6,14 @@ from modules.eme_utils import ApiResponse
 from modules.search import SearchItem
 
 
-class MetaboliteController:
+class MetabolitesController:
     def __init__(self, server):
         pass
+    
+    def get(self):
+        pass
 
-    def get(self, meta_id='ABDE'):
+    def get_view(self, meta_id='ABDE'):
         # fixme: temporal: test entity
         metabolite = MetaboliteScalar(
             meta_id = meta_id,

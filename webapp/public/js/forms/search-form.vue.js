@@ -9,39 +9,55 @@ export const template = `<div>
   </div>
 
   <!-- Advanced search -->
-  <div>
+  <div class="search-wrapper">
     <span class="float-right">
-      <a class="btn btn-link text-primary nounderline" href="/search-molecules">Molecule Search</a>
-
       <a class="btn btn-link text-primary pointer" v-b-toggle.collapseAdvanced role="button" aria-expanded="false" aria-controls="collapseAdvanced">Search options</a>
     </span>
 
     <br class="clearfix"/>
 
-    <b-collapse class="collapse" id="collapseAdvanced">
+    <b-collapse class="collapse mt-3 search-settings p-2 rounded shadow" id="collapseAdvanced">
       <div class="d-flex justify-content-end">
         <div class="p-2">
-          <p class="text-small">Search areas:</p>
+          Search field:
+        </div>
 
+        <div class="p-2">
           <b-form-checkbox-group
-            v-model="db_enabled"
-            :options="db_available"
-            name="flavour-2a"
-            stacked
+          v-model="selected"
+          :options="attributes_db"
+          name="flavour-2a"
+          stacked
           ></b-form-checkbox-group>
         </div>
 
         <div class="ml-4 p-2">
-          <p class="text-small">Search type:</p>
-
-          <b-form-radio name="searchtype"
-            v-for="searchtype in searchtypes_available" :key="searchtype"
-            v-model="searchtype_selected" :value="searchtype.lower()">
-            {{ searchtype }}
-          </b-form-radio>
+          <b-form-checkbox-group
+          v-model="selected"
+          :options="attributes"
+          name="flavour-2a"
+          stacked
+          ></b-form-checkbox-group>
         </div>
+      </div>
+      <div class="d-flex justify-content-end">
         <div class="p-2">
-          <!-- <p class="text-small">Extra search:</p> -->
+          <b-form-checkbox
+            id="checkbox-1"
+            v-model="do_discovery"
+            name="checkbox-1"
+          >
+            Use discovery service
+          </b-form-checkbox>
+          
+          <b-form-checkbox
+            id="checkbox-terms"
+            v-model="accept_terms"
+            name="checkbox-terms"
+          >
+            I accept the terms and use
+          </b-form-checkbox>
+
         </div>
       </div>
     </b-collapse>

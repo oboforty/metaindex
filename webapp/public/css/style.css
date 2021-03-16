@@ -78,6 +78,17 @@ a.text-white:hover {
   color: #341f97 !important;
 }
 
+.search-wrapper {
+  position: relative;
+}
+
+.search-settings {
+  position: absolute;
+  z-index: 100;
+  background: white;
+  right: 8px;
+}
+
 /* AUTO generated
 https://flatuicolors.com/palette/ca */
 .text-purple { color: #f368e0 !important; }.bg-purple { background-color: #ff9ff3 !important; }.border-purple { border-color: #ff9ff3 !important; }
