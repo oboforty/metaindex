@@ -43,8 +43,7 @@ def id_to_url(db_id, db_tag=None):
         if db_tag is None:
             return None
 
-    # todo: if db_id lacks prefix, add it from db_tag
-
+    db_id = pad_id(db_id, db_tag)
     url = None
 
     if db_tag == 'hmdb_id':

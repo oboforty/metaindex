@@ -5,6 +5,7 @@ import {PageMolSearch} from '/js/pages/page-molsearch.js';
 
 import {store} from '/js/store.js';
 import {colorize_moltext} from '/js/model/molutils.js';
+import {pad_id, depad_id, id_to_url} from '/js/model/dbutils.js';
 
 let gui = null;
 
@@ -27,9 +28,10 @@ export function init_pages(page, settings, user, ...page_args) {
         return page;
       },
 
-      molcol(text) {
-        return colorize_moltext(text);
-      }
+      molcol: colorize_moltext,
+      pad_id: pad_id,
+      depad_id: depad_id,
+      to_db_url: id_to_url,
     }
   });
 

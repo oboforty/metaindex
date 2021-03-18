@@ -8,6 +8,10 @@ export let component = Vue.component('meta-references', {
     props: {
         meta: {
             default: null
+        },
+
+        target: {
+            default: "_blank"
         }
     },
 
@@ -24,7 +28,7 @@ export let component = Vue.component('meta-references', {
     
     computed: {
         databases_filled() {
-            return this.databases.filter(db=>Boolean(this.meta[db.lower()+"_id"]));
+            return this.databases.filter(db=>Boolean(len(this.meta[db.lower()+"_id"])));
         }
     }
 });
