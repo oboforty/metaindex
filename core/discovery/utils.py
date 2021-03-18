@@ -111,3 +111,11 @@ def merge_attr(mv: MetaboliteView, attr, _val2):
             raise Exception("Iterable provided for scalar value at MetaView merge!", attr, mv, _val2)
 
         setattr(mv, attr, _val2)
+
+
+def merge_attr_ref_etc(mv: MetaboliteView, ref_etc: dict):
+    for attr, vals in ref_etc.items():
+        if hasattr(mv, attr):
+            merge_attr(mv, attr, vals)
+        # other IDs such as wiki_id, pdb_id are not merged for now
+        # fixme: merge common non-meta extre refs too?

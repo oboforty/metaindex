@@ -18,7 +18,8 @@ class ChebiManager(ManagerBase):
         self._select = (
             'chebi_id', 'pubchem_id', 'kegg_id', 'hmdb_id', 'lipidmaps_id',
             'smiles', 'inchi', 'inchikey', 'formula', 'names',
-            'mass', 'monoisotopic_mass'
+            'mass', 'monoisotopic_mass',
+            'ref_etc'
         )
 
         self._reverse = (

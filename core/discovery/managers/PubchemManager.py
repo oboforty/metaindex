@@ -16,8 +16,9 @@ class PubchemManager(ManagerBase):
         self._select = (
             'pubchem_id', 'chebi_id', 'kegg_id', 'hmdb_id',
             'smiles', 'inchi', 'inchikey', 'formula', 'names',
-            'mass', 'monoisotopic_mass'
+            'mass', 'monoisotopic_mass',
             #'logp'
+            'ref_etc'
         )
 
         self._remap = {

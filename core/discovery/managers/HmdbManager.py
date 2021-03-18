@@ -19,7 +19,8 @@ class HmdbManager(ManagerBase):
         self._select = (
             'pubchem_id', 'chebi_id', 'kegg_id', 'hmdb_id', 'metlin_id',
             'smiles', 'inchi', 'inchikey', 'formula', 'names',
-            'avg_mol_weight', 'monoisotopic_mol_weight'
+            'avg_mol_weight', 'monoisotopic_mol_weight',
+            'ref_etc'
         )
 
         self._remap = {

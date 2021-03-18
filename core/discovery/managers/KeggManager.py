@@ -18,6 +18,7 @@ class KeggManager(ManagerBase):
             'names', 'formula',
             'mass', 'monoisotopic_mass',
             #'comments'
+            'ref_etc'
         )
 
         self._reverse = (

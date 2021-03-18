@@ -2,7 +2,7 @@ import json
 
 from eme.entities import EntityJSONEncoder
 
-from core.discovery.settings import get_settings
+from core.discovery import get_settings
 
 
 def init_jinja(app, conf):
@@ -14,7 +14,7 @@ def init_jinja(app, conf):
             # (current_user)
             # (current_token)
             # conf=conf,
-            settings=get_settings().view,
+            settings=get_settings(),
             js_transpiled=conf.get('website.js_transpiled', True),
             ws_address=conf.get('website.ws_address'),
 

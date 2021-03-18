@@ -49,8 +49,6 @@ class MetaboliteView:
     cas_id: set = field(default_factory=set)
     metlin_id: set = field(default_factory=set)
 
-    ref_etc: dict = field(default_factory=dict)
-
     # Metadata
     names: set = field(default_factory=set)
     description: set = field(default_factory=set)
@@ -73,7 +71,13 @@ class MetaboliteView:
 
     @property
     def view(self):
-        return self.__dict__.copy()
+        """
+        this is usually called when the view object is transformed into a json serialization
+        """
+        v = dict(self.attributes)
+        v.update(dict(self.refs))
+
+        return v
 
     @property
     def primary_name(self):
@@ -97,11 +101,6 @@ class MetaboliteView:
         yield 'cas_id', self.cas_id
         yield 'kegg_id', self.kegg_id
         yield 'metlin_id', self.metlin_id
-
-        # todo: should we care about refs? the relevant IDs should already been merged to the ids above!
-        # for _ref_tag, _xtra_refs in self.ref_etc.items():
-        #     for _ref_id in _xtra_refs:
-        #         yield _ref_tag, _ref_id
 
     @property
     def refs_flat(self):

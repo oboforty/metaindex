@@ -12,5 +12,5 @@ class MetaboliteDataRepositoryBase(RepositoryBase):
 
     def list(self, _ids: list):
         return self.session.query(self.T)\
-            .filter(self.primary_id.in_(_ids))\
+            .filter(getattr(self.T, self.primary_id).in_(_ids))\
             .all()

@@ -31,7 +31,7 @@
          const user = null;
        {% endif %}
 
-         init_pages('meta', {{ settings|tojson }}, user, '{{ meta_id }}', {{ metabolite.view|tojson }});
+         init_pages('meta', {{ settings|tojson }}, user, '{{ meta_id }}', {{ metabolite.view|ejson|safe }});
        }
     </script>
 {% endblock %}

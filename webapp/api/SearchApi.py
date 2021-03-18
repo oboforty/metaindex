@@ -25,10 +25,10 @@ class SearchApi:
             search_attr = search_attr.split("|")
 
         # todo: add to settings
-        discover = True
-        search_cache = True
+        discover = False
+        discover_cache = False
 
-        results = search_metabolite(search_term, search_attr, cache=search_cache, discover=discover, verbose=self.debug)
+        results = search_metabolite(search_term, search_attr, cache=discover_cache, discover=discover, verbose=self.debug)
 
         # todo: inchi & inchikey at once?
 

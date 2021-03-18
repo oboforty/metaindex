@@ -9,8 +9,6 @@ from core.dal import Metabolite
 from .settings import getcfg
 from typing import Dict
 
-dbs = getcfg('discovery.databases')
-
 
 db_managers: Dict[str, ManagerBase] = {
     'chebi': ChebiManager(getcfg('hmdb')),
@@ -32,13 +30,13 @@ def getdb(dbid) -> ManagerBase:
 def get_db_ids():
     return map(lambda s: s+'_id', db_managers.keys())
 
-
-def query_metabolite(metabolite: Metabolite):
-
-    for db in dbs:
-        _ids = getattr(metabolite, db+'_id')
-        _data = getdb(db).query_multiple(_ids)
-
-        # todo: itt: what to do with this? how to present?
-
-    # todo: return a View?
+#
+# def query_metabolite(metabolite: Metabolite):
+#
+#     for db in dbs:
+#         _ids = getattr(metabolite, db+'_id')
+#         _data = getdb(db).query_multiple(_ids)
+#
+#         # todo: itt: what to do with this? how to present?
+#
+#     # todo: return a View?

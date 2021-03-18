@@ -1,7 +1,7 @@
 from abc import abstractmethod, ABCMeta
 
 from core.dal import MetaboliteDataRepositoryBase, MetaboliteView
-from core.discovery.utils import merge_attr, depad_id, pad_id
+from core.discovery.utils import depad_id, pad_id, merge_attr, merge_attr_ref_etc
 
 
 class ManagerBase(metaclass=ABCMeta):
@@ -96,7 +96,7 @@ class ManagerBase(metaclass=ABCMeta):
         return mv
 
     def merge_into(self, mv: MetaboliteView, db_data):
-
+        # merge refs and attributes into mv
         for attr in self._select:
             dbval = getattr(db_data, attr)
 
@@ -105,5 +105,9 @@ class ManagerBase(metaclass=ABCMeta):
 
             mattr = self._remap.get(attr, attr)
 
-            # set multi value:
-            merge_attr(mv, mattr, dbval)
+            if mattr == 'ref_etc':
+                # special merging of extra references
+                merge_attr_ref_etc(mv, dbval)
+            else:
+                # set multi value:
+                merge_attr(mv, mattr, dbval)

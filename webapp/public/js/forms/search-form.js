@@ -33,7 +33,7 @@ export let component = Vue.component('search-form', {
 
   data() {
     let _data = {
-      attributes_db: store.settings.discovery.databases.map(db=>db.lower()),
+      attributes_db: store.settings.databases.map(db=>db.lower()),
       attributes: [
         'Name',
         'Formula',

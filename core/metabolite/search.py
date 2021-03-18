@@ -15,36 +15,35 @@ _ENDPOINT = '/metabolite/{}'
 
 
 def search_metabolite(search_term, search_attr, discover: bool = True, cache: bool = True, verbose=True):
+    attrs = [search_attr] if search_attr is not None else None
+    result = search('metabolite', search_term, attrs=attrs)
 
-    result = search(search_term, attrs=[search_attr]).all()
+    if not result and discover:
+        # search term is not cached. initiate discovery
+        mv, resp = resolve_single_id(search_attr, search_term, verbose=verbose, cache=cache)
 
-    if not result:
-        if discover:
-            # search term is not cached. initiate discovery
-            mv, resp = resolve_single_id(search_attr, search_term, verbose=verbose, cache=cache)
+        if cache:
+            # persist MetaView to Meta object
+            meta = view_to_db(mv)
 
-            if cache:
-                # persist MetaView to Meta object
-                meta = view_to_db(mv)
+            # todo: @temporal id
+            mv.meta_id = "".join(random.choices(string.ascii_uppercase, k=6))
+            meta.meta_id = mv.meta_id
+            _meta_repo.create(meta)
 
-                # todo: @temporal id
-                mv.meta_id = "".join(random.choices(string.ascii_uppercase, k=6))
-                meta.meta_id = mv.meta_id
-                _meta_repo.create(meta)
+            # cache approriate cache entry as well
+            sr = cache_search_metabolite(mv, search_attr)
+        #else:
+        # fake search, as it's either stored in DB or should be faked anyway
+        sr = SearchItem(search_term=search_term, search_attr=search_attr)
+        sr.endpoint, sr.entity_id = mv.search_endpoint
 
-                # cache approriate cache entry as well
-                sr = cache_search_metabolite(mv, search_attr)
-            #else:
-            # fake search, as it's either stored in DB or should be faked anyway
-            sr = SearchItem(search_term=search_term, search_attr=search_attr)
-            sr.endpoint, sr.entity_id = mv.search_endpoint
-
-            result = [sr]
+        result = [sr]
 
     return result
 
 
-def cache_search_metabolite(mv: MetaboliteView, attr=None) -> SearchItem:
+def cache_search_metabolite(mv: MetaboliteView, attrs=None) -> SearchItem:
     _requested_search_item = None
     _repo = get_repo(SearchItem)
 
@@ -73,7 +72,7 @@ def cache_search_metabolite(mv: MetaboliteView, attr=None) -> SearchItem:
 # @UNUSED:
 def find_metabolite(search_term, search_attr, discover: bool = True, cache: bool = True) -> Sequence[MetaboliteView]:
     # todo: @later: also fetch all metabolites
-    result = search(search_term, attrs=[search_attr])
+    result = search('metabolite', search_term, attrs=[search_attr])
     metas = []
 
     if not result:

@@ -12,7 +12,7 @@ export let component = Vue.component('meta-references', {
     },
 
     data: function() {
-        const db = store.settings.discovery.databases;
+        const db = store.settings.databases;
     
         return {
           databases: db,

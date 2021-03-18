@@ -22,7 +22,7 @@ export let component = Vue.component('molsearch-form', {
   },
 
   data() {
-    var db = store.settings.discovery.databases.map(db=>db.lower());
+    var db = store.settings.databases.map(db=>db.lower());
 
     return {
       db_enabled: db,

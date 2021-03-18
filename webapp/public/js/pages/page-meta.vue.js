@@ -20,13 +20,12 @@ export const template = `<div v-if="show" class="container-xl p-4">
                         <b-tab title="ASCII" active>
                             <meta-structure :meta="meta"></meta-structure>
                         </b-tab>
-                    </b-tab>
-                    <b-tab title="2D" disabled>
+                        <b-tab title="2D" disabled>
 
-                    </b-tab>
-                    <b-tab title="3D" disabled>
+                        </b-tab>
+                        <b-tab title="3D" disabled>
 
-                    </b-tab>
+                        </b-tab>
                     </b-tabs>
                 </b-collapse>
             </div>

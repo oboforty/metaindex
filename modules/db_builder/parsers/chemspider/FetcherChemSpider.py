@@ -24,7 +24,7 @@ def parse_ChemSpider(db_id, c):
     content = json.loads(c[0])
     cont_refs = json.loads(c[1])
 
-    dataSPIDER = {"refs": {}, "refs_etc": {}, "data": {}, 'names': []}
+    dataSPIDER = {"refs": {}, "ref_etc": {}, "data": {}, 'names': []}
 
     dataSPIDER['names'] = content.pop('commonName')
     dataSPIDER['data'] = content
@@ -40,7 +40,7 @@ def parse_ChemSpider(db_id, c):
         if db_tag in DBs:
             dataSPIDER['refs'][db_tag] = db_id
         else:
-            dataSPIDER['refs_etc'][db_tag] = db_id
+            dataSPIDER['ref_etc'][db_tag] = db_id
 
     return dataSPIDER
 

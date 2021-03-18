@@ -34,7 +34,7 @@ def to_view(meta: Metabolite):
 
     # todo: how to determine meta_id
     # todo: create a new service for it? :thonk:
-    mv = MetaboliteView()
+    mv = MetaboliteView(meta_id=meta.meta_id)
 
     _query_into_view(mv, 'chebi', meta.chebi_ids)
     _query_into_view(mv, 'hmdb', meta.hmdb_ids)

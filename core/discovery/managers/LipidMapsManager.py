@@ -18,7 +18,8 @@ class LipidMapsManager(ManagerBase):
         self._select = (
             'pubchem_id', 'chebi_id', 'kegg_id', 'hmdb_id', 'lipidmaps_id',
             'smiles', 'inchi', 'inchikey', 'formula', 'names',
-            'mass'
+            'mass',
+            'ref_etc'
         )
 
         self._reverse = (
