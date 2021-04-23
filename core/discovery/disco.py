@@ -137,6 +137,11 @@ def resolve_metabolites(df: MetaboliteView, verbose: bool = False, cache: bool =
 
 
 def resolve_single_id(start_db_tag, start_db_id, verbose=False, cache=True):
+    if isinstance(start_db_id, (list, tuple, set)):
+        if len(start_db_id) != 1:
+            raise Exception("can't resolve list of db_ids")
+        start_db_id = list(start_db_id)[0]
+
     # Create initial dataframe from user input:
     df_res = MetaboliteView()
     setattr(df_res, start_db_tag, {start_db_id})

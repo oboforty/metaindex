@@ -14,9 +14,11 @@ _meta_repo = get_repo(Metabolite)
 _ENDPOINT = '/metabolite/{}'
 
 
-def search_metabolite(search_term, search_attr, discover: bool = True, cache: bool = True, verbose=True):
-    attrs = [search_attr] if search_attr is not None else None
-    result = search('metabolite', search_term, attrs=attrs)
+def search_metabolite(search_term, search_attr: list, discover: bool = True, cache: bool = True, verbose=True):
+    if not isinstance(search_attr, (list, tuple, set)) and search_attr is not None:
+        search_attr = [search_attr]
+
+    result = search('metabolite', search_term, attrs=search_attr)
 
     if not result and discover:
         # search term is not cached. initiate discovery

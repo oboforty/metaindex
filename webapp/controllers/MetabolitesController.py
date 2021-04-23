@@ -8,7 +8,11 @@ class MetabolitesController:
     def __init__(self, server):
         pass
 
-    def get(self, meta_id):
+    def get_list(self):
+        # list
+        pass
+
+    def get(self, meta_id: str):
         metabolite: MetaboliteView = get_metabolite(meta_id)
 
         return render_template('/metabolite/view.html', meta_id=meta_id, metabolite=metabolite)
